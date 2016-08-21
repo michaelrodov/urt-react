@@ -1,4 +1,5 @@
 import React from 'react';
+import * as Configs from './constants';
 
 
 class Header extends React.Component {
@@ -12,41 +13,42 @@ class Header extends React.Component {
 }
 
 class ExpandButton extends React.Component {
-    handleClick(e){
+    handleClick(e) {
         this.setState({gamesListExpanded: (this.state.gamesListExpanded) ? false : true});
     }
 
     render() {
         return (
-        <button onClick={this.handleClick}
-                className="left-side-buttons mui-btn mui-btn--primary mui-btn--raised">
-            ...
-        </button>)
+            <button onClick={this.handleClick}
+                    className="left-side-buttons mui-btn mui-btn--primary mui-btn--raised">
+                ...
+            </button>)
     }
 }
 
 class GameButton extends React.Component {
-    handleClick(e){
+    handleClick(e) {
         this.setState({activeGame: this.props.name});
         console.log("button clicked");
     }
 
     render() {
         return (
-        <div onClick={this.handleClick} className="game">
-            <button onClick={this.handleClick}
-                    className="left-side-buttons mui-btn mui-btn--primary mui-btn--raised">
-                this.props.name.replace("_", ". ")))
-            </button>
-        </div>);
+            <div onClick={this.handleClick} className="game">
+                <button onClick={this.handleClick}
+                        className="left-side-buttons mui-btn mui-btn--primary mui-btn--raised">
+                    this.props.name.replace("_", ". ")))
+                </button>
+            </div>);
     }
 }
 
 class ToggleSwitch extends React.Component {
-    getInitialState() {
-        return {
+    constructor(props) {
+        super(props);
+        this.state = {
             checked: "off"
-        }
+        };
     }
 
     switchClicked() {
@@ -54,19 +56,20 @@ class ToggleSwitch extends React.Component {
     }
 
     render() {
-        return(
-        <div className="real-toggle switch">
-            <input type="checkbox" className="control-button" ref="incheckbox" onChange={this.switchClicked}/>
-            <label className="toggle-body {this.state.checked}" />
-        </div>)
+        return (
+            <div className="real-toggle switch">
+                <input type="checkbox" className="control-button" ref="incheckbox" onChange={this.switchClicked}/>
+                <label className="toggle-body {this.state.checked}"/>
+            </div>)
     }
 }
 
 class FlipToggleSwitch extends React.Component {
-    getInitialState() {
-        return {
-            checked: this.props.value,
-        }
+    constructor(props) {
+        super(props);
+        this.state = {
+            checked: props.value
+        };
     }
 
     switchClicked() {
@@ -90,14 +93,15 @@ class FlipToggleSwitch extends React.Component {
         var offStyle = {
             backgroundColor: this.props.negColor
         };
-        return(
-        <div className="flip-toggle">
-            <div className="flipping-element {this.state.checked}">
-                <div className="label flipped" style={offStyle} onClick={this.labelClicked}>this.props.negLabel</div>
-                <div className="label" style={onStyle} onClick={this.labelClicked}>this.props.posLabel</div>
-                <input className="control-button" type="checkbox" ref="teamcheckbox" onChange={this.switchClicked}/>
-            </div>
-        </div>)
+        return (
+            <div className="flip-toggle">
+                <div className="flipping-element {this.state.checked}">
+                    <div className="label flipped" style={offStyle} onClick={this.labelClicked}>this.props.negLabel
+                    </div>
+                    <div className="label" style={onStyle} onClick={this.labelClicked}>this.props.posLabel</div>
+                    <input className="control-button" type="checkbox" ref="teamcheckbox" onChange={this.switchClicked}/>
+                </div>
+            </div>)
     }
 }
 
@@ -107,8 +111,8 @@ class PlayersSummaryGrid extends React.Component {
 
         var playerGridLines = [];
 
-        for (var playerKey in this.props.players) {
-            var currentPlayer = this.props.players[playerKey];
+        for (var playerKey in this.props.store.getState().players) {
+            var currentPlayer = this.props.store.getState().players[playerKey];
 
             playerGridLines.push(
                 <tr key="{currentPlayer.name}">
@@ -125,38 +129,39 @@ class PlayersSummaryGrid extends React.Component {
                         </div>
                     </td>
                     <td>
-                        <div>{getRatio(currentPlayer)}</div>
+                        <div>{currentPlayer.ratio}</div>
                     </td>
                     <td>
-                        <div>80</div>
+                        <div>{currentPlayer.grade}</div>
                     </td>
                 </tr>
             );
         }
-        return(
-        <table className="playersTable">
-            <tbody>
-            <tr>
-                <th>IN</th>
-                <th>Team</th>
-                <th>Name</th>
-                <th>Ratio</th>
-                <th>Grade</th>
-            </tr>
-            <playerGridLines />
-            </tbody>
-        </table>)
+        return (
+            <table className="playersTable">
+                <tbody>
+                <tr>
+                    <th>IN</th>
+                    <th>Team</th>
+                    <th>Name</th>
+                    <th>Ratio</th>
+                    <th>Grade</th>
+                </tr>
+                <playerGridLines />
+                </tbody>
+            </table>)
     }
 }
 
 /*L2*/
 class GameList extends React.Component {
-    getInitialState() {
-        return {
-            activeGame: "SUMMARY",
-            gamesListMax: 13,
-            gamesListExpanded: false
-        }
+    constructor(props) {
+        super(props);
+        this.state = {
+            activeGame: Configs.SUMMARY_GAME, //first game to display
+            gamesListMax: Configs.GAME_LIST_MIN,
+            gamesListExpanded: Configs.GAME_LIST_EXPANDED
+        };
     }
 
     render() {
@@ -164,52 +169,54 @@ class GameList extends React.Component {
         //TODO perhaps this need to be done in stage before render, so it won't be repeated every time
         //building an array of elements from gamekeys array
         var gamesList = [];
-        if (this.props.gameKeys) {
-            var listSize = (!this.state.gamesListExpanded) ? Math.min(13, this.props.gameKeys.length) : this.props.gameKeys.length;
-            var gameList = this.props.gameKeys.slice(0, listSize);
+        if (this.props.store.getState().gameKeys) {
+            var listSize = (!this.state.gamesListExpanded) ? Math.min(Configs.GAME_LIST_MIN, this.props.store.getState().gameKeys.length) : this.props.store.getState().gameKeys.length;
+            //var gameList = this.props.store.gameKeys.slice(0, listSize);
 
-            gamesList = gameList.map(function (game, inx, origArray) {
-                console.log("adding game: " + game);
-                return <GameButton key={game} name={game}/>
-            });
+            gamesList = this.props.store.getState().gameKeys.slice(0, listSize)
+                .map(function (game, inx, origArray) {
+                    console.log("adding game: " + game);
+                    return <GameButton key={game} name={game}/>
+                });
         }
-        return(
-        <div className="pane games-pane">
-            <gamesList />
-            <ExpandButton />
-        </div>)
+        return (
+            <div className="pane games-pane">
+                <gamesList />
+                <ExpandButton />
+            </div>)
     }
 }
 
 class GameDetails extends React.Component {
     render() {
         console.log("GameDetails render." + this);
-        return(
-        <div className="pane details-pane">
-            <div>{this.props.activeGame}</div>
-            <PlayersSummaryGrid players={this.props.games[this.props.activeGame].players}/>
-        </div>)
+        return (
+            <div className="pane details-pane">
+                <div>{this.props.store.getState().currentGame.name}</div>
+                <PlayersSummaryGrid store={this.props.store}/>
+            </div>)
     }
 }
 
 class GameGenerator extends React.Component {
     render() {
-        return(
-        <div className="pane generator-pane">
-            <div id="power-pie-container"></div>
-            <div id="power-pie-controller">
-                <GameButton name="Build Teams"/>
-                <GameButton name="Copy"/>
-            </div>
+        return (
+            <div className="pane generator-pane">
+                <div id="power-pie-container"></div>
+                <div id="power-pie-controller">
+                    <GameButton name="Build Teams"/>
+                    <GameButton name="Copy"/>
+                </div>
 
-        </div>)
+            </div>)
     }
 }
 
 /*L1*/
 class ContentPage extends React.Component {
-    getInitialState() {
-        return {activeGame: 'SUMMARY'};
+    constructor(props) {
+        super(props);
+        this.state = {activeGame: 'SUMMARY'};
     }
 
     componentWillMount() {
@@ -218,11 +225,11 @@ class ContentPage extends React.Component {
 
     render() {
         console.log("ContentPage render ." + this);
-        return(
-        <div>
-            <GameList gameKeys={this.props.gameKeys} activeGame={this.state.activeGame}/>
-            <GameDetails games={this.props.games} activeGame={this.state.activeGame}/>
-        </div>);
+        return (
+            <div>
+                <GameList store={this.props.store}/>
+                <GameDetails store={this.props.store}/>
+            </div>);
     }
 }
 

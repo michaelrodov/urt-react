@@ -1,13 +1,15 @@
 /**
  * Created by Carlos on 28/07/2016.
  */
+import * as Configs from './constants';
+
 //TODO do in ecma6 way
 
-function getRatio(player) {
+export function getRatio(player) {
     return Math.round((player.kills / (player.deaths + player.kills)) * 100) / 100;
 }
 
-function getGameGrade(player,game) {
+export function getGameGrade(player, game) {
     var relative_kills = (game.gameTotalDeaths == 0 ? 0.01 : (Object.keys(game.players).length * player.kills / (2 * game.gameTotalDeaths)));
     var relative_score = 1;
     if (player.score != 0) {
@@ -16,18 +18,18 @@ function getGameGrade(player,game) {
         relative_score = relative_kills;
     }
     var totalGrade = Math.round((relative_kills + relative_score + getRatio(player)) * 3000) / 100;
-    return totalGrade ;
+    return totalGrade;
 }
 
 /***
- * Final function
+ * Final export function
  * @param player
  * @returns {number}
  */
-function getGrade(player, totalKills) {
-    if(!totalKills){
+export function getGrade(player, totalKills) {
+    if (!totalKills) {
         //var totalKills = currentGame.gameTotalDeaths; //deaths = kills in total per game :)
-        return getGameGrade(player,currentGame);
+        return getGameGrade(player, currentGame);
     }
     for (var i = 0; i < playersTotalGrades.length; i++) {
         if (playersTotalGrades[i].name == player) {
@@ -37,31 +39,35 @@ function getGrade(player, totalKills) {
     return 999999;
 }
 
-function addToTeam(player) {
-    currentGame.columns[(player.team == TEAM_COLORS[BLUE]) ? BLUE : RED][1] += getGrade(player);
+export function addToTeam(player) {
+    currentGame.columns[(player.team == Configs.TEAM_COLORS[Configs.BLUE]) ? Configs.BLUE : Configs.RED][1] += getGrade(player);
     //TODO make a better managing of
 }
 
-function compareTeams() {
-    return currentGame.columns[BLUE][1] - currentGame.columns[RED][1];
+export function compareTeams() {
+    return currentGame.columns[Configs.BLUE][1] - currentGame.columns[Configs.RED][1];
 }
 
-function removeFromTeam(player) {
-    currentGame.columns[(player.team == TEAM_COLORS[BLUE]) ? BLUE : RED][1] -= getGrade(player);
+export function removeFromTeam(player) {
+    currentGame.columns[(player.team == Configs.TEAM_COLORS[Configs.BLUE]) ? Configs.BLUE : Configs.RED][1] -= getGrade(player);
+}
+
+export function toggleTeam(team) {
+    return (team == Configs.TEAM_COLORS[0]) ? Configs.TEAM_COLORS[1] : Configs.TEAM_COLORS[0];
 }
 
 /***
- * The function runs after the value was already changed.
+ * The export function runs after the value was already changed.
  * Therefore we will add to current team and will substruct from teh other team
  * @param name
  */
-function playerToggleTeam(name, oneway) {
+export function playerToggleTeam(name, oneway) {
     var player = currentGame.players[name];
 
     console.info(player.name + " onChange with: " + player.team);
-    /*Since this function is called after the change was made, the team relation should be opposite from the logic
+    /*Since this export function is called after the change was made, the team relation should be opposite from the logic
      * i.e. new team = toTeam, old team = fromTeam*/
-    var toTeam = ((player.team == TEAM_COLORS[BLUE]) ? BLUE : RED);
+    var toTeam = ((player.team == Configs.TEAM_COLORS[Configs.BLUE]) ? Configs.BLUE : Configs.RED);
     var fromTeam = Math.abs(toTeam - 1);
     var rating = getGrade(player);
 
@@ -80,7 +86,7 @@ function playerToggleTeam(name, oneway) {
     refreshPowerPie(currentGame.columns);
 }
 
-function getGame(gameId) {
+export function getGame(gameId) {
     if (typeof gameId == 'number') {
         return games[gameKeys[gameId]];
     } else if (typeof gameId == 'string') {
@@ -88,15 +94,15 @@ function getGame(gameId) {
     }
 }
 
-function getLineFillStyle(value) {
-    return {background: "linear-gradient(to right, lavender 0%,lavender " + Math.round((value/currentGame.maxGrade)*100) + "%,white " + Math.round((value/currentGame.maxGrade)*100) + "%,white 100%)"};
+export function getLineFillStyle(value) {
+    return {background: "linear-gradient(to right, lavender 0%,lavender " + Math.round((value / currentGame.maxGrade) * 100) + "%,white " + Math.round((value / currentGame.maxGrade) * 100) + "%,white 100%)"};
 }
 
-function setCurrentGame(storage, key) {
+export function setCurrentGame(storage, key) {
     storage["currentGame"] = getGame(key);
-    storage.setColumns([[TEAM_COLORS[BLUE], 0], [TEAM_COLORS[RED], 0]]); //init teams
+    storage.setColumns([[Configs.TEAM_COLORS[Configs.BLUE], 0], [Configs.TEAM_COLORS[Configs.RED], 0]]); //init teams
     storage["playersKeys"] = Object.keys(currentGame.players);
-    storage["playersArray"] = convertToArray(currentGame.players,key)
+    storage["playersArray"] = convertToArray(currentGame.players, key)
     storage.currentGame["maxGrade"] = storage.playersArray[0].grade; //TODO do it in more general way
     initIncluded(storage.currentGame);
     buildTeams(storage.currentGame);
@@ -105,24 +111,24 @@ function setCurrentGame(storage, key) {
 
 }
 
-function initIncluded(game) {
+export function initIncluded(game) {
     var players = Object.keys(game.players);
     var gameMaxScore = 0;
     for (var i = 0; i < players.length; i++) {
-        (typeof game.players[players[i]].include !== 'boolean') ? game.players[players[i]].include = (EXCLUDED_PLAYERS.indexOf(game.players[players[i]].name)<0)?true:false : '';
+        (typeof game.players[players[i]].include !== 'boolean') ? game.players[players[i]].include = (Configs.EXCLUDED_PLAYERS.indexOf(game.players[players[i]].name) < 0) ? true : false : '';
     }
 }
 
 //init
-function buildTeams(game) {
-    currentGame.columns = [[TEAM_COLORS[BLUE], 0], [TEAM_COLORS[RED], 0]]; //init teams
+export function buildTeams(game) {
+    currentGame.columns = [[Configs.TEAM_COLORS[Configs.BLUE], 0], [Configs.TEAM_COLORS[Configs.RED], 0]]; //init teams
     for (var i = 0; i < playersArray.length; i++) {
         var player = game.players[playersArray[i].name];
         if (player.include) {
             if (compareTeams() >= 0) { //blue bigger
-                player.team = TEAM_COLORS[RED];
+                player.team = Configs.TEAM_COLORS[Configs.RED];
             } else {
-                player.team = TEAM_COLORS[BLUE];
+                player.team = Configs.TEAM_COLORS[Configs.BLUE];
             }
             addToTeam(player);
         }
@@ -130,7 +136,7 @@ function buildTeams(game) {
     refreshPowerPie(currentGame.columns);
 }
 
-function calcPlayerGrade(data) {
+export function calcPlayerGrade(data) {
     var dataV = data;
     var playerGrades = [];
     for (var i = 1; i < dataV.length; i++) {
@@ -154,7 +160,7 @@ function calcPlayerGrade(data) {
         player.name = playerName;
         if (weightSum > 0) {
             var tempGrade = gradeSum / weightSum;
-            player.grade = Math.round(tempGrade*100)/100;
+            player.grade = Math.round(tempGrade * 100) / 100;
         } else {
             player.grade = 10;
         }
@@ -163,10 +169,10 @@ function calcPlayerGrade(data) {
     return playerGrades;
 }
 
-function fillSummaryGrade(games, playerGrades) {
+export function fillSummaryGrade(games, playerGrades) {
     var players = games["SUMMARY"].players;
     for (var i = 0; i < Object.keys(players).length; i++) {
         var playerName = Object.keys(players)[i];
-        players[playerName].grade = getGrade(playerName,-1);
+        players[playerName].grade = getGrade(playerName, -1);
     }
 }

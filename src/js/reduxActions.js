@@ -1,20 +1,28 @@
 /**
  * Created by Carlos on 12/08/2016.
  */
-const SET_GRADE = "SET_GRADE";
-const SET_TEAM = "SET_TEAM";
-function setGrade(name, grade){
+import * as actionTypes from './reduxActionTypes';
+import * as functions from './functions';
+
+export function initState(summary) {
     return {
-        type: SET_GRADE,
+        type: actionTypes.INIT_STATE,
+        data: summary
+    }
+}
+export function setGrade(name, grade) {
+    return {
+        type: actionTypes.SET_GRADE,
         name: name,
         grade: grade
     }
 }
 
-function setTeam(name, team){
+
+export function setTeam(names, team) {
     return {
-        type: SET_TEAM,
-        name: name,
+        type: actionTypes.SET_TEAM,
+        names: names,
         team: team
     }
 }
