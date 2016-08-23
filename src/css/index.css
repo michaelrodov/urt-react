@@ -48,7 +48,7 @@ p {
 .center-container {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: center;
     align-content: center;
     align-items: flex-start;
@@ -72,9 +72,16 @@ p {
 .games-pane {
     background-color: #F1F1F1;
     width: 160px;
-    padding: 15px 0;
+    display: flex;
+    flex-flow: column;
+    flex: 1;
+    justify-content: flex-end;
 }
-
+.game {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
 /****** PLAYERS PANE *******/
 .details-pane {
     width: 100%;

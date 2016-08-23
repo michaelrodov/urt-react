@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from 'muicss/lib/react/button';
 import * as Configs from './constants';
 
 
@@ -35,10 +36,12 @@ class GameButton extends React.Component {
     render() {
         return (
             <div onClick={this.handleClick} className="game">
-                <button onClick={this.handleClick}
-                        className="left-side-buttons mui-btn mui-btn--primary mui-btn--raised">
-                    this.props.name.replace("_", ". ")))
-                </button>
+                <Button onClick={this.handleClick}
+                        className="left-side-buttons"
+                        variant="raised"
+                        color="primary">
+                    {this.props.name.replace("_", ". ").replace("ut4_","")}
+                </Button>
             </div>);
     }
 }
@@ -58,7 +61,7 @@ class ToggleSwitch extends React.Component {
     render() {
         return (
             <div className="real-toggle switch">
-                <input type="checkbox" className="control-button" ref="incheckbox" onChange={this.switchClicked}/>
+                <input type="checkbox" className="control-button" ref="incheckbox" onChange={this.switchClicked.bind(this)}/>
                 <label className="toggle-body {this.state.checked}"/>
             </div>)
     }
@@ -93,13 +96,17 @@ class FlipToggleSwitch extends React.Component {
         var offStyle = {
             backgroundColor: this.props.negColor
         };
+        let flippingClass = "flipping-element " + this.state.checked;
         return (
             <div className="flip-toggle">
-                <div className="flipping-element {this.state.checked}">
-                    <div className="label flipped" style={offStyle} onClick={this.labelClicked}>this.props.negLabel
+                <div className={flippingClass}>
+                    <div className="label flipped" style={offStyle} onClick={this.labelClicked.bind(this)}>
+                        {this.props.negLabel}
                     </div>
-                    <div className="label" style={onStyle} onClick={this.labelClicked}>this.props.posLabel</div>
-                    <input className="control-button" type="checkbox" ref="teamcheckbox" onChange={this.switchClicked}/>
+                    <div className="label" style={onStyle} onClick={this.labelClicked.bind(this)}>
+                        {this.props.posLabel}
+                    </div>
+                    <input className="control-button" type="checkbox" ref="teamcheckbox" onChange={this.switchClicked.bind(this)}/>
                 </div>
             </div>)
     }
@@ -111,11 +118,11 @@ class PlayersSummaryGrid extends React.Component {
 
         var playerGridLines = [];
 
-        for (var playerKey in this.props.store.getState().players) {
+        for (let playerKey in this.props.store.getState().players) {
             var currentPlayer = this.props.store.getState().players[playerKey];
 
             playerGridLines.push(
-                <tr key="{currentPlayer.name}">
+                <tr key={currentPlayer.name}>
                     <td>
                         <ToggleSwitch label="playerKey"/>
                     </td>
@@ -139,7 +146,7 @@ class PlayersSummaryGrid extends React.Component {
         }
         return (
             <table className="playersTable">
-                <tbody>
+                <thead>
                 <tr>
                     <th>IN</th>
                     <th>Team</th>
@@ -147,7 +154,9 @@ class PlayersSummaryGrid extends React.Component {
                     <th>Ratio</th>
                     <th>Grade</th>
                 </tr>
-                <playerGridLines />
+                </thead>
+                <tbody>
+                {playerGridLines}
                 </tbody>
             </table>)
     }
@@ -162,26 +171,27 @@ class GameList extends React.Component {
             gamesListMax: Configs.GAME_LIST_MIN,
             gamesListExpanded: Configs.GAME_LIST_EXPANDED
         };
+
+
     }
 
     render() {
         console.log("GameList render." + this);
         //TODO perhaps this need to be done in stage before render, so it won't be repeated every time
-        //building an array of elements from gamekeys array
-        var gamesList = [];
         if (this.props.store.getState().gameKeys) {
             var listSize = (!this.state.gamesListExpanded) ? Math.min(Configs.GAME_LIST_MIN, this.props.store.getState().gameKeys.length) : this.props.store.getState().gameKeys.length;
-            //var gameList = this.props.store.gameKeys.slice(0, listSize);
 
-            gamesList = this.props.store.getState().gameKeys.slice(0, listSize)
+            //building an array of elements from gamekeys array
+            var gamesButtonsList = [];
+            this.props.store.getState().gameKeys.slice(0, listSize)
                 .map(function (game, inx, origArray) {
-                    console.log("adding game: " + game);
-                    return <GameButton key={game} name={game}/>
+                    //console.log("adding game: " + game);
+                    gamesButtonsList.push(<GameButton key={game} name={game}/>);
                 });
         }
         return (
             <div className="pane games-pane">
-                <gamesList />
+                {gamesButtonsList}
                 <ExpandButton />
             </div>)
     }
@@ -226,7 +236,7 @@ class ContentPage extends React.Component {
     render() {
         console.log("ContentPage render ." + this);
         return (
-            <div>
+            <div className="center-container">
                 <GameList store={this.props.store}/>
                 <GameDetails store={this.props.store}/>
             </div>);

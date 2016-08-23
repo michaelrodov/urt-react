@@ -26,8 +26,10 @@ export function getGameGrade(player, game) {
  * @param player
  * @returns {number}
  */
+//TODO Tencer to write a new one generic function
 export function getGrade(player, totalKills) {
-    if (!totalKills) {
+    return 80;
+/*    if (!totalKills) {
         //var totalKills = currentGame.gameTotalDeaths; //deaths = kills in total per game :)
         return getGameGrade(player, currentGame);
     }
@@ -36,7 +38,7 @@ export function getGrade(player, totalKills) {
             return playersTotalGrades[i].grade;
         }
     }
-    return 999999;
+    return 999999;*/
 }
 
 export function addToTeam(player) {
