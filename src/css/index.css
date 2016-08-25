@@ -7,6 +7,10 @@ p {
 
 #main {
     background-color: #F1F1F1;
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+    flex-flow: row;
 }
 
 /**************************TOP BAR*/
@@ -52,7 +56,8 @@ p {
     justify-content: center;
     align-content: center;
     align-items: flex-start;
-
+    min-width: 800px;
+    max-width: 1024px;
 }
 
 .center-container .inner {
@@ -71,17 +76,19 @@ p {
 /****** GAMES PANEL *******/
 .games-pane {
     background-color: #F1F1F1;
-    width: 160px;
+    width: 200px;
     display: flex;
     flex-flow: column;
     flex: 1;
     justify-content: flex-end;
 }
+
 .game {
     display: flex;
     justify-content: flex-end;
     width: 100%;
 }
+
 /****** PLAYERS PANE *******/
 .details-pane {
     width: 100%;
@@ -103,6 +110,10 @@ p {
     height: 200px;
 }
 
+.playersTable {
+    width: 100%;
+}
+
 table, tr, td, th {
     white-space: nowrap;
     overflow: hidden;
@@ -116,17 +127,17 @@ table, tr, td, th {
     color: #b1b1b1 !important;
 }
 
-th {
+.playersTable th {
     cursor: pointer !important;
     background-color: #607D8B;
     color: white;
-    padding: 5px 0 5px 5px;
+    padding: 5px;
     font-weight: bold;
     font-size: large;
 }
 
-td {
-    padding: 0 0 0 5px;
+.playersTable td, .playersTable th {
+    padding: 5px 10px;
 }
 
 td.name > div:first-child {
@@ -146,11 +157,11 @@ td.name > div:first-child {
 }
 
 /****** PLAYERS LIST **********/
-md-list-item p {
+.left-side-buttons {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    padding: 0 10px;
+    width: 100%;
 }
 
 .row {
@@ -218,8 +229,3 @@ md-list-item p {
     }
 }
 
-/*
-tr.ng-enter {
-    animation: fadein 1s ease-in;
-
-}*/

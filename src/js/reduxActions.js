@@ -17,12 +17,22 @@ export function setGrade(name, grade) {
         grade: grade
     }
 }
-
-
 export function setTeam(names, team) {
     return {
         type: actionTypes.SET_TEAM,
         names: names,
         team: team
+    }
+}
+export function includePlayer(playerName) {
+    return {
+        type: actionTypes.INCLUDE_PLAYER,
+        playerName: playerName
+    }
+}
+export function excludePlayer(playerName) {
+    return {
+        type: actionTypes.EXCLUDE_PLAYER,
+        playerName: playerName
     }
 }

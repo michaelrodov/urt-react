@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from 'muicss/lib/react/button';
 import * as Configs from './constants';
+import * as Actions from './reduxActions';
 
 
 class Header extends React.Component {
@@ -40,29 +41,33 @@ class GameButton extends React.Component {
                         className="left-side-buttons"
                         variant="raised"
                         color="primary">
-                    {this.props.name.replace("_", ". ").replace("ut4_","")}
+                    {this.props.name.replace("_", ". ").replace("ut4_", "")}
                 </Button>
             </div>);
     }
 }
 
-class ToggleSwitch extends React.Component {
+class ExclusionSwitch extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            checked: "off"
+            checked: (this.props.player.active) ? "on" : "off"
         };
     }
 
     switchClicked() {
+        this.props.store.dispatch((this.state.checked == "on") ? Actions.excludePlayer(this.props.label) : Actions.includePlayer(this.props.label));
         this.setState({checked: this.refs.incheckbox.checked ? "on" : "off"});
     }
 
     render() {
+        let labelClass = "toggle-body " + this.state.checked;
+        let inputClass = "control-button " + this.state.checked;
         return (
             <div className="real-toggle switch">
-                <input type="checkbox" className="control-button" ref="incheckbox" onChange={this.switchClicked.bind(this)}/>
-                <label className="toggle-body {this.state.checked}"/>
+                <input type="checkbox" className={inputClass} ref="incheckbox" value={this.state.checked}
+                       onChange={this.switchClicked.bind(this)}/>
+                <label className={labelClass}/>
             </div>)
     }
 }
@@ -106,7 +111,8 @@ class FlipToggleSwitch extends React.Component {
                     <div className="label" style={onStyle} onClick={this.labelClicked.bind(this)}>
                         {this.props.posLabel}
                     </div>
-                    <input className="control-button" type="checkbox" ref="teamcheckbox" onChange={this.switchClicked.bind(this)}/>
+                    <input className="control-button" type="checkbox" ref="teamcheckbox"
+                           onChange={this.switchClicked.bind(this)}/>
                 </div>
             </div>)
     }
@@ -122,9 +128,9 @@ class PlayersSummaryGrid extends React.Component {
             var currentPlayer = this.props.store.getState().players[playerKey];
 
             playerGridLines.push(
-                <tr key={currentPlayer.name}>
+                <tr key={currentPlayer.name} className={(!currentPlayer.active) ? "excluded" : ""}>
                     <td>
-                        <ToggleSwitch label="playerKey"/>
+                        <ExclusionSwitch label={playerKey} store={this.props.store} player={currentPlayer}/>
                     </td>
                     <td>
                         <FlipToggleSwitch posColor="red" posLabel="RED" negColor="blue" negLabel="BLUE" value="on"/>
@@ -226,7 +232,17 @@ class GameGenerator extends React.Component {
 class ContentPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {activeGame: 'SUMMARY'};
+        this.props.store.subscribe(this._reduxStoreChanged.bind(this));
+
+        this.state = {
+            activeGame: 'SUMMARY',
+            reduxStore: this.props.store
+        };
+    }
+
+    _reduxStoreChanged() {
+        console.log("Store changed");
+        this.setState({reduxStore: this.props.store});
     }
 
     componentWillMount() {
@@ -237,8 +253,8 @@ class ContentPage extends React.Component {
         console.log("ContentPage render ." + this);
         return (
             <div className="center-container">
-                <GameList store={this.props.store}/>
-                <GameDetails store={this.props.store}/>
+                <GameList store={this.state.reduxStore}/>
+                <GameDetails store={this.state.reduxStore}/>
             </div>);
     }
 }

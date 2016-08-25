@@ -1,4 +1,3 @@
-import {actions} from './reduxActions';
 import * as actionTypes from './reduxActionTypes';
 import * as Configs from './constants';
 import * as functions from './functions';
@@ -14,8 +13,10 @@ const initialState = {
     },
     players: [],
     gameKeys: [],
+    gameKeysExpanded: false,
     games: [],
-    columns: []
+    columns: [],
+    nonActivePlayers: Configs.EXCLUDED_PLAYERS
 }
 
 
@@ -37,6 +38,8 @@ export function urtApp(state = initialState, action) {
             state.players[player] = Object.assign({}, summaryGame.players[player]);
             state.players[player].ratio = functions.getRatio(summaryGame.players[player]);
             state.players[player].grade = functions.getGrade(summaryGame.players[player], summaryGame.totalKills);
+            //Set players that are excluded from calculations
+            state.players[player]["active"] = (!Configs.EXCLUDED_PLAYERS.includes(player));
 
         }
 
@@ -48,12 +51,20 @@ export function urtApp(state = initialState, action) {
             } else {
                 return parseInt((b.split("_"))[0]) - parseInt((a.split("_"))[0]);
             }
-        });
+        }).splice(0, Configs.GAME_LIST_MIN);
 
         return state;
     } else if (action.type === actionTypes.SET_GRADE) {
         var newState = Object.assign({}, state);
         newState.players[name].grade = action.grade;
+        return newState;
+    } else if (action.type === actionTypes.EXCLUDE_PLAYER) {
+        var newState = Object.assign({}, state);
+        newState.players[action.playerName].active = false;
+        return newState;
+    } else if (action.type === actionTypes.INCLUDE_PLAYER) {
+        var newState = Object.assign({}, state);
+        newState.players[action.playerName].active = true;
         return newState;
     } else if (action.type === actionTypes.SET_TEAM) {
         var newState = Object.assign({}, state);
