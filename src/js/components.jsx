@@ -232,15 +232,14 @@ class TeamsTable extends React.Component {
     }
 
     render() {
-        let blue_team = this.props.store.getState().teams[configs.BLUE][0];
-        let red_team = this.props.store.getState().teams[configs.RED][0];
+        let list = this.props.teamPlayerKeys;
+       // let red_team = this.props.store.getState().teams[configs.RED][0];
         let teams_list = [];
 
-        for (let i = 0; i < Math.max(blue_team.length, red_team.length); i++) {
+        for (let i = 0; i < list.length; i++) {
             teams_list.push(
                 <tr key={i}>
-                    <td>{(blue_team[i]) ? blue_team[i] : ""}</td>
-                    <td>{(red_team[i]) ? red_team[i] : ""}</td>
+                    <td>{list[i]}</td>
                 </tr>
             );
         }
@@ -285,10 +284,10 @@ class ContentPage extends React.Component {
      }*/
     /* onClick={this._buildTeams().bind(this)}*/
     render() {
-        return (
+        return (//this.props.store.getState().teams[configs.RED][0]
             <div className="center-container flex-columns">
                 <div className="pane flex-rows center-top-container">
-                    <TeamsTable store={this.state.reduxStore}/>
+                    <TeamsTable teamPlayerKeys={this.state.reduxStore.getState().teams[configs.RED][0]}/>
                     <div className="pane generator-pane">
                         <TeamsPie columns={this.state.reduxStore.getState().columns}/>
                         <div id="power-pie-controller">
@@ -296,6 +295,7 @@ class ContentPage extends React.Component {
                             <GameButton name="Copy"/>
                         </div>
                     </div>
+                    <TeamsTable teamPlayerKeys={this.state.reduxStore.getState().teams[configs.BLUE][0]}/>
                 </div>
                 <div className="pane flex-rows center-bottom-container">
                     <GameList store={this.state.reduxStore}/>
