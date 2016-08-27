@@ -3,17 +3,26 @@
  */
 import * as Configs from './constants';
 
-//TODO do in ecma6 way
-
 export function getRatio(player) {
     return Math.round((player.kills / (player.deaths + player.kills)) * 100) / 100;
 }
 
-export function getGameGrade(player, game) {
-    var relative_kills = (game.gameTotalDeaths == 0 ? 0.01 : (Object.keys(game.players).length * player.kills / (2 * game.gameTotalDeaths)));
+/***
+ * Final function
+ * @param player
+ * @returns {number}
+ */
+export function getGrade(player, totalKills) {
+    if (!totalKills) {
+        return getPlayersGradePerGame(player, currentGame);
+    }
+}
+
+export function getPlayersGradePerGame(player, game) {
+    var relative_kills = (game.totalDeaths == 0 ? 0.01 : game.playersCount * player.kills / (2 * game.totalDeaths));
     var relative_score = 1;
     if (player.score != 0) {
-        relative_score = (game.gameTotalScore == 0 ? 0.01 : (Object.keys(game.players).length * player.score / (2 * game.gameTotalScore)));
+        relative_score = (game.totalScore == 0 ? 0.01 : game.playersCount * player.score / (2 * game.totalScore));
     } else {
         relative_score = relative_kills;
     }
@@ -21,160 +30,121 @@ export function getGameGrade(player, game) {
     return totalGrade;
 }
 
-/***
- * Final export function
- * @param player
- * @returns {number}
- */
-//TODO Tencer to write a new one generic function
-export function getGrade(player, totalKills) {
-    return 80;
-/*    if (!totalKills) {
-        //var totalKills = currentGame.gameTotalDeaths; //deaths = kills in total per game :)
-        return getGameGrade(player, currentGame);
+export function getTeamKills(players) {
+    var sum = 0;
+    for (const playerName of Object.keys(players)) {
+        sum += players[playerName].kills;
     }
-    for (var i = 0; i < playersTotalGrades.length; i++) {
-        if (playersTotalGrades[i].name == player) {
-            return playersTotalGrades[i].grade;
-        }
+    return sum;
+}
+
+export function getTeamGrade(players, game) {
+    var sum = 0;
+    for (let playerName of Object.keys(players)) {
+        sum += (game) ? getPlayersGradePerGame(players[playerName], game) : players[playerName].score;
     }
-    return 999999;*/
+    return sum;
 }
 
-export function addToTeam(player) {
-    currentGame.columns[(player.team == Configs.TEAM_COLORS[Configs.BLUE]) ? Configs.BLUE : Configs.RED][1] += getGrade(player);
-    //TODO make a better managing of
-}
-
-export function compareTeams() {
-    return currentGame.columns[Configs.BLUE][1] - currentGame.columns[Configs.RED][1];
-}
-
-export function removeFromTeam(player) {
-    currentGame.columns[(player.team == Configs.TEAM_COLORS[Configs.BLUE]) ? Configs.BLUE : Configs.RED][1] -= getGrade(player);
-}
-
-export function toggleTeam(team) {
-    return (team == Configs.TEAM_COLORS[0]) ? Configs.TEAM_COLORS[1] : Configs.TEAM_COLORS[0];
-}
-
-/***
- * The export function runs after the value was already changed.
- * Therefore we will add to current team and will substruct from teh other team
- * @param name
- */
-export function playerToggleTeam(name, oneway) {
-    var player = currentGame.players[name];
-
-    console.info(player.name + " onChange with: " + player.team);
-    /*Since this export function is called after the change was made, the team relation should be opposite from the logic
-     * i.e. new team = toTeam, old team = fromTeam*/
-    var toTeam = ((player.team == Configs.TEAM_COLORS[Configs.BLUE]) ? Configs.BLUE : Configs.RED);
-    var fromTeam = Math.abs(toTeam - 1);
-    var rating = getGrade(player);
-
-
-    if (!oneway) {  //only for moving beween teams
-        currentGame.columns[fromTeam][1] -= rating;
-        currentGame.columns[toTeam][1] += rating;
-    } else {
-        if (player.include) { //only for include / exclude in teams count
-            currentGame.columns[toTeam][1] += rating;
-        }
-        else {
-            currentGame.columns[toTeam][1] -= rating;
-        }
+function getKeys(players) {
+    let keys = [];
+    for (const player of players) {
+        keys.push(player.name);
     }
-    refreshPowerPie(currentGame.columns);
+    return keys;
 }
 
-export function getGame(gameId) {
-    if (typeof gameId == 'number') {
-        return games[gameKeys[gameId]];
-    } else if (typeof gameId == 'string') {
-        return games[gameId];
-    }
-}
+export function getTeamBalance(players) {
+    let teamBalance = [];
+    teamBalance["totals"] = [0, 0]; //init teams
+    teamBalance["redTeamKeys"] = [];
+    teamBalance["blueTeamKeys"] = [];
 
-export function getLineFillStyle(value) {
-    return {background: "linear-gradient(to right, lavender 0%,lavender " + Math.round((value / currentGame.maxGrade) * 100) + "%,white " + Math.round((value / currentGame.maxGrade) * 100) + "%,white 100%)"};
-}
 
-export function setCurrentGame(storage, key) {
-    storage["currentGame"] = getGame(key);
-    storage.setColumns([[Configs.TEAM_COLORS[Configs.BLUE], 0], [Configs.TEAM_COLORS[Configs.RED], 0]]); //init teams
-    storage["playersKeys"] = Object.keys(currentGame.players);
-    storage["playersArray"] = convertToArray(currentGame.players, key)
-    storage.currentGame["maxGrade"] = storage.playersArray[0].grade; //TODO do it in more general way
-    initIncluded(storage.currentGame);
-    buildTeams(storage.currentGame);
+    var teamBlue = [];
+    var teamRed = [];
+    var teamIter = 0;
 
-    powerPie = generatePowerPie(storage.currentGame.columns);
 
-}
-
-export function initIncluded(game) {
-    var players = Object.keys(game.players);
-    var gameMaxScore = 0;
-    for (var i = 0; i < players.length; i++) {
-        (typeof game.players[players[i]].include !== 'boolean') ? game.players[players[i]].include = (Configs.EXCLUDED_PLAYERS.indexOf(game.players[players[i]].name) < 0) ? true : false : '';
-    }
-}
-
-//init
-export function buildTeams(game) {
-    currentGame.columns = [[Configs.TEAM_COLORS[Configs.BLUE], 0], [Configs.TEAM_COLORS[Configs.RED], 0]]; //init teams
-    for (var i = 0; i < playersArray.length; i++) {
-        var player = game.players[playersArray[i].name];
-        if (player.include) {
-            if (compareTeams() >= 0) { //blue bigger
-                player.team = Configs.TEAM_COLORS[Configs.RED];
+    for (const playerName of Object.keys(players)) {
+        let player = players[playerName];
+        if (player.active) {
+            if (teamIter % 2 == 0) { //assign to each team alternatley
+                teamBlue.push(player);
             } else {
-                player.team = Configs.TEAM_COLORS[Configs.BLUE];
+                teamRed.push(player);
             }
-            addToTeam(player);
+            teamIter++;
         }
     }
-    refreshPowerPie(currentGame.columns);
-}
 
-export function calcPlayerGrade(data) {
-    var dataV = data;
-    var playerGrades = [];
-    for (var i = 1; i < dataV.length; i++) {
-        var playerData = dataV[i];
-        var playerName = playerData[0];
-        var weightSum = 0;
-        var gradeSum = 0;
-        for (var j = 1; j < playerData.length; j++) {
-            var weight = 0; //for all historical games no calc
-            if (j < 3) {
-                weight = 10;
-            } else if (j < 6) {
-                weight = 8;
-            } else if (j < 12) {
-                weight = 4;
-            }
-            weightSum += weight;
-            gradeSum += weight * parseInt(playerData[j]);
-        }
-        var player = {};
-        player.name = playerName;
-        if (weightSum > 0) {
-            var tempGrade = gradeSum / weightSum;
-            player.grade = Math.round(tempGrade * 100) / 100;
-        } else {
-            player.grade = 10;
-        }
-        playerGrades.push(player);
+    var iter = Configs.BALANCE_ITERATIONS;
+    //run for max 1000 iterations and try different player sets until minimum diff is reached
+    while (iter > 0 && Math.abs(getTeamGrade(teamRed) - getTeamGrade(teamBlue)) > 5) {
+
+        //randomly select 2 players to switch
+        var bluePlayerIndx = Math.floor(Math.random(teamBlue.length) * teamBlue.length);
+        var redPlayerIndx = Math.floor(Math.random(teamRed.length) * teamRed.length);
+        //remove players from both teams
+        var bluePlayer = teamBlue.splice(bluePlayerIndx, 1)[0];
+        var redPlayer = teamRed.splice(redPlayerIndx, 1)[0];
+        //swap the players
+        teamBlue.push(redPlayer);
+        teamRed.push(bluePlayer);
+
+        iter--;
     }
-    return playerGrades;
+
+
+    teamBalance.totals[Configs.RED] = getTeamGrade(teamRed);
+    teamBalance.totals[Configs.BLUE] = getTeamGrade(teamBlue);
+    teamBalance.blueTeamKeys = getKeys(teamBlue);
+    teamBalance.redTeamKeys = getKeys(teamRed);
+
+    /*    var copyText = "";
+     copyText += "Blue team Achziv:\n";
+     for (var j = 0; j < teamBlue.length; j++) {
+     copyText += "* " + teamBlue[j].name + "\n";
+     }
+     copyText += "\n";
+     copyText += "Red team Yechiam:\n";
+     for (var j = 0; j < teamRed.length; j++) {
+     copyText += "* " + teamRed[j].name + "\n";
+     }
+     $scope.copyText = copyText;*/
+
+    //refreshPowerPie(teamBalance.totals);
+
+    return teamBalance;
 }
 
-export function fillSummaryGrade(games, playerGrades) {
-    var players = games["SUMMARY"].players;
-    for (var i = 0; i < Object.keys(players).length; i++) {
-        var playerName = Object.keys(players)[i];
-        players[playerName].grade = getGrade(playerName, -1);
+export function generatePowerPie(columns) {
+    return c3.generate({
+        bindto: '#power-pie-container',
+        pie: {
+            label: {
+                format: function (value, ratio, id) {
+                    return d3.round(value, 1);
+                }
+            }
+        },
+        size: {
+            width: 200,
+            height: 200
+        },
+        data: {
+            colors: {
+                red: '#FF0000',
+                blue: '#0000FF'
+            },
+            columns: columns,
+            type: 'pie'
+        }
+    });
+}
+
+export function refreshPowerPie(columns) {
+    if (powerPie) {
+        powerPie.load({columns: columns});
     }
 }

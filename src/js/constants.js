@@ -4,6 +4,7 @@
 //TODO do in ecma6 way
 export const BLUE = 0;
 export const RED = 1;
+export const BALANCE_ITERATIONS = 1000;
 export const TEAM_COLORS = ['blue', 'red'];
 export const EXCLUDED_PLAYERS = "OHAD,Shalom,Rachel,Bonev";
 export const SUMMARY_GAME = "SUMMARY";

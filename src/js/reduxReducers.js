@@ -4,11 +4,13 @@ import * as functions from './functions';
 
 
 const initialState = {
-    currentGame: {
+    summary: {
         name: "SUMMARY",
         totalDeaths: 0,
         totalKills: 0,
         totalGrade: 0,
+        totalScore: 0,
+        playersCount: 0,
         date: null,
     },
     players: [],
@@ -16,6 +18,7 @@ const initialState = {
     gameKeysExpanded: false,
     games: [],
     columns: [],
+    teams: [],
     nonActivePlayers: Configs.EXCLUDED_PLAYERS
 }
 
@@ -29,20 +32,35 @@ const initialState = {
 export function urtApp(state = initialState, action) {
     if (action.type === actionTypes.INIT_STATE) {
         let summaryGame = action.data.games[Configs.SUMMARY_GAME];
-        state.currentGame.name = summaryGame.gameId;
-        state.currentGame.totalDeaths = summaryGame.gameTotalDeaths;
-        state.currentGame.totalKills = summaryGame.gameTotalScore;
-        state.currentGame.date = summaryGame.gameDate;
+        state.summary.name = summaryGame.gameId;
+        state.summary.totalDeaths = summaryGame.gameTotalDeaths;
+        state.summary.totalScore = summaryGame.gameTotalScore;
+        state.summary.date = summaryGame.gameDate;
+        state.summary.totalGrade = functions.getTeamGrade(summaryGame.players, summaryGame);
+        state.summary.totalKills = functions.getTeamKills(summaryGame.players);
+        state.summary.playersCount = Object.keys(summaryGame.players).length;
 
-        for (let player of Object.keys(summaryGame.players)) {
-            state.players[player] = Object.assign({}, summaryGame.players[player]);
-            state.players[player].ratio = functions.getRatio(summaryGame.players[player]);
-            state.players[player].grade = functions.getGrade(summaryGame.players[player], summaryGame.totalKills);
+
+        //TODO create this list on the server
+        //transform the crud players list to form stored in the redux store
+        for (let playerName of Object.keys(summaryGame.players)) {
+            let player = summaryGame.players[playerName];
+            state.players[player.name] = Object.assign({}, player);
+            state.players[player.name].ratio = functions.getRatio(player);
+            state.players[player.name].grade = functions.getPlayersGradePerGame(player, state.summary);
             //Set players that are excluded from calculations
-            state.players[player]["active"] = (!Configs.EXCLUDED_PLAYERS.includes(player));
-
+            state.players[player.name]["active"] = (!Configs.EXCLUDED_PLAYERS.includes(player.name));
         }
 
+        //build teams initial balance
+        let balance = functions.getTeamBalance(state.players);
+        state.columns.push([Configs.TEAM_COLORS[Configs.RED], balance.totals[Configs.RED]]);
+        state.columns.push([Configs.TEAM_COLORS[Configs.BLUE], balance.totals[Configs.BLUE]]);
+        state.teams[Configs.RED] = [balance.redTeamKeys];
+        state.teams[Configs.BLUE] = [balance.blueTeamKeys];
+
+
+        //build a list of games from games array nad fix their names
         state.gameKeys = Object.keys(action.data.games).sort(function (a, b) {
             if (a === "SUMMARY") {
                 return -1 * Number.MAX_SAFE_INTEGER;
@@ -54,6 +72,7 @@ export function urtApp(state = initialState, action) {
         }).splice(0, Configs.GAME_LIST_MIN);
 
         return state;
+
     } else if (action.type === actionTypes.SET_GRADE) {
         var newState = Object.assign({}, state);
         newState.players[name].grade = action.grade;

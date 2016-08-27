@@ -60,6 +60,14 @@ p {
     max-width: 1024px;
 }
 
+.center-top-container{
+    justify-content: space-between;
+    width: 100%;
+}
+.center-bottom-container{
+    justify-content: space-between;
+    width: 100%;
+}
 .center-container .inner {
     background-color: #FFFFFF;
     display: inline-flex;
@@ -79,8 +87,7 @@ p {
     width: 200px;
     display: flex;
     flex-flow: column;
-    flex: 1;
-    justify-content: flex-end;
+    justify-content: flex-start;
 }
 
 .game {
@@ -229,3 +236,13 @@ td.name > div:first-child {
     }
 }
 
+/* generals */
+.flex-columns{
+    display: flex;
+    flex-flow: column;
+}
+
+.flex-rows{
+    display: flex;
+    flex-flow: row;
+}

@@ -7,3 +7,4 @@ export const TOGGLE_TEAM = "TOGGLE_TEAM";
 export const INIT_STATE = "INIT_STATE";
 export const EXCLUDE_PLAYER = "EXCLUDE_PLAYER";
 export const INCLUDE_PLAYER = "INCLUDE_PLAYER";
+export const BUILD_TEAMS = "BUILD_TEAMS";

@@ -9,7 +9,7 @@ let store = createStore(urtApp);
 
 export function buildInitialObject(data) {
     var appStore = {};
-    appStore["currentGame"] = {
+    appStore["summary"] = {
         name: "SUMMARY",
         totalDeaths: data.games.SUMMARY.gameTotalDeaths,
         totalKills: data.games.SUMMARY.gameTotalKills,

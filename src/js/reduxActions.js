@@ -36,3 +36,17 @@ export function excludePlayer(playerName) {
         playerName: playerName
     }
 }
+export function updateTeams(teamBalance) {
+    let columns = [];
+    columns.push(teamBalance.totals[0]);
+    columns.push(teamBalance.totals[1]);
+    let teamsArray = [];
+    teamsArray.push(teamBalance.blueTeamKeys);
+    teamsArray.push(teamBalance.redTeamKeys);
+
+    return {
+        type: actionTypes.BUILD_TEAMS,
+        columns: columns,
+        teams: teamsArray
+    }
+}

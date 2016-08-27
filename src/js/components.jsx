@@ -1,7 +1,8 @@
 import React from 'react';
 import Button from 'muicss/lib/react/button';
-import * as Configs from './constants';
-import * as Actions from './reduxActions';
+import * as configs from './constants';
+import * as actions from './reduxActions';
+import * as functions from './functions';
 
 
 class Header extends React.Component {
@@ -56,7 +57,7 @@ class ExclusionSwitch extends React.Component {
     }
 
     switchClicked() {
-        this.props.store.dispatch((this.state.checked == "on") ? Actions.excludePlayer(this.props.label) : Actions.includePlayer(this.props.label));
+        this.props.store.dispatch((this.state.checked == "on") ? actions.excludePlayer(this.props.label) : actions.includePlayer(this.props.label));
         this.setState({checked: this.refs.incheckbox.checked ? "on" : "off"});
     }
 
@@ -173,9 +174,9 @@ class GameList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeGame: Configs.SUMMARY_GAME, //first game to display
-            gamesListMax: Configs.GAME_LIST_MIN,
-            gamesListExpanded: Configs.GAME_LIST_EXPANDED
+            activeGame: configs.SUMMARY_GAME, //first game to display
+            gamesListMax: configs.GAME_LIST_MIN,
+            gamesListExpanded: configs.GAME_LIST_EXPANDED
         };
 
 
@@ -185,7 +186,7 @@ class GameList extends React.Component {
         console.log("GameList render." + this);
         //TODO perhaps this need to be done in stage before render, so it won't be repeated every time
         if (this.props.store.getState().gameKeys) {
-            var listSize = (!this.state.gamesListExpanded) ? Math.min(Configs.GAME_LIST_MIN, this.props.store.getState().gameKeys.length) : this.props.store.getState().gameKeys.length;
+            var listSize = (!this.state.gamesListExpanded) ? Math.min(configs.GAME_LIST_MIN, this.props.store.getState().gameKeys.length) : this.props.store.getState().gameKeys.length;
 
             //building an array of elements from gamekeys array
             var gamesButtonsList = [];
@@ -208,23 +209,51 @@ class GameDetails extends React.Component {
         console.log("GameDetails render." + this);
         return (
             <div className="pane details-pane">
-                <div>{this.props.store.getState().currentGame.name}</div>
+                <div>{this.props.store.getState().summary.name}</div>
                 <PlayersSummaryGrid store={this.props.store}/>
             </div>)
     }
 }
 
-class GameGenerator extends React.Component {
-    render() {
-        return (
-            <div className="pane generator-pane">
-                <div id="power-pie-container"></div>
-                <div id="power-pie-controller">
-                    <GameButton name="Build Teams"/>
-                    <GameButton name="Copy"/>
-                </div>
+class TeamsPie extends React.Component {
+    componentDidMount() {
+        functions.generatePowerPie(this.props.columns);
+    }
 
-            </div>)
+    render() {
+        return (<div id="power-pie-container"></div>)
+    }
+}
+//teams double list
+class TeamsTable extends React.Component {
+    constructor(props) {
+        super(props);
+
+    }
+
+    render() {
+        let blue_team = this.props.store.getState().teams[configs.BLUE][0];
+        let red_team = this.props.store.getState().teams[configs.RED][0];
+        let teams_list = [];
+
+        for (let i = 0; i < Math.max(blue_team.length, red_team.length); i++) {
+            teams_list.push(
+                <tr key={i}>
+                    <td>{(blue_team[i]) ? blue_team[i] : ""}</td>
+                    <td>{(red_team[i]) ? red_team[i] : ""}</td>
+                </tr>
+            );
+        }
+
+        return (
+            <div>
+                <table>
+                    <tbody>
+                    {teams_list}
+                    </tbody>
+                </table>
+            </div>
+        )
     }
 }
 
@@ -247,14 +276,31 @@ class ContentPage extends React.Component {
 
     componentWillMount() {
         console.log("ContentPage componentWillMount  ." + this);
+        //this._buildTeams();
     }
 
+    /*    _buildTeams() {
+     let teamBalanceObject = functions.getTeamBalance(this.props.store.getState().players);
+     this.props.store.dispatch(actions.updateTeams(teamBalanceObject));
+     }*/
+    /* onClick={this._buildTeams().bind(this)}*/
     render() {
-        console.log("ContentPage render ." + this);
         return (
-            <div className="center-container">
-                <GameList store={this.state.reduxStore}/>
-                <GameDetails store={this.state.reduxStore}/>
+            <div className="center-container flex-columns">
+                <div className="pane flex-rows center-top-container">
+                    <TeamsTable store={this.state.reduxStore}/>
+                    <div className="pane generator-pane">
+                        <TeamsPie columns={this.state.reduxStore.getState().columns}/>
+                        <div id="power-pie-controller">
+                            <GameButton name="Build Teams"/>
+                            <GameButton name="Copy"/>
+                        </div>
+                    </div>
+                </div>
+                <div className="pane flex-rows center-bottom-container">
+                    <GameList store={this.state.reduxStore}/>
+                    <GameDetails store={this.state.reduxStore}/>
+                </div>
             </div>);
     }
 }
