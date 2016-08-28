@@ -61,8 +61,10 @@ p {
 }
 
 .center-top-container{
-    justify-content: center;
+    justify-content: space-between;
     width: 100%;
+    padding-left: 220px !important;
+    padding-bottom: 0 !important;
 }
 .center-bottom-container{
     justify-content: space-between;
@@ -75,10 +77,33 @@ p {
     width: 1024px;
     vertical-align: middle;
 }
+.generator-pane{
+    padding-bottom: 0;
+}
+.generator-pane .power-pie-controller {
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row;
+}
+.team {
+    padding: 10px 15px;
+    width: 170px;
+}
+.redteam {
+    background-color: lightpink;
+    color: darkred;
+    border: 1px solid #320000;
+}
+
+.blueteam {
+    background-color: lightblue;
+    color: darkblue;
+    border: 1px solid #00014d;
+}
 
 .pane {
     padding: 15px;
-    color: #607D8B;
+    color: #25556d;
 }
 
 /****** GAMES PANEL *******/

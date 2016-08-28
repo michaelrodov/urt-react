@@ -73,24 +73,43 @@ export function urtApp(state = initialState, action) {
 
         return state;
 
+
+
     } else if (action.type === actionTypes.SET_GRADE) {
         var newState = Object.assign({}, state);
         newState.players[name].grade = action.grade;
         return newState;
+
+
     } else if (action.type === actionTypes.EXCLUDE_PLAYER) {
         var newState = Object.assign({}, state);
         newState.players[action.playerName].active = false;
         return newState;
+
+    } else if (action.type === actionTypes.BUILD_TEAMS) {
+        var newState = Object.assign({}, state);
+
+        newState.columns[Configs.RED] =[Configs.TEAM_COLORS[Configs.RED], action.columns[Configs.RED]];
+        newState.columns[Configs.BLUE] = [Configs.TEAM_COLORS[Configs.BLUE], action.columns[Configs.BLUE]];
+        newState.teams[Configs.RED] = [action.teams[Configs.RED]];
+        newState.teams[Configs.BLUE] = [action.teams[Configs.BLUE]];
+        return newState;
+
+
     } else if (action.type === actionTypes.INCLUDE_PLAYER) {
         var newState = Object.assign({}, state);
         newState.players[action.playerName].active = true;
         return newState;
+
+
     } else if (action.type === actionTypes.SET_TEAM) {
         var newState = Object.assign({}, state);
         for (let name of action.names) {
             newState.players[name].team = action.team;
         }
         return newState;
+
+
     } else {
         return state;
     }

@@ -4,8 +4,12 @@ import * as configs from './constants';
 import * as actions from './reduxActions';
 import * as functions from './functions';
 
-
+//TODO add prototype verification
 class Header extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         return (
             <div>
@@ -16,6 +20,10 @@ class Header extends React.Component {
 }
 
 class ExpandButton extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
     handleClick(e) {
         this.setState({gamesListExpanded: (this.state.gamesListExpanded) ? false : true});
     }
@@ -30,15 +38,14 @@ class ExpandButton extends React.Component {
 }
 
 class GameButton extends React.Component {
-    handleClick(e) {
-        this.setState({activeGame: this.props.name});
-        console.log("button clicked");
+    constructor(props) {
+        super(props);
     }
 
     render() {
         return (
-            <div onClick={this.handleClick} className="game">
-                <Button onClick={this.handleClick}
+            <div className="game">
+                <Button onClick={this.props.onClick}
                         className="left-side-buttons"
                         variant="raised"
                         color="primary">
@@ -120,6 +127,10 @@ class FlipToggleSwitch extends React.Component {
 }
 
 class PlayersSummaryGrid extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
 
 
@@ -205,6 +216,10 @@ class GameList extends React.Component {
 }
 
 class GameDetails extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         console.log("GameDetails render." + this);
         return (
@@ -216,6 +231,10 @@ class GameDetails extends React.Component {
 }
 
 class TeamsPie extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
     componentDidMount() {
         functions.generatePowerPie(this.props.columns);
     }
@@ -233,7 +252,7 @@ class TeamsTable extends React.Component {
 
     render() {
         let list = this.props.teamPlayerKeys;
-       // let red_team = this.props.store.getState().teams[configs.RED][0];
+        // let red_team = this.props.store.getState().teams[configs.RED][0];
         let teams_list = [];
 
         for (let i = 0; i < list.length; i++) {
@@ -245,7 +264,7 @@ class TeamsTable extends React.Component {
         }
 
         return (
-            <div>
+            <div className={this.props.className}>
                 <table>
                     <tbody>
                     {teams_list}
@@ -278,24 +297,27 @@ class ContentPage extends React.Component {
         //this._buildTeams();
     }
 
-    /*    _buildTeams() {
-     let teamBalanceObject = functions.getTeamBalance(this.props.store.getState().players);
-     this.props.store.dispatch(actions.updateTeams(teamBalanceObject));
-     }*/
-    /* onClick={this._buildTeams().bind(this)}*/
+    _buildTeams() {
+        let teamBalanceObject = functions.getTeamBalance(this.props.store.getState().players);
+        this.props.store.dispatch(actions.updateTeams(teamBalanceObject));
+    }
+
+
     render() {
         return (//this.props.store.getState().teams[configs.RED][0]
             <div className="center-container flex-columns">
                 <div className="pane flex-rows center-top-container">
-                    <TeamsTable teamPlayerKeys={this.state.reduxStore.getState().teams[configs.RED][0]}/>
-                    <div className="pane generator-pane">
+                    <TeamsTable className="team redteam"
+                                teamPlayerKeys={this.state.reduxStore.getState().teams[configs.RED][0]}/>
+                    <div className="generator-pane">
                         <TeamsPie columns={this.state.reduxStore.getState().columns}/>
-                        <div id="power-pie-controller">
-                            <GameButton name="Build Teams"/>
-                            <GameButton name="Copy"/>
+                        <div className="power-pie-controller">
+                            <GameButton name="Build" onClick={() => this._buildTeams()}/>
+                            {/*<GameButton name="Copy"/>*/}
                         </div>
                     </div>
-                    <TeamsTable teamPlayerKeys={this.state.reduxStore.getState().teams[configs.BLUE][0]}/>
+                    <TeamsTable className="team blueteam"
+                                teamPlayerKeys={this.state.reduxStore.getState().teams[configs.BLUE][0]}/>
                 </div>
                 <div className="pane flex-rows center-bottom-container">
                     <GameList store={this.state.reduxStore}/>
