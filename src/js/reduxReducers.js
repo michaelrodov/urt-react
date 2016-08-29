@@ -53,11 +53,11 @@ export function urtApp(state = initialState, action) {
         }
 
         //build teams initial balance
-        let balance = functions.getTeamBalance(state.players);
-        state.columns.push([Configs.TEAM_COLORS[Configs.RED], balance.totals[Configs.RED]]);
-        state.columns.push([Configs.TEAM_COLORS[Configs.BLUE], balance.totals[Configs.BLUE]]);
-        state.teams[Configs.RED] = [balance.redTeamKeys];
-        state.teams[Configs.BLUE] = [balance.blueTeamKeys];
+        let teamBalanceObject = functions.getTeamBalance(state.players);
+        state.columns[Configs.RED] =[Configs.TEAM_COLORS[Configs.RED], teamBalanceObject.totals[Configs.RED]];
+        state.columns[Configs.BLUE] = [Configs.TEAM_COLORS[Configs.BLUE], teamBalanceObject.totals[Configs.BLUE]];
+        state.teams[Configs.RED] = teamBalanceObject.redTeamKeys;
+        state.teams[Configs.BLUE] = teamBalanceObject.blueTeamKeys;
 
 
         //build a list of games from games array nad fix their names
@@ -87,12 +87,16 @@ export function urtApp(state = initialState, action) {
         return newState;
 
     } else if (action.type === actionTypes.BUILD_TEAMS) {
+        let teamBalanceObject = functions.getTeamBalance(state.players);
+
         var newState = Object.assign({}, state);
 
-        newState.columns[Configs.RED] =[Configs.TEAM_COLORS[Configs.RED], action.columns[Configs.RED]];
-        newState.columns[Configs.BLUE] = [Configs.TEAM_COLORS[Configs.BLUE], action.columns[Configs.BLUE]];
-        newState.teams[Configs.RED] = [action.teams[Configs.RED]];
-        newState.teams[Configs.BLUE] = [action.teams[Configs.BLUE]];
+        newState.columns[Configs.RED] =[Configs.TEAM_COLORS[Configs.RED], teamBalanceObject.totals[Configs.RED]];
+        newState.columns[Configs.BLUE] = [Configs.TEAM_COLORS[Configs.BLUE], teamBalanceObject.totals[Configs.BLUE]];
+        newState.teams[Configs.RED] = teamBalanceObject.redTeamKeys;
+        newState.teams[Configs.BLUE] = teamBalanceObject.blueTeamKeys;
+
+
         return newState;
 
 

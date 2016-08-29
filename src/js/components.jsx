@@ -3,6 +3,7 @@ import Button from 'muicss/lib/react/button';
 import * as configs from './constants';
 import * as actions from './reduxActions';
 import * as functions from './functions';
+import * as Globals from './globals';
 
 //TODO add prototype verification
 class Header extends React.Component {
@@ -235,8 +236,18 @@ class TeamsPie extends React.Component {
         super(props);
     }
 
+    /**
+     * Invoked once, both on the client and server, immediately before the initial rendering occurs.
+     */
     componentDidMount() {
-        functions.generatePowerPie(this.props.columns);
+        Globals.powerPie = functions.generatePowerPie(this.props.columns);
+    }
+
+    /***
+     * Invoked when a component is receiving new props. This method is not called for the initial render.
+     */
+    componentWillReceiveProps(){
+        functions.refreshPowerPie(this.props.columns);
     }
 
     render() {
@@ -252,7 +263,6 @@ class TeamsTable extends React.Component {
 
     render() {
         let list = this.props.teamPlayerKeys;
-        // let red_team = this.props.store.getState().teams[configs.RED][0];
         let teams_list = [];
 
         for (let i = 0; i < list.length; i++) {
@@ -298,8 +308,11 @@ class ContentPage extends React.Component {
     }
 
     _buildTeams() {
+/*
         let teamBalanceObject = functions.getTeamBalance(this.props.store.getState().players);
         this.props.store.dispatch(actions.updateTeams(teamBalanceObject));
+*/
+        this.props.store.dispatch(actions.buildTeams());
     }
 
 
@@ -308,7 +321,7 @@ class ContentPage extends React.Component {
             <div className="center-container flex-columns">
                 <div className="pane flex-rows center-top-container">
                     <TeamsTable className="team redteam"
-                                teamPlayerKeys={this.state.reduxStore.getState().teams[configs.RED][0]}/>
+                                teamPlayerKeys={this.state.reduxStore.getState().teams[configs.RED]}/>
                     <div className="generator-pane">
                         <TeamsPie columns={this.state.reduxStore.getState().columns}/>
                         <div className="power-pie-controller">
@@ -317,7 +330,7 @@ class ContentPage extends React.Component {
                         </div>
                     </div>
                     <TeamsTable className="team blueteam"
-                                teamPlayerKeys={this.state.reduxStore.getState().teams[configs.BLUE][0]}/>
+                                teamPlayerKeys={this.state.reduxStore.getState().teams[configs.BLUE]}/>
                 </div>
                 <div className="pane flex-rows center-bottom-container">
                     <GameList store={this.state.reduxStore}/>

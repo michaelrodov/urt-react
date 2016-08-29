@@ -2,6 +2,7 @@
  * Created by Carlos on 28/07/2016.
  */
 import * as Configs from './constants';
+import * as Globals from './globals';
 
 export function getRatio(player) {
     return Math.round((player.kills / (player.deaths + player.kills)) * 100) / 100;
@@ -113,8 +114,6 @@ export function getTeamBalance(players) {
      }
      $scope.copyText = copyText;*/
 
-    //refreshPowerPie(teamBalance.totals);
-
     return teamBalance;
 }
 
@@ -144,7 +143,7 @@ export function generatePowerPie(columns) {
 }
 
 export function refreshPowerPie(columns) {
-    if (powerPie) {
-        powerPie.load({columns: columns});
+    if (Globals.powerPie) {
+        Globals.powerPie.load({columns: columns});
     }
 }
