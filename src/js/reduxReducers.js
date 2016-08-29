@@ -73,8 +73,6 @@ export function urtApp(state = initialState, action) {
 
         return state;
 
-
-
     } else if (action.type === actionTypes.SET_GRADE) {
         var newState = Object.assign({}, state);
         newState.players[name].grade = action.grade;

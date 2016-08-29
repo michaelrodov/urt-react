@@ -38,18 +38,7 @@ export function excludePlayer(playerName) {
 }
 //todo validate that the order of teams is correct
 export function buildTeams() {
-/*
-    let columns = [];
-    columns.push(teamBalance.totals[0]);
-    columns.push(teamBalance.totals[1]);
-    let teamsArray = [];
-    teamsArray.push(teamBalance.blueTeamKeys);
-    teamsArray.push(teamBalance.redTeamKeys);
-*/
-
     return {
-        type: actionTypes.BUILD_TEAMS/*,
-        columns: columns,
-        teams: teamsArray*/
+        type: actionTypes.BUILD_TEAMS
     }
 }
