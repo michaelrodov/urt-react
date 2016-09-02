@@ -1,3 +1,9 @@
+html {
+    background: url(../img/soldiers-2-2560x1440.png) no-repeat center center fixed;
+    background-size: cover;
+    background-color: #909090;
+    background-blend-mode: screen;
+}
 
 p {
     border-style: none;
@@ -5,12 +11,19 @@ p {
     cursor: default;
 }
 
+.round-white-pane {
+    border: 1px solid white;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    background-color: rgba(248, 248, 248, 0.85);
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
 #main {
-    background-color: #F1F1F1;
     display: flex;
     justify-content: space-between;
     flex: 1;
     flex-flow: row;
+    padding-top: 30px;
 }
 
 /**************************TOP BAR*/
@@ -90,25 +103,18 @@ p {
     width: 170px;
 }
 .redteam {
-    background-color: lightpink;
     color: darkred;
-    border: 1px solid #320000;
 }
 
 .blueteam {
-    background-color: lightblue;
     color: darkblue;
-    border: 1px solid #00014d;
 }
 
-.pane {
-    padding: 15px;
-    color: #25556d;
-}
 
 /****** GAMES PANEL *******/
 .games-pane {
-    background-color: #F1F1F1;
+    background-color: transparent;
+    padding: 15px;
     width: 200px;
     display: flex;
     flex-flow: column;
@@ -124,7 +130,6 @@ p {
 /****** PLAYERS PANE *******/
 .details-pane {
     width: 100%;
-    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
     margin-bottom: 30px;
 }
 
@@ -132,10 +137,9 @@ p {
     display: flex;
     flex-flow: row;
     justify-content: space-between;
+    padding: 5px 10px;
 }
 
-.details-summary-data {
-}
 
 .details-summary-chart {
     width: 200px;
@@ -146,7 +150,7 @@ p {
     width: 100%;
 }
 
-table, tr, td, th {
+td, th {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -161,14 +165,16 @@ table, tr, td, th {
 
 .playersTable th {
     cursor: pointer !important;
-    background-color: #607D8B;
-    color: white;
-    padding: 5px;
+    color: #424242;
+    padding: 5px 10px 0 10px;
     font-weight: bold;
     font-size: large;
 }
+.playersTable tr {
+    border-bottom: 1px solid #494c50;
 
-.playersTable td, .playersTable th {
+}
+.playersTable td {
     padding: 5px 10px;
 }
 
