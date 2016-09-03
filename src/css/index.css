@@ -1,5 +1,5 @@
 html {
-    background: url(../img/soldiers-2-2560x1440.png) no-repeat center center fixed;
+    background: url(../img/cod-1920x1200-1.jpg) no-repeat center center fixed;
     background-size: cover;
     background-color: #909090;
     background-blend-mode: screen;
@@ -82,7 +82,15 @@ p {
 .center-bottom-container{
     justify-content: space-between;
     width: 100%;
+    border: 1px solid white;
+    /*
+    border-bottom: 1px solid white;
+    */
+    box-shadow: -1px 0px 60px 0px rgba(255, 255, 255, 0.75), 1px 0 60px 0px rgba(255, 255, 255, 0.75);
+    background-color: rgba(248, 248, 248, 0.85);
+    margin: 30px 0;
 }
+
 .center-container .inner {
     background-color: #FFFFFF;
     display: inline-flex;

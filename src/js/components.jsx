@@ -1,9 +1,10 @@
 import React from 'react';
+import * as actions from './reduxActions';
 import Button from 'muicss/lib/react/button';
 import * as configs from './constants';
-import * as actions from './reduxActions';
 import * as functions from './functions';
 import * as Globals from './globals';
+import AbdToggleSwitch from './abd-toggle.jsx';
 
 //TODO add prototype verification
 class Header extends React.Component {
@@ -17,24 +18,6 @@ class Header extends React.Component {
                 <h1>Header</h1>
             </div>
         );
-    }
-}
-
-class ExpandButton extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    handleClick(e) {
-        this.setState({gamesListExpanded: (this.state.gamesListExpanded) ? false : true});
-    }
-
-    render() {
-        return (
-            <button onClick={this.handleClick}
-                    className="left-side-buttons mui-btn mui-btn--primary mui-btn--raised">
-                ...
-            </button>)
     }
 }
 
@@ -57,74 +40,6 @@ class GameButton extends React.Component {
     }
 }
 
-class ExclusionSwitch extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    switchClicked(checked) {
-        this.props.store.dispatch((checked == "on") ? actions.excludePlayer(this.props.label) : actions.includePlayer(this.props.label));
-    }
-
-    render() {
-        let toggleStatus = (this.props.player.active) ? "on" : "off";
-        let labelClass = "toggle-body " + toggleStatus;
-        let inputClass = "control-button " + toggleStatus;
-        return (
-            <div className="real-toggle switch">
-                <input type="checkbox" className={inputClass} ref="incheckbox" value={toggleStatus}
-                       onChange={() => this.switchClicked(toggleStatus)}/>
-                <label className={labelClass}/>
-            </div>)
-    }
-}
-
-class FlipToggleSwitch extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            checked: props.value
-        };
-    }
-
-    switchClicked() {
-        this.setState({
-            checked: this.refs.teamcheckbox.checked ? "on" : "off"
-        });
-    }
-
-    labelClicked() {
-        this.refs.teamcheckbox.checked = !this.refs.teamcheckbox.checked;
-        this.setState({
-            checked: this.refs.teamcheckbox.checked ? "on" : "off"
-        });
-    }
-
-    render() {
-
-        var onStyle = {
-            backgroundColor: this.props.posColor
-        };
-        var offStyle = {
-            backgroundColor: this.props.negColor
-        };
-        let flippingClass = "flipping-element " + this.state.checked;
-        return (
-            <div className="flip-toggle">
-                <div className={flippingClass}>
-                    <div className="label flipped" style={offStyle} onClick={this.labelClicked.bind(this)}>
-                        {this.props.negLabel}
-                    </div>
-                    <div className="label" style={onStyle} onClick={this.labelClicked.bind(this)}>
-                        {this.props.posLabel}
-                    </div>
-                    <input className="control-button" type="checkbox" ref="teamcheckbox"
-                           onChange={this.switchClicked.bind(this)}/>
-                </div>
-            </div>)
-    }
-}
-
 class PlayersSummaryGrid extends React.Component {
     constructor(props) {
         super(props);
@@ -140,11 +55,8 @@ class PlayersSummaryGrid extends React.Component {
 
             playerGridLines.push(
                 <tr key={currentPlayer.name} className={(!currentPlayer.active) ? "excluded" : ""}>
-{/*                    <td>
-                        /!*<ExclusionSwitch label={playerKey} store={this.props.store} player={currentPlayer}/>*!/
-                    </td>*/}
                     <td>
-                        <FlipToggleSwitch posColor="red" posLabel="RED" negColor="blue" negLabel="BLUE" value="on"/>
+                        <AbdToggleSwitch status={(currentPlayer.active)} store={this.props.store} player={currentPlayer}/>
                     </td>
                     <td>
                         <div className="playersColumn">
@@ -220,7 +132,7 @@ class GameDetails extends React.Component {
     render() {
         console.log("GameDetails render." + this);
         return (
-            <div className="details-pane round-white-pane">
+            <div className="details-pane">
                 <PlayersSummaryGrid store={this.props.store}/>
             </div>)
     }
@@ -327,7 +239,7 @@ class ContentPage extends React.Component {
                     <TeamsTable className="team blueteam round-white-pane"
                                 teamPlayerKeys={this.state.reduxStore.getState().teams[configs.BLUE]}/>
                 </div>
-                <div className="pane flex-rows center-bottom-container">
+                <div className="flex-rows center-bottom-container">
                     <GameList store={this.state.reduxStore}/>
                     <GameDetails store={this.state.reduxStore}/>
                 </div>
