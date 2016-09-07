@@ -24,13 +24,24 @@ class Header extends React.Component {
 class GameButton extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            pressed: (this.props.name == configs.SUMMARY_GAME)
+        }
+    }
+    __onClick(){
+        this.setState({pressed: !this.state.pressed});
+        this.props.onClick();
+    }
+
+    componentDidMount(){
+        this.setState({pressed: this.props.pressed});
     }
 
     render() {
-        let buttonColor = (!this.props.color) ? "dark" : this.props.color;
+        let buttonColor = (!this.props.color) ? ((this.state.pressed) ? "danger" : "dark") : this.props.color;
         return (
             <div className="game">
-                <Button onClick={this.props.onClick}
+                <Button onClick={this.__onClick.bind(this)}
                         className="left-side-buttons"
                         variant="raised"
                         color={buttonColor}>
@@ -56,7 +67,7 @@ class PlayersSummaryGrid extends React.Component {
             playerGridLines.push(
                 <tr key={currentPlayer.name} className={(!currentPlayer.active) ? "excluded" : ""}>
                     <td>
-                        <AbdToggleSwitch status={(currentPlayer.active)} store={this.props.store} player={currentPlayer}/>
+                        <AbdToggleSwitch active={currentPlayer.active} store={this.props.store} player={currentPlayer}/>
                     </td>
                     <td>
                         <div className="playersColumn">
@@ -84,14 +95,17 @@ class PlayersSummaryGrid extends React.Component {
                 </tr>
                 </thead>
                 <tbody>
-                <tr><td colSpan={4}><div className="mui-divider"></div></td></tr>
+                <tr>
+                    <td colSpan={4}>
+                        <div className="mui-divider"></div>
+                    </td>
+                </tr>
                 {playerGridLines}
                 </tbody>
             </table>)
     }
 }
 
-/*L2*/
 class GameList extends React.Component {
     constructor(props) {
         super(props);
@@ -105,15 +119,16 @@ class GameList extends React.Component {
     }
 
     render() {
+        let storeState = this.props.store.getState();
         //TODO perhaps this need to be done in stage before render, so it won't be repeated every time
-        if (this.props.store.getState().gameKeys) {
-            var listSize = (!this.state.gamesListExpanded) ? Math.min(configs.GAME_LIST_MIN, this.props.store.getState().gameKeys.length) : this.props.store.getState().gameKeys.length;
+        if (storeState.gameKeys) {
+            var listSize = (!this.state.gamesListExpanded) ? Math.min(configs.GAME_LIST_MIN, storeState.gameKeys.length) : storeState.gameKeys.length;
 
             //building an array of elements from gamekeys array
             var gamesButtonsList = [];
-            this.props.store.getState().gameKeys.slice(0, listSize)
+            storeState.gameKeys.slice(0, listSize)
                 .map(function (game, inx, origArray) {
-                    gamesButtonsList.push(<GameButton key={game} name={game}/>);
+                    gamesButtonsList.push(<GameButton key={game} name={game} pressed={storeState.activeGame==game}/>);
                 });
         }
         return (
@@ -153,7 +168,7 @@ class TeamsPie extends React.Component {
     /***
      * Invoked when a component is receiving new props. This method is not called for the initial render.
      */
-    componentWillReceiveProps(){
+    componentWillReceiveProps() {
         functions.refreshPowerPie(this.props.columns);
     }
 
@@ -161,7 +176,7 @@ class TeamsPie extends React.Component {
         return (<div id="power-pie-container"></div>)
     }
 }
-//teams double list
+
 class TeamsTable extends React.Component {
     constructor(props) {
         super(props);
@@ -169,16 +184,39 @@ class TeamsTable extends React.Component {
     }
 
     render() {
-        let list = this.props.teamPlayerKeys;
+        let redList = this.props.teamPlayerKeys[configs.RED];
+        let blueList = this.props.teamPlayerKeys[configs.BLUE];
+        let redStyle = {
+            textAlign: 'end',
+            paddingRight: '100px',
+            width: '150px'
+        };
+
+        let blueStyle = {
+            textAlign: 'start',
+            paddingLeft: '100px',
+            width: '150px'
+        };
+
         let teams_list = [];
 
-        for (let i = 0; i < list.length; i++) {
+        for (let i = 0; i < Math.min(redList.length, blueList.length); i++) {
+            let redPlayer = ((i < redList.length)) ? (<td style={redStyle}>{redList[i]}</td>) : (<td>''</td>);
+            let bluePlayer = ((i < blueList.length)) ? (<td style={blueStyle}>{blueList[i]}</td>) : (<td>''</td>);
+
             teams_list.push(
                 <tr key={i}>
-                    <td>{list[i]}</td>
+                    {redPlayer}
+                    {bluePlayer}
                 </tr>
             );
         }
+
+        teams_list.push(<tr key="summary">
+            <td>{redList.length}</td>
+            <td>{blueList.length}</td>
+        </tr>);
+
 
         return (
             <div className={this.props.className}>
@@ -192,7 +230,42 @@ class TeamsTable extends React.Component {
     }
 }
 
-/*L1*/
+class TeamTable extends React.Component {
+    constructor(props) {
+        super(props);
+
+    }
+
+    render() {
+        let playersList = this.props.teamPlayerKeys;
+
+        let teams_list = [];
+
+        for (let i = 0; i < playersList.length; i++) {
+            let redPlayer = (<td>{playersList[i]}</td>);
+
+            teams_list.push(
+                <tr key={i}>
+                    {redPlayer}
+                </tr>
+            );
+        }
+
+        teams_list.push(<tr key="summary"><td>{playersList.length}</td></tr>);
+
+
+        return (
+            <div className={this.props.className}>
+                <table>
+                    <tbody>
+                    {teams_list}
+                    </tbody>
+                </table>
+            </div>
+        )
+    }
+}
+
 class ContentPage extends React.Component {
     constructor(props) {
         super(props);
@@ -215,10 +288,10 @@ class ContentPage extends React.Component {
     }
 
     _buildTeams() {
-/*
-        let teamBalanceObject = functions.getTeamBalance(this.props.store.getState().players);
-        this.props.store.dispatch(actions.updateTeams(teamBalanceObject));
-*/
+        /*
+         let teamBalanceObject = functions.getTeamBalance(this.props.store.getState().players);
+         this.props.store.dispatch(actions.updateTeams(teamBalanceObject));
+         */
         this.props.store.dispatch(actions.buildTeams());
     }
 
@@ -227,17 +300,21 @@ class ContentPage extends React.Component {
         return (//this.props.store.getState().teams[configs.RED][0]
             <div className="center-container flex-columns">
                 <div className="pane flex-rows center-top-container">
-                    <TeamsTable className="team redteam round-white-pane"
-                                teamPlayerKeys={this.state.reduxStore.getState().teams[configs.RED]}/>
                     <div className="generator-pane">
-                        <TeamsPie columns={this.state.reduxStore.getState().columns}/>
+                       {/* <TeamsTable className="team"
+                                    teamPlayerKeys={this.state.reduxStore.getState().teams}/>*/}
+
+                        <div className="teams-container">
+                            <TeamTable className="redteam" teamPlayerKeys={this.state.reduxStore.getState().teams[configs.RED]}/>
+                            <TeamsPie columns={this.state.reduxStore.getState().columns} />
+                            <TeamTable className="blueteam" teamPlayerKeys={this.state.reduxStore.getState().teams[configs.BLUE]}/>
+                        </div>
                         <div className="power-pie-controller">
                             <GameButton name="Build" color="primary" onClick={() => this._buildTeams()}/>
                             {/*<GameButton name="Copy"/>*/}
                         </div>
                     </div>
-                    <TeamsTable className="team blueteam round-white-pane"
-                                teamPlayerKeys={this.state.reduxStore.getState().teams[configs.BLUE]}/>
+
                 </div>
                 <div className="flex-rows center-bottom-container">
                     <GameList store={this.state.reduxStore}/>
@@ -246,6 +323,7 @@ class ContentPage extends React.Component {
             </div>);
     }
 }
+
 
 export default ContentPage;
 

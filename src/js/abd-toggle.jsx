@@ -1,9 +1,9 @@
 /*
-Pure CSS3 Toggle Switch
-Abid Din - http://craftedpixelz.co.uk
-@craftedpixelz
-Design based on - http://pxlz.me/3E
-*/
+ Pure CSS3 Toggle Switch
+ Abid Din - http://craftedpixelz.co.uk
+ @craftedpixelz
+ Design based on - http://pxlz.me/3E
+ */
 /**
  * Created by Carlos on 03/09/2016.
  */
@@ -16,27 +16,32 @@ export default class AbdToggleSwitch extends React.Component {
         super(props);
     }
 
+
+    /***
+     * Run first
+     */
     onChange() {
-        console.info("changed");
+        this.switchClicked();
     }
 
+    /**
+     * Launch storage change
+     */
     switchClicked() {
-        if(this.props.status){
-            actions.excludePlayer(this.props.player.name);
-        }else{
-            actions.includePlayer(this.props.player.name);
+        if (this.props.active) {
+            this.props.store.dispatch(actions.excludePlayer(this.props.player.name));
+        } else {
+            this.props.store.dispatch(actions.includePlayer(this.props.player.name));
         }
     }
 
     render() {
-
-        let inputChecked = (this.props.status) ? "checked" : "";
         return (
             <div className="abd-toggle">
-                <input type="checkbox" ref="teamcheckbox" checked={inputChecked} onChange={this.onChange} />
-                <span className="btn" onClick={this.switchClicked.bind(this)} />
-                <span className="labels" />
-                <span className="bg" />
+                <input type="checkbox" ref="teamcheckbox" checked={this.props.active} onChange={this.onChange.bind(this)}/>
+                <span className="btn" />
+                <span className="labels"/>
+                <span className="bg"/>
             </div>)
     }
 }

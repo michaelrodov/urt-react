@@ -19,9 +19,9 @@ const initialState = {
     games: [],
     columns: [],
     teams: [],
-    nonActivePlayers: Configs.EXCLUDED_PLAYERS
+    nonActivePlayers: Configs.EXCLUDED_PLAYERS,
+    activeGame: Configs.SUMMARY_GAME
 }
-
 
 
 /***
@@ -54,22 +54,30 @@ export function urtApp(state = initialState, action) {
 
         //build teams initial balance
         let teamBalanceObject = functions.getTeamBalance(state.players);
-        state.columns[Configs.RED] =[Configs.TEAM_COLORS[Configs.RED], teamBalanceObject.totals[Configs.RED]];
+        state.columns[Configs.RED] = [Configs.TEAM_COLORS[Configs.RED], teamBalanceObject.totals[Configs.RED]];
         state.columns[Configs.BLUE] = [Configs.TEAM_COLORS[Configs.BLUE], teamBalanceObject.totals[Configs.BLUE]];
         state.teams[Configs.RED] = teamBalanceObject.redTeamKeys;
         state.teams[Configs.BLUE] = teamBalanceObject.blueTeamKeys;
 
-
         //build a list of games from games array nad fix their names
-        state.gameKeys = Object.keys(action.data.games).sort(function (a, b) {
-            if (a === "SUMMARY") {
-                return -1 * Number.MAX_SAFE_INTEGER;
-            } else if (b === "SUMMARY") {
-                return Number.MAX_SAFE_INTEGER;
-            } else {
-                return parseInt((b.split("_"))[0]) - parseInt((a.split("_"))[0]);
+        state.gameKeys = Object.keys(action.data.games)
+            .sort(function (a, b) {
+                if (a === "SUMMARY") {
+                    return -1 * Number.MAX_SAFE_INTEGER;
+                } else if (b === "SUMMARY") {
+                    return Number.MAX_SAFE_INTEGER;
+                } else {
+                    return parseInt((b.split("_"))[0]) - parseInt((a.split("_"))[0]);
+                }
+            })
+            .splice(0, Configs.GAME_LIST_MIN);
+
+        for(let key of state.gameKeys){
+            if(key != Configs.SUMMARY_GAME){
+                state.games[key] = {};
+                state.games[key] = Object.assign({},action.data.games[key]);
             }
-        }).splice(0, Configs.GAME_LIST_MIN);
+        }
 
         return state;
 
@@ -89,7 +97,7 @@ export function urtApp(state = initialState, action) {
 
         var newState = Object.assign({}, state);
 
-        newState.columns[Configs.RED] =[Configs.TEAM_COLORS[Configs.RED], teamBalanceObject.totals[Configs.RED]];
+        newState.columns[Configs.RED] = [Configs.TEAM_COLORS[Configs.RED], teamBalanceObject.totals[Configs.RED]];
         newState.columns[Configs.BLUE] = [Configs.TEAM_COLORS[Configs.BLUE], teamBalanceObject.totals[Configs.BLUE]];
         newState.teams[Configs.RED] = teamBalanceObject.redTeamKeys;
         newState.teams[Configs.BLUE] = teamBalanceObject.blueTeamKeys;

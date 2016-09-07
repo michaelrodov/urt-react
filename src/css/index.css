@@ -1,3 +1,10 @@
+/*overrid muicss*/
+.mui-btn--primary {
+    background-color: #a5c04d !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
+}
+
+/******/
 html {
     background: url(../img/cod-1920x1200-1.jpg) no-repeat center center fixed;
     background-size: cover;
@@ -11,6 +18,10 @@ p {
     cursor: default;
 }
 
+table {
+    width: 100%;
+}
+
 .round-white-pane {
     border: 1px solid white;
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
@@ -18,6 +29,7 @@ p {
     border-radius: 5px;
     margin-bottom: 10px;
 }
+
 #main {
     display: flex;
     justify-content: space-between;
@@ -73,19 +85,15 @@ p {
     max-width: 1024px;
 }
 
-.center-top-container{
-    justify-content: space-between;
+.center-top-container {
+    justify-content: center;
     width: 100%;
-    padding-left: 220px !important;
-    padding-bottom: 0 !important;
 }
-.center-bottom-container{
+
+.center-bottom-container {
     justify-content: space-between;
     width: 100%;
     border: 1px solid white;
-    /*
-    border-bottom: 1px solid white;
-    */
     box-shadow: -1px 0px 60px 0px rgba(255, 255, 255, 0.75), 1px 0 60px 0px rgba(255, 255, 255, 0.75);
     background-color: rgba(248, 248, 248, 0.85);
     margin: 30px 0;
@@ -98,26 +106,38 @@ p {
     width: 1024px;
     vertical-align: middle;
 }
-.generator-pane{
+
+.generator-pane {
     padding-bottom: 0;
+    border: 1px solid white;
+    box-shadow: -1px 0px 60px 0px rgba(255, 255, 255, 0.75), 1px 0 60px 0px rgba(255, 255, 255, 0.75);
+    background-color: rgba(248, 248, 248, 0.85);
 }
+
 .generator-pane .power-pie-controller {
     display: flex;
     justify-content: space-between;
     flex-flow: row;
+    margin: 0 5px;
+}
+.generator-pane .teams-container {
+    justify-content: center;
+    display: flex;
+    flex-flow: row;
 }
 .team {
     padding: 10px 15px;
-    width: 170px;
-}
-.redteam {
-    color: darkred;
 }
 
-.blueteam {
-    color: darkblue;
+.redteam td {
+    width: 150px;
+    text-align: end;
 }
 
+.blueteam td{
+    width: 150px;
+    text-align: start;
+}
 
 /****** GAMES PANEL *******/
 .games-pane {
@@ -148,14 +168,9 @@ p {
     padding: 5px 10px;
 }
 
-
 .details-summary-chart {
     width: 200px;
     height: 200px;
-}
-
-.playersTable {
-    width: 100%;
 }
 
 td, th {
@@ -178,10 +193,12 @@ td, th {
     font-weight: bold;
     font-size: large;
 }
+
 .playersTable tr {
     border-bottom: 1px solid #494c50;
 
 }
+
 .playersTable td {
     padding: 5px 10px;
 }
@@ -276,12 +293,12 @@ td.name > div:first-child {
 }
 
 /* generals */
-.flex-columns{
+.flex-columns {
     display: flex;
     flex-flow: column;
 }
 
-.flex-rows{
+.flex-rows {
     display: flex;
     flex-flow: row;
 }
