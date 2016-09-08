@@ -2,10 +2,9 @@
   "name": "urt-react",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "bundle.js",
   "scripts": {
-    "start": "webpack-dev-server --hot",
-    "build": "webpack --progress --colors"
+    "start": "webpack-dev-server --hot"
   },
   "repository": {
     "type": "git",
