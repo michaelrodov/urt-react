@@ -133,8 +133,8 @@ export function generatePowerPie(columns) {
         },
         data: {
             colors: {
-                red: '#FF0000',
-                blue: '#0000FF'
+                red: '#F44336',
+                blue: '#3891A6'
             },
             columns: columns,
             type: 'pie'

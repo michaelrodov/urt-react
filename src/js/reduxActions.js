@@ -17,7 +17,7 @@ export function setGrade(name, grade) {
         grade: grade
     }
 }
-export function setTeam(names, team) {
+export function setAcTeam(names, team) {
     return {
         type: actionTypes.SET_TEAM,
         names: names,
@@ -40,5 +40,11 @@ export function excludePlayer(playerName) {
 export function buildTeams() {
     return {
         type: actionTypes.BUILD_TEAMS
+    }
+}
+export function setActiveGame(gameName) {
+    return {
+        type: actionTypes.SET_GAME,
+        key: gameName
     }
 }

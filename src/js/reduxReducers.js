@@ -27,7 +27,7 @@ const initialState = {
 /***
  *
  * @param state - defaults to initial state
- * @param action
+ * @param actio
  */
 export function urtApp(state = initialState, action) {
     if (action.type === actionTypes.INIT_STATE) {
@@ -39,6 +39,7 @@ export function urtApp(state = initialState, action) {
         state.summary.totalGrade = functions.getTeamGrade(summaryGame.players, summaryGame);
         state.summary.totalKills = functions.getTeamKills(summaryGame.players);
         state.summary.playersCount = Object.keys(summaryGame.players).length;
+        state.activeGame = Configs.SUMMARY_GAME;
 
 
         //TODO create this list on the server
@@ -84,6 +85,11 @@ export function urtApp(state = initialState, action) {
     } else if (action.type === actionTypes.SET_GRADE) {
         var newState = Object.assign({}, state);
         newState.players[name].grade = action.grade;
+        return newState;
+
+    } else if (action.type === actionTypes.SET_GAME) {
+        var newState = Object.assign({}, state);
+        newState.activeGame = action.key;
         return newState;
 
 
