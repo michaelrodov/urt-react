@@ -20,7 +20,11 @@ const initialState = {
     columns: [],
     teams: [],
     nonActivePlayers: Configs.EXCLUDED_PLAYERS,
-    activeGame: Configs.SUMMARY_GAME
+    activeGame: Configs.SUMMARY_GAME,
+    summaryOrderField: "grade",
+    summaryOrderDesc: true,
+    gameOrderField: "score",
+    gameOrderDesc: true
 }
 
 
@@ -40,6 +44,10 @@ export function urtApp(state = initialState, action) {
         state.summary.totalKills = functions.getTeamKills(summaryGame.players);
         state.summary.playersCount = Object.keys(summaryGame.players).length;
         state.activeGame = Configs.SUMMARY_GAME;
+        state.summaryOrderField = "grade";
+        state.summaryOrderDesc = true;
+        state.gameOrderField = "score";
+        state.gameOrderDesc = true;
 
 
         //TODO create this list on the server
@@ -73,10 +81,10 @@ export function urtApp(state = initialState, action) {
             })
             .splice(0, Configs.GAME_LIST_MIN);
 
-        for(let key of state.gameKeys){
-            if(key != Configs.SUMMARY_GAME){
+        for (let key of state.gameKeys) {
+            if (key != Configs.SUMMARY_GAME) {
                 state.games[key] = {};
-                state.games[key] = Object.assign({},action.data.games[key]);
+                state.games[key] = Object.assign({}, action.data.games[key]);
             }
         }
 
@@ -92,6 +100,17 @@ export function urtApp(state = initialState, action) {
         newState.activeGame = action.key;
         return newState;
 
+    } else if (action.type === actionTypes.ORDERBY_GAME) {
+        var newState = Object.assign({}, state);
+        newState.gameOrderField = action.column;
+        newState.gameOrderDesc = !action.desc;
+        return newState;
+
+    } else if (action.type === actionTypes.ORDERBY_SUMMARY) {
+        var newState = Object.assign({}, state);
+        newState.summaryOrderField = action.column;
+        newState.summaryOrderDesc = !action.desc;
+        return newState;
 
     } else if (action.type === actionTypes.EXCLUDE_PLAYER) {
         var newState = Object.assign({}, state);
