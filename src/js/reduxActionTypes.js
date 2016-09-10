@@ -9,3 +9,5 @@ export const INIT_STATE = "INIT_STATE";
 export const EXCLUDE_PLAYER = "EXCLUDE_PLAYER";
 export const INCLUDE_PLAYER = "INCLUDE_PLAYER";
 export const BUILD_TEAMS = "BUILD_TEAMS";
+export const ORDERBY_SUMMARY = "ORDERBY_SUMMARY";
+export const ORDERBY_GAME = "ORDERBY_GAME";

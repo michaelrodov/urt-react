@@ -3,8 +3,7 @@
  */
 import React from 'react';
 import * as actions from './reduxActions';
-import * as configs from './constants';
-import * as globals from './globals';
+import * as functions from './functions';
 
 
 class PlayersGrid extends React.Component {
@@ -12,28 +11,40 @@ class PlayersGrid extends React.Component {
         super(props);
     }
 
+    componentDidMount() {
+        this.setState({
+            orderBy: this.props.orderBy
+        });
+    }
 
-    __getBlocks(blocks){
+    __getBlocks(blocks) {
         let blocksStruct = [];
-        for(let key of Object.keys(blocks)){
+        for (let key of Object.keys(blocks)) {
             blocksStruct.push(
-                <span key={key}>{ key + "x"+ blocks[key]}</span>
+                <span className="bit" key={key}>
+                    <span>{key}</span>
+                    <span>{" x "}</span>
+                    <span>{blocks[key]}</span>
+                </span>
             );
         }
-
         return blocksStruct;
     }
 
+    __setSort(column, desc){
+        this.props.store.dispatch(actions.setOrderByGame(column, desc));
+    }
+
     render() {
-
-
         let playerGridLines = [];
+        let store = this.props.store.getState();
+        let orderColumn = store.gameOrderField;
+        let orderDesc = store.gameOrderDesc;
 
         for (let key of Object.keys(this.props.players)) {
             let currentPlayer = this.props.players[key];
-
             playerGridLines.push(
-                <tr key={key}>
+                <tr key={currentPlayer.name+":"+currentPlayer[orderColumn]+":"+orderDesc}>
                     <td>
                         {currentPlayer.name}
                     </td>
@@ -51,17 +62,18 @@ class PlayersGrid extends React.Component {
                     </td>
                 </tr>
             );
+        playerGridLines.sort(functions.orderByNumber);
         }
 
         return (
-            <table className="playersTable">
+            <table className="players-table">
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Deaths</th>
-                    <th>Kills</th>
-                    <th>Score</th>
-                    <th>Weapons</th>
+                    <th><span>Name</span></th>
+                    <th><span onClick={()=>{this.__setSort("deaths", orderDesc)}}>Deaths</span></th>
+                    <th><span onClick={()=>{this.__setSort("kills", orderDesc)}}>Kills</span></th>
+                    <th><span onClick={()=>{this.__setSort("score", orderDesc)}}>Score</span></th>
+                    <th><span>Weapons</span></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -76,28 +88,31 @@ class PlayersGrid extends React.Component {
     }
 }
 
-export default class Game extends React.Component {
+export
+default
+class Game extends React
+    .Component {
     constructor(props) {
         super(props);
     }
 
     render() {
         return (
-            <div className="">
-                <div> {/*details*/}
-                    <span>GAME:</span>
+            <div className={this.props.className}>
+                <div className="game-details"> {/*details*/}
+                    <span className="game-grid-title">GAME:</span>
                     <span>{this.props.game.gameType}</span>
                 </div>
-                <div>
-                    <span>RESULT:</span>
+                <div className="game-details">
+                    <span className="game-grid-title">RESULT:</span>
                     <span>{this.props.game.gameResult}</span>
                 </div>
-                <div>
-                    <span>LENGTH:</span>
-                    <span>{this.props.game.gameEndReason + " (" + this.props.game.gameLength + ")"}</span>
+                <div className="game-details">
+                    <span className="game-grid-title">LENGTH:</span>
+                    <span>{this.props.game.gameLength + " (" + this.props.game.gameEndReason + ")"}</span>
                 </div>
                 <div> {/*table*/}
-                    <PlayersGrid players={this.props.game.players}/>
+                    <PlayersGrid players={this.props.game.players} store={this.props.store}/>
                 </div>
             </div>)
     }

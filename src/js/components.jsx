@@ -7,28 +7,13 @@ import * as Globals from './globals';
 import AbdToggleSwitch from './abd-toggle.jsx';
 import Game from './game.jsx';
 
-//TODO add prototype verification
-class Header extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <div>
-                <h1>Header</h1>
-            </div>
-        );
-    }
-}
-
 class GameButton extends React.Component {
     constructor(props) {
         super(props);
     }
 
     __onClick() {
-        if(this.props.action){
+        if (this.props.action) {
             this.props.store.dispatch(this.props.action(this.props.name));
         }
     }
@@ -47,19 +32,34 @@ class GameButton extends React.Component {
     }
 }
 
-class PlayersSummaryGrid extends React.Component {
+class GamesSummary extends React.Component {
     constructor(props) {
         super(props);
+
+    }
+
+    __setSort(column, desc) {
+        this.props.store.dispatch(actions.setOrderBySummary(column, desc));
+    }
+
+    componentDidMount() {
+        this.setState({
+            orderBy: this.props.orderBy
+        });
     }
 
     render() {
         let playerGridLines = [];
         let storeState = this.props.store.getState();
+        let orderColumn = storeState.summaryOrderField;
+        let orderDesc = storeState.summaryOrderDesc;
+
         for (let playerKey in storeState.players) {
             let currentPlayer = storeState.players[playerKey];
 
             playerGridLines.push(
-                <tr key={currentPlayer.name} className={(!currentPlayer.active) ? "excluded" : ""}>
+                <tr key={currentPlayer.name + ":" + currentPlayer[orderColumn] + ":" + orderDesc}
+                    className={(!currentPlayer.active) ? "excluded" : ""}>
                     <td>
                         <AbdToggleSwitch active={currentPlayer.active} store={this.props.store} player={currentPlayer}/>
                     </td>
@@ -77,15 +77,20 @@ class PlayersSummaryGrid extends React.Component {
                     </td>
                 </tr>
             );
+            playerGridLines.sort(functions.orderByNumber);
         }
         return (
-            <table className="playersTable">
+            <table className={this.props.className}>
                 <thead>
                 <tr>
-                    <th>Team</th>
-                    <th>Name</th>
-                    <th>Ratio</th>
-                    <th>Grade</th>
+                    <th><span>Team</span></th>
+                    <th><span>Name</span></th>
+                    <th><span onClick={()=> {
+                        this.__setSort("ratio", orderDesc)
+                    }}>Ratio</span></th>
+                    <th><span onClick={()=> {
+                        this.__setSort("grade", orderDesc)
+                    }}>Grade</span></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -124,7 +129,7 @@ class GameList extends React.Component {
             storeState.gameKeys.slice(0, listSize)
                 .map(function (game, inx, origArray) {
                     gamesButtonsList.push(<GameButton
-                        store = {store}
+                        store={store}
                         action={actions.setActiveGame}
                         key={game}
                         name={game}
@@ -146,10 +151,14 @@ class GameDetails extends React.Component {
 
     render() {
         let storeState = this.props.store.getState();
+
         console.log("GameDetails render." + this);
-        let summaryGrid = (storeState.activeGame == configs.SUMMARY_GAME) ? (
-            <PlayersSummaryGrid store={this.props.store}/>) : (
-            <Game game={storeState.games[storeState.activeGame]}></Game>);
+        let summaryGrid = (storeState.activeGame == configs.SUMMARY_GAME) ?
+            (<GamesSummary store={this.props.store}
+                           className="players-table fadein"/>) :
+            (<Game game={storeState.games[storeState.activeGame]}
+                   store={this.props.store}
+                   className="game-grid fadein"/>);
 
         return (
             <div className="details-pane">
@@ -324,7 +333,8 @@ class ContentPage extends React.Component {
                                        teamPlayerKeys={storeState.teams[configs.BLUE]}/>
                         </div>
                         <div className="power-pie-controller">
-                            <GameButton name="Build" color="primary" action={actions.buildTeams} store={this.props.store}/>
+                            <GameButton name="Build" color="primary" action={actions.buildTeams}
+                                        store={this.props.store}/>
                             {/*<GameButton name="Copy"/>*/}
                         </div>
                     </div>

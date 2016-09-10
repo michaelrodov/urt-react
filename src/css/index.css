@@ -1,3 +1,16 @@
+/*fade in animation*/
+@keyframes fadein {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+.fadein{
+    opacity: 0;
+    animation-name: fadein;
+    animation-duration: 1200ms;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
 /*overrid muicss*/
 .mui-btn--primary {
     background-color: #a5c04d !important;
@@ -186,7 +199,34 @@ td, th {
     color: #b1b1b1 !important;
 }
 
-.playersTable th {
+/** summary and game grids **/
+.game-grid {
+    padding: 5px 10px;
+}
+.game-grid > .game-details {
+    padding: 0 0 5px 10px;
+}
+.game-grid .game-grid-title {
+    font-weight: bold;
+    margin-right: 10px;
+}
+.game-grid .bit {
+    padding: 5px;
+    margin: 0 2px;
+    border-radius: 5px;
+    background-color: #4C5B5C;
+    color: white;
+
+}
+.game-grid .bit > span {
+    font-weight: lighter;
+    font-size: small;
+}
+.game-grid .bit > span:first-child{
+    font-weight: bold;
+}
+
+.players-table th {
     cursor: pointer !important;
     color: #424242;
     padding: 5px 10px 0 10px;
@@ -194,12 +234,12 @@ td, th {
     font-size: large;
 }
 
-.playersTable tr {
+.players-table tr {
     border-bottom: 1px solid #494c50;
 
 }
 
-.playersTable td {
+.players-table td {
     padding: 5px 10px;
 }
 

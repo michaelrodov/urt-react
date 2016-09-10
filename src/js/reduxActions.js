@@ -2,7 +2,6 @@
  * Created by Carlos on 12/08/2016.
  */
 import * as actionTypes from './reduxActionTypes';
-import * as functions from './functions';
 
 export function initState(summary) {
     return {
@@ -22,6 +21,20 @@ export function setAcTeam(names, team) {
         type: actionTypes.SET_TEAM,
         names: names,
         team: team
+    }
+}
+export function setOrderByGame(column, desc){
+    return {
+        type: actionTypes.ORDERBY_GAME,
+        column: column,
+        desc: desc
+    }
+}
+export function setOrderBySummary(column, desc){
+    return {
+        type: actionTypes.ORDERBY_SUMMARY,
+        column: column,
+        desc: desc
     }
 }
 export function includePlayer(playerName) {

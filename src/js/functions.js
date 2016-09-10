@@ -147,3 +147,15 @@ export function refreshPowerPie(columns) {
         Globals.powerPie.load({columns: columns});
     }
 }
+
+export function orderByNumber(a, b) {
+    let keyArrayA = a.key.split(":");
+    let keyArrayB = b.key.split(":");
+    //keyarray[2] = sort desc order
+    //true desc - false asc
+    if (keyArrayA[2]==='true') {
+        return keyArrayA[1] - keyArrayB[1];
+    } else {
+        return keyArrayB[1] - keyArrayA[1];
+    }
+}
