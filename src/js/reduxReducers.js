@@ -45,18 +45,25 @@ export function urtApp(state = initialState, action) {
         state.summary.playersCount = Object.keys(summaryGame.players).length;
         state.activeGame = Configs.SUMMARY_GAME;
         state.summaryOrderField = "grade";
-        state.summaryOrderDesc = true;
+        state.summaryOrderDesc = false;
         state.gameOrderField = "score";
         state.gameOrderDesc = true;
+        
+        //calcuation summary grade and ratio per player by other games grade.
+        //grade
+        var playersColumnsOverGames = functions.extractPlayersLineData(action.data.games);
+        var playersTotalGrades = functions.calcPlayerGrade(playersColumnsOverGames);
+        //ratio
+        var playersColumnsOverGames = functions.extractPlayersLineDataRatio(action.data.games);
+        var playersTotalRatios = functions.calcPlayerRatio(playersColumnsOverGames);
 
-
-        //TODO create this list on the server
+        
         //transform the crud players list to form stored in the redux store
         for (let playerName of Object.keys(summaryGame.players)) {
             let player = summaryGame.players[playerName];
             state.players[player.name] = Object.assign({}, player);
-            state.players[player.name].ratio = functions.getRatio(player);
-            state.players[player.name].grade = functions.getPlayersGradePerGame(player, state.summary);
+            state.players[player.name].ratio = playersTotalRatios[player.name];
+            state.players[player.name].grade = playersTotalGrades[player.name];
             //Set players that are excluded from calculations
             state.players[player.name]["active"] = (!Configs.EXCLUDED_PLAYERS.includes(player.name));
         }
@@ -87,6 +94,7 @@ export function urtApp(state = initialState, action) {
                 state.games[key] = Object.assign({}, action.data.games[key]);
             }
         }
+
 
         return state;
 

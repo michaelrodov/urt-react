@@ -1,10 +1,11 @@
-/**
+    /**
  * Created by Carlos on 28/07/2016.
  */
 import * as Configs from './constants';
 import * as Globals from './globals';
 
 export function getRatio(player) {
+    if ((player.deaths + player.kills) == 0) return 0;
     return Math.round((player.kills / (player.deaths + player.kills)) * 100) / 100;
 }
 
@@ -20,10 +21,15 @@ export function getGrade(player, totalKills) {
 }
 
 export function getPlayersGradePerGame(player, game) {
-    var relative_kills = (game.totalDeaths == 0 ? 0.01 : game.playersCount * player.kills / (2 * game.totalDeaths));
+    if (!game || !game.players || !Object.keys(game.players)) {
+        var nullGame = game;
+        return 0;
+    }
+    var numberOfPlayers = Object.keys(game.players).length;
+    var relative_kills = (game.gameTotalDeaths == 0 ? 0.01 : numberOfPlayers * player.kills / (2 * game.gameTotalDeaths));
     var relative_score = 1;
     if (player.score != 0) {
-        relative_score = (game.totalScore == 0 ? 0.01 : game.playersCount * player.score / (2 * game.totalScore));
+        relative_score = (game.gameTotalScore == 0 ? 0.01 : numberOfPlayers * player.score / (2 * game.gameTotalScore));
     } else {
         relative_score = relative_kills;
     }
@@ -159,3 +165,133 @@ export function orderByNumber(a, b) {
         return keyArrayB[1] - keyArrayA[1];
     }
 }
+    
+export function extractPlayersLineData(games) {
+    var playersLineData = [];
+    var columnsArry =[];
+    var gameKeys = Object.keys(games);
+    gameKeys.sort(function(a, b){
+        a = parseInt(a.substring(0, a.indexOf("_")));
+        b = parseInt(b.substring(0, b.indexOf("_")));
+        if(a > b) return -1;
+        if(a < b) return 1;
+        return 0;
+    });
+    for (var i = 0; i < gameKeys.length; i++) {
+        var playerKeys = Object.keys(games[gameKeys[i]].players);
+        for (var j = 0; j < playerKeys.length; j++) {
+            if(!playersLineData[playerKeys[j]]){
+                playersLineData[playerKeys[j]]=[playerKeys[j]];
+            }
+            playersLineData[playerKeys[j]].push(
+                getPlayersGradePerGame(
+                    games[gameKeys[i]].players[playerKeys[j]], games[gameKeys[i]]));
+        }
+    }
+    playerKeys = Object.keys(playersLineData);
+    columnsArry.push(['xAxis'].concat(gameKeys));
+    for (var i = 0; i < playerKeys.length; i++) {
+        columnsArry.push(playersLineData[playerKeys[i]]);
+
+    }
+
+    return columnsArry;
+}
+
+export function calcPlayerGrade(data) {
+    var dataV = data;
+    var playerGrades = {};    
+    for (var i = 1; i < dataV.length; i++) {
+        var playerData = dataV[i];
+        var playerName = playerData[0];
+        var weightSum = 0;
+        var gradeSum = 0;
+        var playerGrade;
+        for (var j = 1; j < playerData.length; j++) {
+            var weight = 0; //for all historical games no calc
+            if (j < 3) {
+                weight = 10;
+            } else if (j < 6) {
+                weight = 8;
+            } else if (j < 12) {
+                weight = 4;
+            }
+            weightSum += weight;
+            gradeSum += weight * parseInt(playerData[j]);
+        }
+        if (weightSum > 0) {
+            var tempGrade = gradeSum / weightSum;
+            playerGrade = Math.round(tempGrade*100)/100;
+        } else {
+            playerGrade = 10;
+        }        
+        playerGrades[playerName]=playerGrade;
+    }
+    return playerGrades;
+}
+    
+export function extractPlayersLineDataRatio(games) {
+    var playersLineData = [];
+    var columnsArry =[];
+    var gameKeys = Object.keys(games);
+    gameKeys.sort(function(a, b){
+        a = parseInt(a.substring(0, a.indexOf("_")));
+        b = parseInt(b.substring(0, b.indexOf("_")));
+        if(a > b) return -1;
+        if(a < b) return 1;
+        return 0;
+    });
+    for (var i = 0; i < gameKeys.length; i++) {
+        var playerKeys = Object.keys(games[gameKeys[i]].players);
+        for (var j = 0; j < playerKeys.length; j++) {
+            if(!playersLineData[playerKeys[j]]){
+                playersLineData[playerKeys[j]]=[playerKeys[j]];
+            }
+            playersLineData[playerKeys[j]].push(
+                getRatio(
+                    games[gameKeys[i]].players[playerKeys[j]]));
+        }
+    }
+    playerKeys = Object.keys(playersLineData);
+    columnsArry.push(['xAxis'].concat(gameKeys));
+    for (var i = 0; i < playerKeys.length; i++) {
+        columnsArry.push(playersLineData[playerKeys[i]]);
+
+    }
+
+    return columnsArry;
+}
+
+export function calcPlayerRatio(data) {
+    var dataV = data;
+    var playerRatios = {};    
+    for (var i = 1; i < dataV.length; i++) {
+        var playerData = dataV[i];
+        var playerName = playerData[0];
+        var weightSum = 0;
+        var ratioSum = 0;
+        var playerRatio;
+        for (var j = 1; j < playerData.length; j++) {
+            var weight = 0; //for all historical games no calc
+            if (j < 2) {
+                weight = 10;
+            } else if (j < 4) {
+                weight = 8;
+            } else if (j < 6) {
+                weight = 4;
+            }
+            weightSum += weight;
+            ratioSum += weight * parseFloat(playerData[j]);
+        }
+        if (weightSum > 0) {
+            var tempRatio = ratioSum / weightSum;
+            playerRatio = Math.round(tempRatio*200)/100;
+        } else {
+            playerRatio = 1;
+        }        
+        playerRatios[playerName]=playerRatio;
+    }
+    return playerRatios;
+}
+    
+    
