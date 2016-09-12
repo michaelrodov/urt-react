@@ -191,59 +191,6 @@ class TeamsPie extends React.Component {
     }
 }
 
-class TeamsTable extends React.Component {
-    constructor(props) {
-        super(props);
-
-    }
-
-    render() {
-        let redList = this.props.teamPlayerKeys[configs.RED];
-        let blueList = this.props.teamPlayerKeys[configs.BLUE];
-        let redStyle = {
-            textAlign: 'end',
-            paddingRight: '100px',
-            width: '150px'
-        };
-
-        let blueStyle = {
-            textAlign: 'start',
-            paddingLeft: '100px',
-            width: '150px'
-        };
-
-        let teams_list = [];
-
-        for (let i = 0; i < Math.min(redList.length, blueList.length); i++) {
-            let redPlayer = ((i < redList.length)) ? (<td style={redStyle}>{redList[i]}</td>) : (<td>''</td>);
-            let bluePlayer = ((i < blueList.length)) ? (<td style={blueStyle}>{blueList[i]}</td>) : (<td>''</td>);
-
-            teams_list.push(
-                <tr key={i}>
-                    {redPlayer}
-                    {bluePlayer}
-                </tr>
-            );
-        }
-
-        teams_list.push(<tr key="summary">
-            <td>{redList.length}</td>
-            <td>{blueList.length}</td>
-        </tr>);
-
-
-        return (
-            <div className={this.props.className}>
-                <table>
-                    <tbody>
-                    {teams_list}
-                    </tbody>
-                </table>
-            </div>
-        )
-    }
-}
-
 class TeamTable extends React.Component {
     constructor(props) {
         super(props);
@@ -264,11 +211,6 @@ class TeamTable extends React.Component {
                 </tr>
             );
         }
-
-        teams_list.push(<tr key="summary">
-            <td>{playersList.length}</td>
-        </tr>);
-
 
         return (
             <div className={this.props.className}>
@@ -347,7 +289,6 @@ class ContentPage extends React.Component {
             </div>);
     }
 }
-
 
 export default ContentPage;
 

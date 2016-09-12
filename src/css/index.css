@@ -3,6 +3,7 @@
     from {opacity: 0;}
     to {opacity: 1;}
 }
+
 .fadein{
     opacity: 0;
     animation-name: fadein;
@@ -11,8 +12,28 @@
     animation-fill-mode: forwards;
 }
 
+#loader {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+#loader-border{
+    border: 5px solid #809e2f;
+    border-radius: 40px;
+    width: 80px;
+    height: 80px;
+    top: 51%;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 0 5px 5px white;
+}
+
 /*overrid muicss*/
-.mui-btn--primary {
+.mui-btn--primary, .mui-btn--danger {
     background-color: #a5c04d !important;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
 }
@@ -133,11 +154,13 @@ table {
     flex-flow: row;
     margin: 0 5px;
 }
+
 .generator-pane .teams-container {
     justify-content: center;
     display: flex;
     flex-flow: row;
 }
+
 .team {
     padding: 10px 15px;
 }
@@ -203,13 +226,16 @@ td, th {
 .game-grid {
     padding: 5px 10px;
 }
+
 .game-grid > .game-details {
     padding: 0 0 5px 10px;
 }
+
 .game-grid .game-grid-title {
     font-weight: bold;
     margin-right: 10px;
 }
+
 .game-grid .bit {
     padding: 5px;
     margin: 0 2px;
@@ -218,10 +244,12 @@ td, th {
     color: white;
 
 }
+
 .game-grid .bit > span {
     font-weight: lighter;
     font-size: small;
 }
+
 .game-grid .bit > span:first-child{
     font-weight: bold;
 }
