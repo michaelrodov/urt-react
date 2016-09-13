@@ -48,7 +48,7 @@ export function getTeamKills(players) {
 export function getTeamGrade(players, game) {
     var sum = 0;
     for (let playerName of Object.keys(players)) {
-        sum += (game) ? getPlayersGradePerGame(players[playerName], game) : players[playerName].score;
+        sum += players[playerName].grade;
     }
     return sum;
 }
