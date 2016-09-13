@@ -21859,98 +21859,8 @@
 	    return TeamsPie;
 	}(_react2.default.Component);
 
-	var TeamsTable = function (_React$Component6) {
-	    _inherits(TeamsTable, _React$Component6);
-
-	    function TeamsTable(props) {
-	        _classCallCheck(this, TeamsTable);
-
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(TeamsTable).call(this, props));
-	    }
-
-	    _createClass(TeamsTable, [{
-	        key: 'render',
-	        value: function render() {
-	            var redList = this.props.teamPlayerKeys[configs.RED];
-	            var blueList = this.props.teamPlayerKeys[configs.BLUE];
-	            var redStyle = {
-	                textAlign: 'end',
-	                paddingRight: '100px',
-	                width: '150px'
-	            };
-
-	            var blueStyle = {
-	                textAlign: 'start',
-	                paddingLeft: '100px',
-	                width: '150px'
-	            };
-
-	            var teams_list = [];
-
-	            for (var i = 0; i < Math.min(redList.length, blueList.length); i++) {
-	                var redPlayer = i < redList.length ? _react2.default.createElement(
-	                    'td',
-	                    { style: redStyle },
-	                    redList[i]
-	                ) : _react2.default.createElement(
-	                    'td',
-	                    null,
-	                    '\'\''
-	                );
-	                var bluePlayer = i < blueList.length ? _react2.default.createElement(
-	                    'td',
-	                    { style: blueStyle },
-	                    blueList[i]
-	                ) : _react2.default.createElement(
-	                    'td',
-	                    null,
-	                    '\'\''
-	                );
-
-	                teams_list.push(_react2.default.createElement(
-	                    'tr',
-	                    { key: i },
-	                    redPlayer,
-	                    bluePlayer
-	                ));
-	            }
-
-	            teams_list.push(_react2.default.createElement(
-	                'tr',
-	                { key: 'summary' },
-	                _react2.default.createElement(
-	                    'td',
-	                    null,
-	                    redList.length
-	                ),
-	                _react2.default.createElement(
-	                    'td',
-	                    null,
-	                    blueList.length
-	                )
-	            ));
-
-	            return _react2.default.createElement(
-	                'div',
-	                { className: this.props.className },
-	                _react2.default.createElement(
-	                    'table',
-	                    null,
-	                    _react2.default.createElement(
-	                        'tbody',
-	                        null,
-	                        teams_list
-	                    )
-	                )
-	            );
-	        }
-	    }]);
-
-	    return TeamsTable;
-	}(_react2.default.Component);
-
-	var TeamTable = function (_React$Component7) {
-	    _inherits(TeamTable, _React$Component7);
+	var TeamTable = function (_React$Component6) {
+	    _inherits(TeamTable, _React$Component6);
 
 	    function TeamTable(props) {
 	        _classCallCheck(this, TeamTable);
@@ -21979,16 +21889,6 @@
 	                ));
 	            }
 
-	            teams_list.push(_react2.default.createElement(
-	                'tr',
-	                { key: 'summary' },
-	                _react2.default.createElement(
-	                    'td',
-	                    null,
-	                    playersList.length
-	                )
-	            ));
-
 	            return _react2.default.createElement(
 	                'div',
 	                { className: this.props.className },
@@ -22008,20 +21908,20 @@
 	    return TeamTable;
 	}(_react2.default.Component);
 
-	var ContentPage = function (_React$Component8) {
-	    _inherits(ContentPage, _React$Component8);
+	var ContentPage = function (_React$Component7) {
+	    _inherits(ContentPage, _React$Component7);
 
 	    function ContentPage(props) {
 	        _classCallCheck(this, ContentPage);
 
-	        var _this9 = _possibleConstructorReturn(this, Object.getPrototypeOf(ContentPage).call(this, props));
+	        var _this8 = _possibleConstructorReturn(this, Object.getPrototypeOf(ContentPage).call(this, props));
 
-	        _this9.props.store.subscribe(_this9._reduxStoreChanged.bind(_this9));
+	        _this8.props.store.subscribe(_this8._reduxStoreChanged.bind(_this8));
 
-	        _this9.state = {
-	            storeState: _this9.props.store.getState()
+	        _this8.state = {
+	            storeState: _this8.props.store.getState()
 	        };
-	        return _this9;
+	        return _this8;
 	    }
 
 	    _createClass(ContentPage, [{
@@ -23365,6 +23265,10 @@
 	exports.generatePowerPie = generatePowerPie;
 	exports.refreshPowerPie = refreshPowerPie;
 	exports.orderByNumber = orderByNumber;
+	exports.extractPlayersLineData = extractPlayersLineData;
+	exports.calcPlayerGrade = calcPlayerGrade;
+	exports.extractPlayersLineDataRatio = extractPlayersLineDataRatio;
+	exports.calcPlayerRatio = calcPlayerRatio;
 
 	var _constants = __webpack_require__(183);
 
@@ -23377,9 +23281,10 @@
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	/**
-	 * Created by Carlos on 28/07/2016.
-	 */
+	* Created by Carlos on 28/07/2016.
+	*/
 	function getRatio(player) {
+	    if (player.deaths + player.kills == 0) return 0;
 	    return Math.round(player.kills / (player.deaths + player.kills) * 100) / 100;
 	}
 
@@ -23395,10 +23300,15 @@
 	}
 
 	function getPlayersGradePerGame(player, game) {
-	    var relative_kills = game.totalDeaths == 0 ? 0.01 : game.playersCount * player.kills / (2 * game.totalDeaths);
+	    if (!game || !game.players || !Object.keys(game.players)) {
+	        var nullGame = game;
+	        return 0;
+	    }
+	    var numberOfPlayers = Object.keys(game.players).length;
+	    var relative_kills = game.gameTotalDeaths == 0 ? 0.01 : numberOfPlayers * player.kills / (2 * game.gameTotalDeaths);
 	    var relative_score = 1;
 	    if (player.score != 0) {
-	        relative_score = game.totalScore == 0 ? 0.01 : game.playersCount * player.score / (2 * game.totalScore);
+	        relative_score = game.gameTotalScore == 0 ? 0.01 : numberOfPlayers * player.score / (2 * game.gameTotalScore);
 	    } else {
 	        relative_score = relative_kills;
 	    }
@@ -23618,6 +23528,128 @@
 	    } else {
 	        return keyArrayB[1] - keyArrayA[1];
 	    }
+	}
+
+	function extractPlayersLineData(games) {
+	    var playersLineData = [];
+	    var columnsArry = [];
+	    var gameKeys = Object.keys(games);
+	    gameKeys.sort(function (a, b) {
+	        a = parseInt(a.substring(0, a.indexOf("_")));
+	        b = parseInt(b.substring(0, b.indexOf("_")));
+	        if (a > b) return -1;
+	        if (a < b) return 1;
+	        return 0;
+	    });
+	    for (var i = 0; i < gameKeys.length; i++) {
+	        var playerKeys = Object.keys(games[gameKeys[i]].players);
+	        for (var j = 0; j < playerKeys.length; j++) {
+	            if (!playersLineData[playerKeys[j]]) {
+	                playersLineData[playerKeys[j]] = [playerKeys[j]];
+	            }
+	            playersLineData[playerKeys[j]].push(getPlayersGradePerGame(games[gameKeys[i]].players[playerKeys[j]], games[gameKeys[i]]));
+	        }
+	    }
+	    playerKeys = Object.keys(playersLineData);
+	    columnsArry.push(['xAxis'].concat(gameKeys));
+	    for (var i = 0; i < playerKeys.length; i++) {
+	        columnsArry.push(playersLineData[playerKeys[i]]);
+	    }
+
+	    return columnsArry;
+	}
+
+	function calcPlayerGrade(data) {
+	    var dataV = data;
+	    var playerGrades = {};
+	    for (var i = 1; i < dataV.length; i++) {
+	        var playerData = dataV[i];
+	        var playerName = playerData[0];
+	        var weightSum = 0;
+	        var gradeSum = 0;
+	        var playerGrade;
+	        for (var j = 1; j < playerData.length; j++) {
+	            var weight = 0; //for all historical games no calc
+	            if (j < 3) {
+	                weight = 10;
+	            } else if (j < 6) {
+	                weight = 8;
+	            } else if (j < 12) {
+	                weight = 4;
+	            }
+	            weightSum += weight;
+	            gradeSum += weight * parseInt(playerData[j]);
+	        }
+	        if (weightSum > 0) {
+	            var tempGrade = gradeSum / weightSum;
+	            playerGrade = Math.round(tempGrade * 100) / 100;
+	        } else {
+	            playerGrade = 10;
+	        }
+	        playerGrades[playerName] = playerGrade;
+	    }
+	    return playerGrades;
+	}
+
+	function extractPlayersLineDataRatio(games) {
+	    var playersLineData = [];
+	    var columnsArry = [];
+	    var gameKeys = Object.keys(games);
+	    gameKeys.sort(function (a, b) {
+	        a = parseInt(a.substring(0, a.indexOf("_")));
+	        b = parseInt(b.substring(0, b.indexOf("_")));
+	        if (a > b) return -1;
+	        if (a < b) return 1;
+	        return 0;
+	    });
+	    for (var i = 0; i < gameKeys.length; i++) {
+	        var playerKeys = Object.keys(games[gameKeys[i]].players);
+	        for (var j = 0; j < playerKeys.length; j++) {
+	            if (!playersLineData[playerKeys[j]]) {
+	                playersLineData[playerKeys[j]] = [playerKeys[j]];
+	            }
+	            playersLineData[playerKeys[j]].push(getRatio(games[gameKeys[i]].players[playerKeys[j]]));
+	        }
+	    }
+	    playerKeys = Object.keys(playersLineData);
+	    columnsArry.push(['xAxis'].concat(gameKeys));
+	    for (var i = 0; i < playerKeys.length; i++) {
+	        columnsArry.push(playersLineData[playerKeys[i]]);
+	    }
+
+	    return columnsArry;
+	}
+
+	function calcPlayerRatio(data) {
+	    var dataV = data;
+	    var playerRatios = {};
+	    for (var i = 1; i < dataV.length; i++) {
+	        var playerData = dataV[i];
+	        var playerName = playerData[0];
+	        var weightSum = 0;
+	        var ratioSum = 0;
+	        var playerRatio;
+	        for (var j = 1; j < playerData.length; j++) {
+	            var weight = 0; //for all historical games no calc
+	            if (j < 2) {
+	                weight = 10;
+	            } else if (j < 4) {
+	                weight = 8;
+	            } else if (j < 6) {
+	                weight = 4;
+	            }
+	            weightSum += weight;
+	            ratioSum += weight * parseFloat(playerData[j]);
+	        }
+	        if (weightSum > 0) {
+	            var tempRatio = ratioSum / weightSum;
+	            playerRatio = Math.round(tempRatio * 200) / 100;
+	        } else {
+	            playerRatio = 1;
+	        }
+	        playerRatios[playerName] = playerRatio;
+	    }
+	    return playerRatios;
 	}
 
 /***/ },
@@ -24975,11 +25007,18 @@
 	        state.summary.playersCount = Object.keys(summaryGame.players).length;
 	        state.activeGame = Configs.SUMMARY_GAME;
 	        state.summaryOrderField = "grade";
-	        state.summaryOrderDesc = true;
+	        state.summaryOrderDesc = false;
 	        state.gameOrderField = "score";
 	        state.gameOrderDesc = true;
 
-	        //TODO create this list on the server
+	        //calcuation summary grade and ratio per player by other games grade.
+	        //grade
+	        var playersColumnsOverGames = functions.extractPlayersLineData(action.data.games);
+	        var playersTotalGrades = functions.calcPlayerGrade(playersColumnsOverGames);
+	        //ratio
+	        var playersColumnsOverGames = functions.extractPlayersLineDataRatio(action.data.games);
+	        var playersTotalRatios = functions.calcPlayerRatio(playersColumnsOverGames);
+
 	        //transform the crud players list to form stored in the redux store
 	        var _iteratorNormalCompletion = true;
 	        var _didIteratorError = false;
@@ -24991,8 +25030,8 @@
 
 	                var player = summaryGame.players[playerName];
 	                state.players[player.name] = Object.assign({}, player);
-	                state.players[player.name].ratio = functions.getRatio(player);
-	                state.players[player.name].grade = functions.getPlayersGradePerGame(player, state.summary);
+	                state.players[player.name].ratio = playersTotalRatios[player.name];
+	                state.players[player.name].grade = playersTotalGrades[player.name];
 	                //Set players that are excluded from calculations
 	                state.players[player.name]["active"] = !Configs.EXCLUDED_PLAYERS.includes(player.name);
 	            }
