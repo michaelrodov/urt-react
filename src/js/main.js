@@ -26,6 +26,9 @@ xhttp({
             <ContentPage store={reduxStore}/>,
             document.getElementById('react-container')
         );
+
+        //slowly fadein the actual body of the screen
+        document.getElementById("main").className += ' fadein';
     },
     (err, xhr) => {
         console.error(xhr.responseURL, xhr.status, xhr.statusText);

@@ -1,9 +1,3 @@
-.container {
-    position: absolute;
-    width: 80px;
-    height: 80px;
-}
-
 @-webkit-keyframes swinging {
     0% {
         -webkit-transform: rotate(140deg);
@@ -11,6 +5,11 @@
     100% {
         -webkit-transform: rotate(220deg);
     }
+}
+.container {
+    position: absolute;
+    width: 80px;
+    height: 80px;
 }
 .string {
     position: absolute;

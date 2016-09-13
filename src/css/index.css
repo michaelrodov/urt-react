@@ -12,6 +12,10 @@
     animation-fill-mode: forwards;
 }
 
+.start-invisible {
+    opacity: 0;
+}
+
 #loader {
     position: fixed;
     display: flex;
@@ -39,12 +43,14 @@
 }
 
 /******/
-html {
-    background: url(../img/cod-1920x1200-1.jpg) no-repeat center center fixed;
+
+.background-cover {
+    background: url(../img/cod-1920x1200-1.jpg) no-repeat top center fixed;
     background-size: cover;
     background-color: #909090;
     background-blend-mode: screen;
 }
+
 
 p {
     border-style: none;
@@ -165,11 +171,18 @@ table {
     padding: 10px 15px;
 }
 
+.redteam {
+    color: #F44336;
+}
+
 .redteam td {
     width: 150px;
     text-align: end;
 }
 
+.blueteam {
+    color: #3891A6;
+}
 .blueteam td{
     width: 150px;
     text-align: start;
