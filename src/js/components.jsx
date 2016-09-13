@@ -264,9 +264,6 @@ class ContentPage extends React.Component {
             <div className="center-container flex-columns">
                 <div className="pane flex-rows center-top-container">
                     <div className="generator-pane">
-                        {/* <TeamsTable className="team"
-                         teamPlayerKeys={this.state.reduxStore.getState().teams}/>*/}
-
                         <div className="teams-container">
                             <TeamTable className="redteam"
                                        teamPlayerKeys={storeState.teams[configs.RED]}/>
