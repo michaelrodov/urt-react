@@ -81,6 +81,9 @@
 	    reduxStore.dispatch((0, _reduxActions.initState)(data));
 
 	    _reactDom2.default.render(_react2.default.createElement(_components2.default, { store: reduxStore }), document.getElementById('react-container'));
+
+	    //slowly fadein the actual body of the screen
+	    document.getElementById("main").className += ' fadein';
 	}, function (err, xhr) {
 	    console.error(xhr.responseURL, xhr.status, xhr.statusText);
 	}); /**
@@ -23427,7 +23430,7 @@
 	            var player = players[playerName];
 	            if (player.active) {
 	                if (teamIter % 2 == 0) {
-	                    //assign to each team alternatley
+	                    //assign to each team alternatively
 	                    teamBlue.push(player);
 	                } else {
 	                    teamRed.push(player);
@@ -23491,6 +23494,7 @@
 	    return c3.generate({
 	        bindto: '#power-pie-container',
 	        pie: {
+	            expand: true,
 	            label: {
 	                format: function format(value, ratio, id) {
 	                    return d3.round(value, 1);
