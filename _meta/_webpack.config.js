@@ -2,8 +2,8 @@ var config = {
     entry: './src/js/main.js',
 
     output: {
-        path:'./',
-        filename: 'bundle.js',
+        path:'./target',
+        filename: 'index.js',
     },
 
     devServer: {
@@ -15,6 +15,15 @@ var config = {
         loaders: [
             {
                 test: /\.jsx?$/,
+                exclude: /node_modules/,
+                loader: 'babel',
+
+                query: {
+                    presets: ['es2015', 'react']
+                }
+            },
+            {
+                test: /\.js$/,
                 exclude: /node_modules/,
                 loader: 'babel',
 

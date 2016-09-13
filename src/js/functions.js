@@ -76,7 +76,7 @@ export function getTeamBalance(players) {
     for (const playerName of Object.keys(players)) {
         let player = players[playerName];
         if (player.active) {
-            if (teamIter % 2 == 0) { //assign to each team alternatley
+            if (teamIter % 2 == 0) { //assign to each team alternatively
                 teamBlue.push(player);
             } else {
                 teamRed.push(player);
@@ -127,6 +127,7 @@ export function generatePowerPie(columns) {
     return c3.generate({
         bindto: '#power-pie-container',
         pie: {
+            expand: true,
             label: {
                 format: function (value, ratio, id) {
                     return d3.round(value, 1);

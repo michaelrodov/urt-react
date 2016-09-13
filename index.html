@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/x-icon" href="src/img/favicon.ico">
     <title>UrT Stats v2.0R</title>
+    <link rel="stylesheet" href="src/css/loader.css" type="text/css" media="screen">
     <link rel="stylesheet" href="src/css/index.css" type="text/css" media="screen">
     <link rel="stylesheet" href="src/css/c3.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="src/css/flip-toggle.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="src/css/realistic-toggle.css" type="text/css" media="screen">
     <link rel="stylesheet" href="src/css/abd-toggle.css" type="text/css" media="screen">
     <link href="src/css/mui.min.css" rel="stylesheet" type="text/css" />
     <script src="src/js/d3.js"></script>
@@ -16,15 +15,25 @@
 
 
 </head>
-<body style="background-color: transparent">
-
-<div id="main">
+<body style="background-color: #A4A4A4">
+<div id="main" class="background-cover start-invisible">
     <div id="leftmain"></div>
     <div id="centermain">
         <div id="react-container"></div>
         <script src="./bundle.js"></script>
     </div>
     <div id="rightmain"></div>
+</div>
+<div id="loader">
+    <div id="loader-border"></div>
+    <div class="container">
+        <div class="string string1"><div class="marbles marble1"></div></div>
+        <div class="string string2"><div class="marbles marble2"></div></div>
+        <div class="string string3"><div class="marbles marble3"></div></div>
+        <div class="string string4"><div class="marbles marble4"></div></div>
+        <div class="string string5"><div class="marbles marble5"></div></div>
+        <div class="string string6"><div class="marbles marble6"></div></div>
+    </div>
 </div>
 </body>
 </html>

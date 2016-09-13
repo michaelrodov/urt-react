@@ -99,3 +99,6 @@ img/Thumbs.db
 
 *npm
 /node_modules/
+package.json
+
+webpack.config.js
