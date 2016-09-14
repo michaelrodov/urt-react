@@ -21603,6 +21603,15 @@
 	            this.props.store.dispatch(actions.setOrderBySummary(column, desc));
 	        }
 	    }, {
+	        key: '__getSortHeaderStyle',
+	        value: function __getSortHeaderStyle(headerName, currentSortHeaderName, isDesc) {
+	            if (headerName == currentSortHeaderName) {
+	                return "sorted-header" + (isDesc ? "-desc" : "-asc");
+	            } else {
+	                return "";
+	            }
+	        }
+	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            this.setState({
@@ -21639,12 +21648,12 @@
 	                            { className: 'playersColumn' },
 	                            _react2.default.createElement(
 	                                'div',
-	                                null,
+	                                { className: 'player-name' },
 	                                currentPlayer.name
 	                            ),
 	                            _react2.default.createElement(
 	                                'div',
-	                                null,
+	                                { className: 'player-name-games' },
 	                                currentPlayer.gamesPlayed,
 	                                ' games played'
 	                            )
@@ -21691,7 +21700,7 @@
 	                        ),
 	                        _react2.default.createElement(
 	                            'th',
-	                            null,
+	                            { className: 'playersColumn' },
 	                            _react2.default.createElement(
 	                                'span',
 	                                null,
@@ -21705,7 +21714,8 @@
 	                                'span',
 	                                { onClick: function onClick() {
 	                                        _this3.__setSort("ratio", orderDesc);
-	                                    } },
+	                                    },
+	                                    className: this.__getSortHeaderStyle("ratio", orderColumn, orderDesc) },
 	                                'Ratio'
 	                            )
 	                        ),
@@ -21716,7 +21726,8 @@
 	                                'span',
 	                                { onClick: function onClick() {
 	                                        _this3.__setSort("grade", orderDesc);
-	                                    } },
+	                                    },
+	                                    className: this.__getSortHeaderStyle("grade", orderColumn, orderDesc) },
 	                                'Grade'
 	                            )
 	                        )
@@ -23244,7 +23255,7 @@
 	var RED = exports.RED = 1;
 	var BALANCE_ITERATIONS = exports.BALANCE_ITERATIONS = 1000;
 	var TEAM_COLORS = exports.TEAM_COLORS = ['blue', 'red'];
-	var EXCLUDED_PLAYERS = exports.EXCLUDED_PLAYERS = "OHAD,Shalom,ameer,Bonev,mesh,danNa";
+	var EXCLUDED_PLAYERS = exports.EXCLUDED_PLAYERS = "OHAD,Shalom,ameer,Bonev,mesh,danNa,[ACE],MaorTheDestroyer";
 	var SUMMARY_GAME = exports.SUMMARY_GAME = "SUMMARY";
 	var GAME_LIST_MIN = exports.GAME_LIST_MIN = 13;
 	var GAME_LIST_EXPANDED = exports.GAME_LIST_EXPANDED = false;
@@ -23894,7 +23905,7 @@
 	                        { key: currentPlayer.name + ":" + currentPlayer[orderColumn] + ":" + orderDesc },
 	                        _react2.default.createElement(
 	                            'td',
-	                            null,
+	                            { className: 'game__player-name' },
 	                            currentPlayer.name
 	                        ),
 	                        _react2.default.createElement(
@@ -23914,7 +23925,7 @@
 	                        ),
 	                        _react2.default.createElement(
 	                            'td',
-	                            null,
+	                            { className: 'weapons-col' },
 	                            this.__getBlocks(currentPlayer.weapons)
 	                        )
 	                    ));
@@ -23946,7 +23957,7 @@
 	                        null,
 	                        _react2.default.createElement(
 	                            'th',
-	                            null,
+	                            { className: 'game__player-name' },
 	                            _react2.default.createElement(
 	                                'span',
 	                                null,
@@ -23988,7 +23999,7 @@
 	                        ),
 	                        _react2.default.createElement(
 	                            'th',
-	                            null,
+	                            { className: 'weapons-col' },
 	                            _react2.default.createElement(
 	                                'span',
 	                                null,
