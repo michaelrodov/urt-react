@@ -22,6 +22,7 @@ export default class AbdToggleSwitch extends React.Component {
      */
     onChange() {
         this.switchClicked();
+        this.props.store.dispatch(actions.buildTeams());
     }
 
     /**

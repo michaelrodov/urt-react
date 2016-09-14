@@ -21937,7 +21937,6 @@
 	        key: 'componentWillMount',
 	        value: function componentWillMount() {
 	            console.log("ContentPage componentWillMount  ." + this);
-	            //this._buildTeams();
 	        }
 	    }, {
 	        key: 'componentDidMount',
@@ -23729,6 +23728,7 @@
 	        key: 'onChange',
 	        value: function onChange() {
 	            this.switchClicked();
+	            this.props.store.dispatch(actions.buildTeams());
 	        }
 
 	        /**

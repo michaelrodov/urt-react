@@ -241,7 +241,6 @@ class ContentPage extends React.Component {
 
     componentWillMount() {
         console.log("ContentPage componentWillMount  ." + this);
-        //this._buildTeams();
     }
 
     componentDidMount() {
