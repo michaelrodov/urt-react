@@ -45,7 +45,7 @@ class PlayersGrid extends React.Component {
             let currentPlayer = this.props.players[key];
             playerGridLines.push(
                 <tr key={currentPlayer.name+":"+currentPlayer[orderColumn]+":"+orderDesc}>
-                    <td>
+                    <td className="game__player-name">
                         {currentPlayer.name}
                     </td>
                     <td>
@@ -57,7 +57,7 @@ class PlayersGrid extends React.Component {
                     <td>
                         {currentPlayer.score}
                     </td>
-                    <td>
+                    <td className="weapons-col">
                         {this.__getBlocks(currentPlayer.weapons)}
                     </td>
                 </tr>
@@ -69,11 +69,11 @@ class PlayersGrid extends React.Component {
             <table className="players-table">
                 <thead>
                 <tr>
-                    <th><span>Name</span></th>
+                    <th className="game__player-name"><span>Name</span></th>
                     <th><span onClick={()=>{this.__setSort("deaths", orderDesc)}}>Deaths</span></th>
                     <th><span onClick={()=>{this.__setSort("kills", orderDesc)}}>Kills</span></th>
                     <th><span onClick={()=>{this.__setSort("score", orderDesc)}}>Score</span></th>
-                    <th><span>Weapons</span></th>
+                    <th className="weapons-col"><span>Weapons</span></th>
                 </tr>
                 </thead>
                 <tbody>

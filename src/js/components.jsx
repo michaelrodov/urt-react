@@ -65,8 +65,8 @@ class GamesSummary extends React.Component {
                     </td>
                     <td>
                         <div className="playersColumn">
-                            <div>{currentPlayer.name}</div>
-                            <div>{currentPlayer.gamesPlayed} games played</div>
+                            <div className="player-name">{currentPlayer.name}</div>
+                            <div className="player-name-games">{currentPlayer.gamesPlayed} games played</div>
                         </div>
                     </td>
                     <td>
@@ -84,7 +84,7 @@ class GamesSummary extends React.Component {
                 <thead>
                 <tr>
                     <th><span>Team</span></th>
-                    <th><span>Name</span></th>
+                    <th className="playersColumn"><span>Name</span></th>
                     <th><span onClick={()=> {
                         this.__setSort("ratio", orderDesc)
                     }}>Ratio</span></th>

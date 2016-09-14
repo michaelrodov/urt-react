@@ -206,7 +206,7 @@ table {
 
 /****** PLAYERS PANE *******/
 .details-pane {
-    width: 100%;
+    width: 500px;
     margin-bottom: 30px;
 }
 
@@ -320,11 +320,34 @@ td.name > div:first-child {
 }
 
 .player-name {
-    flex-flow: row;
-    display: flex;
-    vertical-align: middle;
-    line-height: 100%;
+    font-weight: bold;
+    font-size: 16px;
 }
+.player-name-games {
+    font-size: 12px;
+    color:grey;
+}
+
+.playersColumn {
+    width: 150px;
+    min-width: 150px;
+    max-width: 150px;
+    text-overflow: ellipsis;    
+}
+
+.weapons-col {
+    width: 300px;
+    min-width: 300px;
+    max-width: 300px;
+}
+
+.game__player-name {
+    width: 150px;
+    min-width: 150px;
+    max-width: 150px;
+    text-overflow: ellipsis;
+}
+
 
 .player-name > div {
     margin-right: 15px;
