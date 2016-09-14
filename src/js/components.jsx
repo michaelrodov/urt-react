@@ -42,6 +42,14 @@ class GamesSummary extends React.Component {
         this.props.store.dispatch(actions.setOrderBySummary(column, desc));
     }
 
+    __getSortHeaderStyle(headerName, currentSortHeaderName, isDesc){
+        if(headerName == currentSortHeaderName){
+            return "sorted-header" + ((isDesc) ? "-desc" : "-asc");
+        }else{
+            return "";
+        }
+    }
+
     componentDidMount() {
         this.setState({
             orderBy: this.props.orderBy
@@ -85,12 +93,16 @@ class GamesSummary extends React.Component {
                 <tr>
                     <th><span>Team</span></th>
                     <th className="playersColumn"><span>Name</span></th>
-                    <th><span onClick={()=> {
-                        this.__setSort("ratio", orderDesc)
-                    }}>Ratio</span></th>
-                    <th><span onClick={()=> {
-                        this.__setSort("grade", orderDesc)
-                    }}>Grade</span></th>
+                    <th>
+                        <span onClick={()=> {this.__setSort("ratio", orderDesc)}}
+                              className={this.__getSortHeaderStyle("ratio", orderColumn, orderDesc)}>Ratio
+                        </span>
+                    </th>
+                    <th>
+                        <span onClick={()=> {this.__setSort("grade", orderDesc)}}
+                              className={this.__getSortHeaderStyle("grade", orderColumn, orderDesc)}>Grade
+                        </span>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
