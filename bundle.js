@@ -23359,7 +23359,7 @@
 	        for (var _iterator2 = Object.keys(players)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
 	            var playerName = _step2.value;
 
-	            sum += game ? getPlayersGradePerGame(players[playerName], game) : players[playerName].score;
+	            sum += players[playerName].grade;
 	        }
 	    } catch (err) {
 	        _didIteratorError2 = true;
