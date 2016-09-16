@@ -58,13 +58,13 @@
 
 	var _components2 = _interopRequireDefault(_components);
 
-	var _redux = __webpack_require__(188);
+	var _redux = __webpack_require__(194);
 
-	var _reduxReducers = __webpack_require__(202);
+	var _reduxReducers = __webpack_require__(208);
 
-	var _reduxActions = __webpack_require__(176);
+	var _reduxActions = __webpack_require__(182);
 
-	var _xhttp = __webpack_require__(203);
+	var _xhttp = __webpack_require__(209);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21512,31 +21512,35 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reduxActions = __webpack_require__(176);
+	var _reactResponsive = __webpack_require__(176);
+
+	var _reactResponsive2 = _interopRequireDefault(_reactResponsive);
+
+	var _reduxActions = __webpack_require__(182);
 
 	var actions = _interopRequireWildcard(_reduxActions);
 
-	var _button = __webpack_require__(178);
+	var _button = __webpack_require__(184);
 
 	var _button2 = _interopRequireDefault(_button);
 
-	var _constants = __webpack_require__(183);
+	var _constants = __webpack_require__(189);
 
 	var configs = _interopRequireWildcard(_constants);
 
-	var _functions = __webpack_require__(184);
+	var _functions = __webpack_require__(190);
 
 	var functions = _interopRequireWildcard(_functions);
 
-	var _globals = __webpack_require__(185);
+	var _globals = __webpack_require__(191);
 
 	var Globals = _interopRequireWildcard(_globals);
 
-	var _abdToggle = __webpack_require__(186);
+	var _abdToggle = __webpack_require__(192);
 
 	var _abdToggle2 = _interopRequireDefault(_abdToggle);
 
-	var _game = __webpack_require__(187);
+	var _game = __webpack_require__(193);
 
 	var _game2 = _interopRequireDefault(_game);
 
@@ -21623,63 +21627,106 @@
 	        value: function render() {
 	            var _this3 = this;
 
+	            var _players = void 0;
 	            var playerGridLines = [];
 	            var storeState = this.props.store.getState();
 	            var orderColumn = storeState.summaryOrderField;
 	            var orderDesc = storeState.summaryOrderDesc;
 
-	            for (var playerKey in storeState.players) {
-	                var currentPlayer = storeState.players[playerKey];
+	            if (orderColumn == "grade") {
+	                _players = storeState._players.sort(functions.orderByGrade);
+	            } else if (orderColumn == "ratio") {
+	                _players = storeState._players.sort(functions.orderByRatio);
+	            }
 
-	                playerGridLines.push(_react2.default.createElement(
-	                    'tr',
-	                    { key: currentPlayer.name + ":" + currentPlayer[orderColumn] + ":" + orderDesc,
-	                        className: !currentPlayer.active ? "excluded" : "" },
-	                    _react2.default.createElement(
-	                        'td',
-	                        null,
-	                        _react2.default.createElement(_abdToggle2.default, { active: currentPlayer.active, store: this.props.store, player: currentPlayer })
-	                    ),
-	                    _react2.default.createElement(
-	                        'td',
-	                        null,
+	            if (orderDesc) {
+	                _players.reverse();
+	            }
+
+	            var inx = 0;
+
+	            // for (let playerKey in storeState.players) {
+	            var _iteratorNormalCompletion = true;
+	            var _didIteratorError = false;
+	            var _iteratorError = undefined;
+
+	            try {
+	                for (var _iterator = _players[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	                    var currentPlayer = _step.value;
+
+	                    //let currentPlayer = storeState.players[playerKey];
+
+	                    ++inx;
+	                    playerGridLines.push(_react2.default.createElement(
+	                        'tr',
+	                        { key: currentPlayer.name + ":" + currentPlayer[orderColumn] + ":" + orderDesc,
+	                            className: !currentPlayer.active ? "excluded" : "" },
 	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'playersColumn' },
+	                            _reactResponsive2.default,
+	                            { minDeviceWidth: configs.MIN_PC_SCREEN_WIDTH },
+	                            _react2.default.createElement(
+	                                'td',
+	                                { className: 'toggle' },
+	                                _react2.default.createElement(_abdToggle2.default, { active: currentPlayer.active,
+	                                    store: this.props.store,
+	                                    player: currentPlayer })
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'td',
+	                            null,
 	                            _react2.default.createElement(
 	                                'div',
-	                                { className: 'player-name' },
-	                                currentPlayer.name
-	                            ),
+	                                { className: 'playersColumn' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'player-name' },
+	                                    inx + ". " + currentPlayer.name
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'player-name-games' },
+	                                    currentPlayer.gamesPlayed,
+	                                    ' games played'
+	                                )
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'td',
+	                            null,
 	                            _react2.default.createElement(
 	                                'div',
-	                                { className: 'player-name-games' },
-	                                currentPlayer.gamesPlayed,
-	                                ' games played'
+	                                null,
+	                                currentPlayer.ratio
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'td',
+	                            null,
+	                            _react2.default.createElement(
+	                                'div',
+	                                null,
+	                                currentPlayer.grade
 	                            )
 	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        'td',
-	                        null,
-	                        _react2.default.createElement(
-	                            'div',
-	                            null,
-	                            currentPlayer.ratio
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        'td',
-	                        null,
-	                        _react2.default.createElement(
-	                            'div',
-	                            null,
-	                            currentPlayer.grade
-	                        )
-	                    )
-	                ));
-	                playerGridLines.sort(functions.orderByNumber);
+	                    ));
+	                }
+	                // playerGridLines.sort(functions.orderByNumber);
+	            } catch (err) {
+	                _didIteratorError = true;
+	                _iteratorError = err;
+	            } finally {
+	                try {
+	                    if (!_iteratorNormalCompletion && _iterator.return) {
+	                        _iterator.return();
+	                    }
+	                } finally {
+	                    if (_didIteratorError) {
+	                        throw _iteratorError;
+	                    }
+	                }
 	            }
+
 	            return _react2.default.createElement(
 	                'table',
 	                { className: this.props.className },
@@ -21690,12 +21737,16 @@
 	                        'tr',
 	                        null,
 	                        _react2.default.createElement(
-	                            'th',
-	                            null,
+	                            _reactResponsive2.default,
+	                            { minDeviceWidth: configs.MIN_PC_SCREEN_WIDTH },
 	                            _react2.default.createElement(
-	                                'span',
+	                                'th',
 	                                null,
-	                                'Team'
+	                                _react2.default.createElement(
+	                                    'span',
+	                                    null,
+	                                    'Team'
+	                                )
 	                            )
 	                        ),
 	                        _react2.default.createElement(
@@ -21709,7 +21760,7 @@
 	                        ),
 	                        _react2.default.createElement(
 	                            'th',
-	                            null,
+	                            { className: 'th__clickable' },
 	                            _react2.default.createElement(
 	                                'span',
 	                                { onClick: function onClick() {
@@ -21721,7 +21772,7 @@
 	                        ),
 	                        _react2.default.createElement(
 	                            'th',
-	                            null,
+	                            { className: 'th__clickable' },
 	                            _react2.default.createElement(
 	                                'span',
 	                                { onClick: function onClick() {
@@ -21971,25 +22022,29 @@
 	                'div',
 	                { className: 'center-container flex-columns' },
 	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'pane flex-rows center-top-container' },
+	                    _reactResponsive2.default,
+	                    { minDeviceWidth: configs.MIN_PC_SCREEN_WIDTH },
 	                    _react2.default.createElement(
 	                        'div',
-	                        { className: 'generator-pane' },
+	                        { className: 'pane flex-rows center-top-container' },
 	                        _react2.default.createElement(
 	                            'div',
-	                            { className: 'teams-container' },
-	                            _react2.default.createElement(TeamTable, { className: 'redteam',
-	                                teamPlayerKeys: storeState.teams[configs.RED] }),
-	                            _react2.default.createElement(TeamsPie, { columns: storeState.columns }),
-	                            _react2.default.createElement(TeamTable, { className: 'blueteam',
-	                                teamPlayerKeys: storeState.teams[configs.BLUE] })
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'power-pie-controller' },
-	                            _react2.default.createElement(GameButton, { name: 'Build', color: 'primary', action: actions.buildTeams,
-	                                store: this.props.store })
+	                            { className: 'generator-pane' },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'teams-container' },
+	                                _react2.default.createElement(TeamTable, { className: 'redteam',
+	                                    teamPlayerKeys: storeState.teams[configs.RED] }),
+	                                _react2.default.createElement(TeamsPie, { columns: storeState.columns }),
+	                                _react2.default.createElement(TeamTable, { className: 'blueteam',
+	                                    teamPlayerKeys: storeState.teams[configs.BLUE] })
+	                            ),
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'power-pie-controller' },
+	                                _react2.default.createElement(GameButton, { name: 'Build', color: 'primary', action: actions.buildTeams,
+	                                    store: this.props.store })
+	                            )
 	                        )
 	                    )
 	                ),
@@ -22014,6 +22069,514 @@
 
 	'use strict';
 
+	var React = __webpack_require__(1);
+	var matchMedia = __webpack_require__(177);
+	var hyphenate = __webpack_require__(179);
+	var mediaQuery = __webpack_require__(180);
+	var toQuery = __webpack_require__(181);
+	var assign = __webpack_require__(4);
+
+	var defaultTypes = {
+	  component: React.PropTypes.node,
+	  query: React.PropTypes.string,
+	  values: React.PropTypes.shape(mediaQuery.matchers),
+	  children: React.PropTypes.array
+	};
+	var mediaKeys = Object.keys(mediaQuery.all);
+	var excludedQueryKeys = Object.keys(defaultTypes);
+	var excludedPropKeys = excludedQueryKeys.concat(mediaKeys);
+
+	function omit(object, keys){
+	  var newObject = assign({}, object);
+	  keys.forEach(function(key){
+	    delete newObject[key];
+	  });
+	  return newObject;
+	}
+
+	var mq = React.createClass({
+	  displayName: 'MediaQuery',
+
+	  getDefaultProps: function(){
+	    return {
+	      values: {}
+	    };
+	  },
+
+	  getInitialState: function(){
+	    return {
+	      matches: false
+	    };
+	  },
+
+	  componentWillMount: function(){
+	    this.updateQuery(this.props);
+	  },
+
+	  componentWillReceiveProps: function(props){
+	    this.updateQuery(props);
+	  },
+
+	  updateQuery: function(props){
+	    var values;
+	    if (props.query) {
+	      this.query = props.query;
+	    } else {
+	      this.query = toQuery(omit(props, excludedQueryKeys));
+	    }
+
+	    if (!this.query) {
+	      throw new Error('Invalid or missing MediaQuery!');
+	    }
+
+	    if (props.values) {
+	      values = Object.keys(props.values)
+	        .reduce(function(result, key){
+	          result[hyphenate(key)] = props.values[key];
+	          return result;
+	        }, {});
+	    }
+
+	    if (this._mql) {
+	      this._mql.removeListener(this.updateMatches);
+	    }
+
+	    this._mql = matchMedia(this.query, values);
+	    this._mql.addListener(this.updateMatches);
+	    this.updateMatches();
+	  },
+
+	  componentWillUnmount: function(){
+	    this._mql.removeListener(this.updateMatches);
+	  },
+
+	  updateMatches: function(){
+	    if (this._mql.matches === this.state.matches) {
+	      return;
+	    }
+	    this.setState({
+	      matches: this._mql.matches
+	    });
+	  },
+
+	  render: function(){
+	    if (this.state.matches === false) {
+	      return null;
+	    }
+	    var props = omit(this.props, excludedPropKeys);
+	    var hasMergeProps = Object.keys(props).length > 0;
+	    var wrapChildren = this.props.component ||
+	      React.Children.count(this.props.children) > 1 ||
+	      typeof this.props.children === 'string' ||
+	      this.props.children === undefined;
+	    if (wrapChildren) {
+	      return React.createElement(
+	        this.props.component || 'div',
+	        props,
+	        this.props.children
+	      );
+	    } else if (hasMergeProps) {
+	      return React.cloneElement(
+	        this.props.children,
+	        props
+	      );
+	    } else {
+	      return this.props.children;
+	    }
+	  }
+	});
+
+	module.exports = mq;
+
+
+/***/ },
+/* 177 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var staticMatch = __webpack_require__(178).match;
+	var dynamicMatch = typeof window !== 'undefined' ? window.matchMedia : null;
+
+	// our fake MediaQueryList
+	function Mql(query, values){
+	  var self = this;
+	  if(dynamicMatch){
+	    var mql = dynamicMatch.call(window, query);
+	    this.matches = mql.matches;
+	    this.media = mql.media;
+	    // TODO: is there a time it makes sense to remove this listener?
+	    mql.addListener(update);
+	  } else {
+	    this.matches = staticMatch(query, values);
+	    this.media = query;
+	  }
+
+	  this.addListener = addListener;
+	  this.removeListener = removeListener;
+
+	  function addListener(listener){
+	    if(mql){
+	      mql.addListener(listener);
+	    }
+	  }
+
+	  function removeListener(listener){
+	    if(mql){
+	      mql.removeListener(listener);
+	    }
+	  }
+
+	  // update ourselves!
+	  function update(evt){
+	    self.matches = evt.matches;
+	    self.media = evt.media;
+	  }
+	}
+
+	function matchMedia(query, values){
+	  return new Mql(query, values);
+	}
+
+	module.exports = matchMedia;
+
+
+/***/ },
+/* 178 */
+/***/ function(module, exports) {
+
+	/*
+	Copyright (c) 2014, Yahoo! Inc. All rights reserved.
+	Copyrights licensed under the New BSD License.
+	See the accompanying LICENSE file for terms.
+	*/
+
+	'use strict';
+
+	exports.match = matchQuery;
+	exports.parse = parseQuery;
+
+	// -----------------------------------------------------------------------------
+
+	var RE_MEDIA_QUERY     = /(?:(only|not)?\s*([^\s\(\)]+)(?:\s*and)?\s*)?(.+)?/i,
+	    RE_MQ_EXPRESSION   = /\(\s*([^\s\:\)]+)\s*(?:\:\s*([^\s\)]+))?\s*\)/,
+	    RE_MQ_FEATURE      = /^(?:(min|max)-)?(.+)/,
+	    RE_LENGTH_UNIT     = /(em|rem|px|cm|mm|in|pt|pc)?$/,
+	    RE_RESOLUTION_UNIT = /(dpi|dpcm|dppx)?$/;
+
+	function matchQuery(mediaQuery, values) {
+	    return parseQuery(mediaQuery).some(function (query) {
+	        var inverse = query.inverse;
+
+	        // Either the parsed or specified `type` is "all", or the types must be
+	        // equal for a match.
+	        var typeMatch = query.type === 'all' || values.type === query.type;
+
+	        // Quit early when `type` doesn't match, but take "not" into account.
+	        if ((typeMatch && inverse) || !(typeMatch || inverse)) {
+	            return false;
+	        }
+
+	        var expressionsMatch = query.expressions.every(function (expression) {
+	            var feature  = expression.feature,
+	                modifier = expression.modifier,
+	                expValue = expression.value,
+	                value    = values[feature];
+
+	            // Missing or falsy values don't match.
+	            if (!value) { return false; }
+
+	            switch (feature) {
+	                case 'orientation':
+	                case 'scan':
+	                    return value.toLowerCase() === expValue.toLowerCase();
+
+	                case 'width':
+	                case 'height':
+	                case 'device-width':
+	                case 'device-height':
+	                    expValue = toPx(expValue);
+	                    value    = toPx(value);
+	                    break;
+
+	                case 'resolution':
+	                    expValue = toDpi(expValue);
+	                    value    = toDpi(value);
+	                    break;
+
+	                case 'aspect-ratio':
+	                case 'device-aspect-ratio':
+	                case /* Deprecated */ 'device-pixel-ratio':
+	                    expValue = toDecimal(expValue);
+	                    value    = toDecimal(value);
+	                    break;
+
+	                case 'grid':
+	                case 'color':
+	                case 'color-index':
+	                case 'monochrome':
+	                    expValue = parseInt(expValue, 10) || 1;
+	                    value    = parseInt(value, 10) || 0;
+	                    break;
+	            }
+
+	            switch (modifier) {
+	                case 'min': return value >= expValue;
+	                case 'max': return value <= expValue;
+	                default   : return value === expValue;
+	            }
+	        });
+
+	        return (expressionsMatch && !inverse) || (!expressionsMatch && inverse);
+	    });
+	}
+
+	function parseQuery(mediaQuery) {
+	    return mediaQuery.split(',').map(function (query) {
+	        query = query.trim();
+
+	        var captures    = query.match(RE_MEDIA_QUERY),
+	            modifier    = captures[1],
+	            type        = captures[2],
+	            expressions = captures[3] || '',
+	            parsed      = {};
+
+	        parsed.inverse = !!modifier && modifier.toLowerCase() === 'not';
+	        parsed.type    = type ? type.toLowerCase() : 'all';
+
+	        // Split expressions into a list.
+	        expressions = expressions.match(/\([^\)]+\)/g) || [];
+
+	        parsed.expressions = expressions.map(function (expression) {
+	            var captures = expression.match(RE_MQ_EXPRESSION),
+	                feature  = captures[1].toLowerCase().match(RE_MQ_FEATURE);
+
+	            return {
+	                modifier: feature[1],
+	                feature : feature[2],
+	                value   : captures[2]
+	            };
+	        });
+
+	        return parsed;
+	    });
+	}
+
+	// -- Utilities ----------------------------------------------------------------
+
+	function toDecimal(ratio) {
+	    var decimal = Number(ratio),
+	        numbers;
+
+	    if (!decimal) {
+	        numbers = ratio.match(/^(\d+)\s*\/\s*(\d+)$/);
+	        decimal = numbers[1] / numbers[2];
+	    }
+
+	    return decimal;
+	}
+
+	function toDpi(resolution) {
+	    var value = parseFloat(resolution),
+	        units = String(resolution).match(RE_RESOLUTION_UNIT)[1];
+
+	    switch (units) {
+	        case 'dpcm': return value / 2.54;
+	        case 'dppx': return value * 96;
+	        default    : return value;
+	    }
+	}
+
+	function toPx(length) {
+	    var value = parseFloat(length),
+	        units = String(length).match(RE_LENGTH_UNIT)[1];
+
+	    switch (units) {
+	        case 'em' : return value * 16;
+	        case 'rem': return value * 16;
+	        case 'cm' : return value * 96 / 2.54;
+	        case 'mm' : return value * 96 / 2.54 / 10;
+	        case 'in' : return value * 96;
+	        case 'pt' : return value * 72;
+	        case 'pc' : return value * 72 / 12;
+	        default   : return value;
+	    }
+	}
+
+
+/***/ },
+/* 179 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	var uppercasePattern = /[A-Z]/g;
+	var msPattern = /^ms-/;
+
+	function hyphenateStyleName(string) {
+	    return string
+	        .replace(uppercasePattern, '-$&')
+	        .toLowerCase()
+	        .replace(msPattern, '-ms-');
+	}
+
+	module.exports = hyphenateStyleName;
+
+
+/***/ },
+/* 180 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var PropTypes = __webpack_require__(1).PropTypes;
+	var assign = __webpack_require__(4);
+
+	var stringOrNumber = PropTypes.oneOfType([
+	  PropTypes.string,
+	  PropTypes.number
+	]);
+
+	// properties that match media queries
+	var matchers = {
+	  orientation: PropTypes.oneOf([
+	    'portrait',
+	    'landscape'
+	  ]),
+
+	  scan: PropTypes.oneOf([
+	    'progressive',
+	    'interlace'
+	  ]),
+
+	  aspectRatio: PropTypes.string,
+	  deviceAspectRatio: PropTypes.string,
+
+	  height: stringOrNumber,
+	  deviceHeight: stringOrNumber,
+
+	  width: stringOrNumber,
+	  deviceWidth: stringOrNumber,
+
+	  color: PropTypes.bool,
+
+	  colorIndex: PropTypes.bool,
+
+	  monochrome: PropTypes.bool,
+	  resolution: stringOrNumber
+	};
+
+	// media features
+	var features = {
+	  minAspectRatio: PropTypes.string,
+	  maxAspectRatio: PropTypes.string,
+	  minDeviceAspectRatio: PropTypes.string,
+	  maxDeviceAspectRatio: PropTypes.string,
+
+	  minHeight: stringOrNumber,
+	  maxHeight: stringOrNumber,
+	  minDeviceHeight: stringOrNumber,
+	  maxDeviceHeight: stringOrNumber,
+
+	  minWidth: stringOrNumber,
+	  maxWidth: stringOrNumber,
+	  minDeviceWidth: stringOrNumber,
+	  maxDeviceWidth: stringOrNumber,
+
+	  minColor: PropTypes.number,
+	  maxColor: PropTypes.number,
+
+	  minColorIndex: PropTypes.number,
+	  maxColorIndex: PropTypes.number,
+
+	  minMonochrome: PropTypes.number,
+	  maxMonochrome: PropTypes.number,
+
+	  minResolution: stringOrNumber,
+	  maxResolution: stringOrNumber
+	};
+
+	assign(features, matchers);
+
+	// media types
+	var types = {
+	  all: PropTypes.bool,
+	  grid: PropTypes.bool,
+	  aural: PropTypes.bool,
+	  braille: PropTypes.bool,
+	  handheld: PropTypes.bool,
+	  print: PropTypes.bool,
+	  projection: PropTypes.bool,
+	  screen: PropTypes.bool,
+	  tty: PropTypes.bool,
+	  tv: PropTypes.bool,
+	  embossed: PropTypes.bool
+	};
+
+	var all = {};
+	assign(all, types);
+	assign(all, features);
+
+	// add the type property
+	assign(matchers, { type: Object.keys(types) });
+
+	module.exports = {
+	  all: all,
+	  types: types,
+	  matchers: matchers,
+	  features: features
+	};
+
+
+/***/ },
+/* 181 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var hyphenate = __webpack_require__(179);
+	var mq = __webpack_require__(180);
+
+	function negate(cond) {
+	  return 'not ' + cond;
+	}
+
+	function keyVal(k, v) {
+	  var realKey = hyphenate(k);
+
+	  // px shorthand
+	  if (typeof v === 'number') {
+	    v = v+'px';
+	  }
+	  if (v === true) {
+	    return k;
+	  }
+	  if (v === false) {
+	    return negate(k);
+	  }
+	  return '('+realKey+': '+v+')';
+	}
+
+	function join(conds) {
+	  return conds.join(' and ');
+	}
+
+	module.exports = function(obj){
+	  var rules = [];
+	  Object.keys(mq.all).forEach(function(k){
+	    var v = obj[k];
+	    if (v != null) {
+	      rules.push(keyVal(k, v));
+	    }
+	  });
+	  return join(rules);
+	};
+
+
+/***/ },
+/* 182 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
@@ -22027,7 +22590,7 @@
 	exports.buildTeams = buildTeams;
 	exports.setActiveGame = setActiveGame;
 
-	var _reduxActionTypes = __webpack_require__(177);
+	var _reduxActionTypes = __webpack_require__(183);
 
 	var actionTypes = _interopRequireWildcard(_reduxActionTypes);
 
@@ -22095,7 +22658,7 @@
 	}
 
 /***/ },
-/* 177 */
+/* 183 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22118,10 +22681,10 @@
 	var ORDERBY_GAME = exports.ORDERBY_GAME = "ORDERBY_GAME";
 
 /***/ },
-/* 178 */
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var babelHelpers = __webpack_require__(179);
+	var babelHelpers = __webpack_require__(185);
 	/**
 	 * MUI React button module
 	 * @module react/button
@@ -22137,11 +22700,11 @@
 
 	var _react2 = babelHelpers.interopRequireDefault(_react);
 
-	var _jqLite = __webpack_require__(180);
+	var _jqLite = __webpack_require__(186);
 
 	var jqLite = babelHelpers.interopRequireWildcard(_jqLite);
 
-	var _util = __webpack_require__(181);
+	var _util = __webpack_require__(187);
 
 	var util = babelHelpers.interopRequireWildcard(_util);
 
@@ -22438,7 +23001,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 179 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (root, factory) {
@@ -22551,7 +23114,7 @@
 	});
 
 /***/ },
-/* 180 */
+/* 186 */
 /***/ function(module, exports) {
 
 	/**
@@ -22955,7 +23518,7 @@
 
 
 /***/ },
-/* 181 */
+/* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -22966,8 +23529,8 @@
 	'use strict';
 
 
-	var config = __webpack_require__(182),
-	    jqLite = __webpack_require__(180),
+	var config = __webpack_require__(188),
+	    jqLite = __webpack_require__(186),
 	    nodeInsertedCallbacks = [],
 	    scrollLock = 0,
 	    scrollLockCls = 'mui-body--scroll-lock',
@@ -23223,7 +23786,7 @@
 
 
 /***/ },
-/* 182 */
+/* 188 */
 /***/ function(module, exports) {
 
 	/**
@@ -23239,7 +23802,7 @@
 
 
 /***/ },
-/* 183 */
+/* 189 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -23259,9 +23822,10 @@
 	var SUMMARY_GAME = exports.SUMMARY_GAME = "SUMMARY";
 	var GAME_LIST_MIN = exports.GAME_LIST_MIN = 13;
 	var GAME_LIST_EXPANDED = exports.GAME_LIST_EXPANDED = false;
+	var MIN_PC_SCREEN_WIDTH = exports.MIN_PC_SCREEN_WIDTH = 1024;
 
 /***/ },
-/* 184 */
+/* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23277,25 +23841,27 @@
 	exports.getTeamBalance = getTeamBalance;
 	exports.generatePowerPie = generatePowerPie;
 	exports.refreshPowerPie = refreshPowerPie;
+	exports.orderByRatio = orderByRatio;
+	exports.orderByGrade = orderByGrade;
 	exports.orderByNumber = orderByNumber;
 	exports.extractPlayersLineData = extractPlayersLineData;
 	exports.calcPlayerGrade = calcPlayerGrade;
 	exports.extractPlayersLineDataRatio = extractPlayersLineDataRatio;
 	exports.calcPlayerRatio = calcPlayerRatio;
 
-	var _constants = __webpack_require__(183);
+	var _constants = __webpack_require__(189);
 
 	var Configs = _interopRequireWildcard(_constants);
 
-	var _globals = __webpack_require__(185);
+	var _globals = __webpack_require__(191);
 
 	var Globals = _interopRequireWildcard(_globals);
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	/**
-	* Created by Carlos on 28/07/2016.
-	*/
+	 * Created by Carlos on 28/07/2016.
+	 */
 	function getRatio(player) {
 	    if (player.deaths + player.kills == 0) return 0;
 	    return Math.round(player.kills / (player.deaths + player.kills) * 100) / 100;
@@ -23517,8 +24083,8 @@
 	        },
 	        data: {
 	            colors: {
-	                red: '#F44336',
-	                blue: '#3891A6'
+	                red: '#424242',
+	                blue: '#a5c04d'
 	            },
 	            columns: columns,
 	            type: 'pie'
@@ -23530,6 +24096,14 @@
 	    if (Globals.powerPie) {
 	        Globals.powerPie.load({ columns: columns });
 	    }
+	}
+
+	function orderByRatio(a, b) {
+	    return a.ratio - b.ratio;
+	}
+
+	function orderByGrade(a, b) {
+	    return a.grade - b.grade;
 	}
 
 	function orderByNumber(a, b) {
@@ -23667,7 +24241,7 @@
 	}
 
 /***/ },
-/* 185 */
+/* 191 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -23682,7 +24256,7 @@
 	var powerPie = exports.powerPie = undefined;
 
 /***/ },
-/* 186 */
+/* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23697,7 +24271,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reduxActions = __webpack_require__(176);
+	var _reduxActions = __webpack_require__(182);
 
 	var actions = _interopRequireWildcard(_reduxActions);
 
@@ -23775,7 +24349,7 @@
 	exports.default = AbdToggleSwitch;
 
 /***/ },
-/* 187 */
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23790,11 +24364,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reduxActions = __webpack_require__(176);
+	var _reduxActions = __webpack_require__(182);
 
 	var actions = _interopRequireWildcard(_reduxActions);
 
-	var _functions = __webpack_require__(184);
+	var _functions = __webpack_require__(190);
 
 	var functions = _interopRequireWildcard(_functions);
 
@@ -23966,7 +24540,7 @@
 	                        ),
 	                        _react2.default.createElement(
 	                            'th',
-	                            null,
+	                            { className: 'th__clickable' },
 	                            _react2.default.createElement(
 	                                'span',
 	                                { onClick: function onClick() {
@@ -23977,7 +24551,7 @@
 	                        ),
 	                        _react2.default.createElement(
 	                            'th',
-	                            null,
+	                            { className: 'th__clickable' },
 	                            _react2.default.createElement(
 	                                'span',
 	                                { onClick: function onClick() {
@@ -23988,7 +24562,7 @@
 	                        ),
 	                        _react2.default.createElement(
 	                            'th',
-	                            null,
+	                            { className: 'th__clickable' },
 	                            _react2.default.createElement(
 	                                'span',
 	                                { onClick: function onClick() {
@@ -24103,7 +24677,7 @@
 	exports.default = Game;
 
 /***/ },
-/* 188 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -24111,27 +24685,27 @@
 	exports.__esModule = true;
 	exports.compose = exports.applyMiddleware = exports.bindActionCreators = exports.combineReducers = exports.createStore = undefined;
 
-	var _createStore = __webpack_require__(189);
+	var _createStore = __webpack_require__(195);
 
 	var _createStore2 = _interopRequireDefault(_createStore);
 
-	var _combineReducers = __webpack_require__(197);
+	var _combineReducers = __webpack_require__(203);
 
 	var _combineReducers2 = _interopRequireDefault(_combineReducers);
 
-	var _bindActionCreators = __webpack_require__(199);
+	var _bindActionCreators = __webpack_require__(205);
 
 	var _bindActionCreators2 = _interopRequireDefault(_bindActionCreators);
 
-	var _applyMiddleware = __webpack_require__(200);
+	var _applyMiddleware = __webpack_require__(206);
 
 	var _applyMiddleware2 = _interopRequireDefault(_applyMiddleware);
 
-	var _compose = __webpack_require__(201);
+	var _compose = __webpack_require__(207);
 
 	var _compose2 = _interopRequireDefault(_compose);
 
-	var _warning = __webpack_require__(198);
+	var _warning = __webpack_require__(204);
 
 	var _warning2 = _interopRequireDefault(_warning);
 
@@ -24155,7 +24729,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 189 */
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24164,11 +24738,11 @@
 	exports.ActionTypes = undefined;
 	exports["default"] = createStore;
 
-	var _isPlainObject = __webpack_require__(190);
+	var _isPlainObject = __webpack_require__(196);
 
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-	var _symbolObservable = __webpack_require__(195);
+	var _symbolObservable = __webpack_require__(201);
 
 	var _symbolObservable2 = _interopRequireDefault(_symbolObservable);
 
@@ -24422,12 +24996,12 @@
 	}
 
 /***/ },
-/* 190 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getPrototype = __webpack_require__(191),
-	    isHostObject = __webpack_require__(193),
-	    isObjectLike = __webpack_require__(194);
+	var getPrototype = __webpack_require__(197),
+	    isHostObject = __webpack_require__(199),
+	    isObjectLike = __webpack_require__(200);
 
 	/** `Object#toString` result references. */
 	var objectTag = '[object Object]';
@@ -24497,10 +25071,10 @@
 
 
 /***/ },
-/* 191 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var overArg = __webpack_require__(192);
+	var overArg = __webpack_require__(198);
 
 	/** Built-in value references. */
 	var getPrototype = overArg(Object.getPrototypeOf, Object);
@@ -24509,7 +25083,7 @@
 
 
 /***/ },
-/* 192 */
+/* 198 */
 /***/ function(module, exports) {
 
 	/**
@@ -24530,7 +25104,7 @@
 
 
 /***/ },
-/* 193 */
+/* 199 */
 /***/ function(module, exports) {
 
 	/**
@@ -24556,7 +25130,7 @@
 
 
 /***/ },
-/* 194 */
+/* 200 */
 /***/ function(module, exports) {
 
 	/**
@@ -24591,18 +25165,18 @@
 
 
 /***/ },
-/* 195 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/* global window */
 	'use strict';
 
-	module.exports = __webpack_require__(196)(global || window || this);
+	module.exports = __webpack_require__(202)(global || window || this);
 
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 196 */
+/* 202 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24627,7 +25201,7 @@
 
 
 /***/ },
-/* 197 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -24635,13 +25209,13 @@
 	exports.__esModule = true;
 	exports["default"] = combineReducers;
 
-	var _createStore = __webpack_require__(189);
+	var _createStore = __webpack_require__(195);
 
-	var _isPlainObject = __webpack_require__(190);
+	var _isPlainObject = __webpack_require__(196);
 
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-	var _warning = __webpack_require__(198);
+	var _warning = __webpack_require__(204);
 
 	var _warning2 = _interopRequireDefault(_warning);
 
@@ -24760,7 +25334,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 198 */
+/* 204 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24790,7 +25364,7 @@
 	}
 
 /***/ },
-/* 199 */
+/* 205 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24846,7 +25420,7 @@
 	}
 
 /***/ },
-/* 200 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24857,7 +25431,7 @@
 
 	exports["default"] = applyMiddleware;
 
-	var _compose = __webpack_require__(201);
+	var _compose = __webpack_require__(207);
 
 	var _compose2 = _interopRequireDefault(_compose);
 
@@ -24909,7 +25483,7 @@
 	}
 
 /***/ },
-/* 201 */
+/* 207 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -24954,7 +25528,7 @@
 	}
 
 /***/ },
-/* 202 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24964,15 +25538,15 @@
 	});
 	exports.urtApp = urtApp;
 
-	var _reduxActionTypes = __webpack_require__(177);
+	var _reduxActionTypes = __webpack_require__(183);
 
 	var actionTypes = _interopRequireWildcard(_reduxActionTypes);
 
-	var _constants = __webpack_require__(183);
+	var _constants = __webpack_require__(189);
 
 	var Configs = _interopRequireWildcard(_constants);
 
-	var _functions = __webpack_require__(184);
+	var _functions = __webpack_require__(190);
 
 	var functions = _interopRequireWildcard(_functions);
 
@@ -25022,7 +25596,7 @@
 	        state.summary.playersCount = Object.keys(summaryGame.players).length;
 	        state.activeGame = Configs.SUMMARY_GAME;
 	        state.summaryOrderField = "grade";
-	        state.summaryOrderDesc = false;
+	        state.summaryOrderDesc = true;
 	        state.gameOrderField = "score";
 	        state.gameOrderDesc = true;
 
@@ -25034,6 +25608,8 @@
 	        var playersColumnsOverGames = functions.extractPlayersLineDataRatio(action.data.games);
 	        var playersTotalRatios = functions.calcPlayerRatio(playersColumnsOverGames);
 
+	        //TODO testing with array
+	        state._players = [];
 	        //transform the crud players list to form stored in the redux store
 	        var _iteratorNormalCompletion = true;
 	        var _didIteratorError = false;
@@ -25048,7 +25624,9 @@
 	                state.players[player.name].ratio = playersTotalRatios[player.name];
 	                state.players[player.name].grade = playersTotalGrades[player.name];
 	                //Set players that are excluded from calculations
-	                state.players[player.name]["active"] = !Configs.EXCLUDED_PLAYERS.includes(player.name);
+	                state.players[player.name].active = !Configs.EXCLUDED_PLAYERS.includes(player.name);
+	                //TODO move everything to the array below and remove the object above
+	                state._players.push(state.players[player.name]);
 	            }
 
 	            //build teams initial balance
@@ -25184,7 +25762,7 @@
 	}
 
 /***/ },
-/* 203 */
+/* 209 */
 /***/ function(module, exports) {
 
 	'use strict';

@@ -10,3 +10,4 @@ export const EXCLUDED_PLAYERS = "OHAD,Shalom,ameer,Bonev,mesh,danNa,[ACE],MaorTh
 export const SUMMARY_GAME = "SUMMARY";
 export const GAME_LIST_MIN = 13;
 export const GAME_LIST_EXPANDED = false;
+export const MIN_PC_SCREEN_WIDTH = 1024;

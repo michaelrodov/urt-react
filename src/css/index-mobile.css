@@ -45,10 +45,10 @@
 /******/
 
 .background-cover {
-    background: url(../img/cod-1920x1200-1.jpg) no-repeat top center fixed;
+    background: url(../img/cod-1920x1200-1.jpg) no-repeat top center cover;
     background-size: cover;
-    background-color: #d4d2d2;
-    background-blend-mode: darken;
+    background-color: #909090;
+    background-blend-mode: screen;
 }
 
 
@@ -87,19 +87,6 @@ table {
     justify-content: flex-end;
 }
 
-.titlebar {
-    background-color: #e8e8e8; /*page background*/
-    color: #7a7a7a;
-    font-size: 2em;
-    font-weight: 300;
-    line-height: 100px;
-    height: 100px;
-    width: 1024px;
-
-    display: flex;
-    flex-flow: row;
-    justify-content: flex-start;
-}
 
 .md-headline {
     line-height: 100px;
@@ -169,7 +156,6 @@ table {
     justify-content: center;
     display: flex;
     flex-flow: row;
-    padding: 10px;
 }
 
 .team {
@@ -213,6 +199,7 @@ table {
 .details-pane {
     width: 700px;
     margin-bottom: 30px;
+    font-size: 30px;
 }
 
 .details-pane-summary {
@@ -265,20 +252,19 @@ td, th {
 
 .game-grid .bit > span {
     font-weight: lighter;
-    font-size: small;
+    font-size: 20px;
 }
 
 .game-grid .bit > span:first-child{
     font-weight: bold;
 }
-.th__clickable {
-    cursor: pointer !important;
-}
+
 .players-table th {
+    cursor: pointer !important;
     color: #424242;
     padding: 5px 10px 0 10px;
     font-weight: bold;
-    font-size: large;
+    font-size: 30px;
 }
 
 .players-table tr {
@@ -290,23 +276,6 @@ td, th {
     padding: 5px 10px;
 }
 
-td.name > div:first-child {
-    font-weight: bold;
-    font-size: large;
-}
-td.toggle {
-    width: 100px;
-}
-.md-subheader {
-    margin-top: 50px;
-    margin-right: 0 !important;
-    padding: 10px;
-    vertical-align: middle;
-    height: 40px;
-    line-height: 40px;
-    font-size: 25px;
-    background-color: #F3F3F3 !important;
-}
 
 /****** PLAYERS LIST **********/
 .left-side-buttons {
@@ -329,19 +298,16 @@ td.toggle {
 
 .player-name {
     font-weight: bold;
-    font-size: 16px;
-    /*white-space: nowrap;*/
-    /*text-overflow: ellipsis;*/
-    width: 350px;
-    /*overflow: hidden;*/
+    font-size: 30px;
 }
 .player-name-games {
-    font-size: 12px;
+    font-size: 20px;
     color:grey;
 }
 
 .playersColumn {
-    width: 350px;
+    width: 300px;
+    text-overflow: ellipsis;
 }
 
 .weapons-col {
@@ -381,28 +347,6 @@ td.toggle {
 
 .icon-spinner9:before {
     content: "\e900";
-}
-
-/****** FOOTER **************/
-#footer {
-    min-height: 30px;
-    min-width: 1024px;
-    background-color: #F1F1F1; /*page background*/
-    display: inline-block;
-    font-size: 2em;
-    font-weight: 300;
-    color: #7a7a7a;
-    line-height: 59px;
-}
-
-/*animations*/
-@keyframes fadein {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
 }
 
 /* generals */

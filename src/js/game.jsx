@@ -70,9 +70,9 @@ class PlayersGrid extends React.Component {
                 <thead>
                 <tr>
                     <th className="game__player-name"><span>Name</span></th>
-                    <th><span onClick={()=>{this.__setSort("deaths", orderDesc)}}>Deaths</span></th>
-                    <th><span onClick={()=>{this.__setSort("kills", orderDesc)}}>Kills</span></th>
-                    <th><span onClick={()=>{this.__setSort("score", orderDesc)}}>Score</span></th>
+                    <th className="th__clickable"><span onClick={()=>{this.__setSort("deaths", orderDesc)}}>Deaths</span></th>
+                    <th className="th__clickable"><span onClick={()=>{this.__setSort("kills", orderDesc)}}>Kills</span></th>
+                    <th className="th__clickable"><span onClick={()=>{this.__setSort("score", orderDesc)}}>Score</span></th>
                     <th className="weapons-col"><span>Weapons</span></th>
                 </tr>
                 </thead>
