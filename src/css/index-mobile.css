@@ -3,7 +3,9 @@
     from {opacity: 0;}
     to {opacity: 1;}
 }
-
+#leftmain, #rightmain {
+    visibility: hidden;
+}
 .fadein{
     opacity: 0;
     animation-name: fadein;
@@ -45,10 +47,7 @@
 /******/
 
 .background-cover {
-    background: url(../img/cod-1920x1200-1.jpg) no-repeat top center cover;
-    background-size: cover;
-    background-color: #909090;
-    background-blend-mode: screen;
+    background-color: #ffffff;
 }
 
 
@@ -68,14 +67,6 @@ table {
     background-color: rgba(248, 248, 248, 0.85);
     border-radius: 5px;
     margin-bottom: 10px;
-}
-
-#main {
-    display: flex;
-    justify-content: space-between;
-    flex: 1;
-    flex-flow: row;
-    padding-top: 30px;
 }
 
 /**************************TOP BAR*/
@@ -123,7 +114,6 @@ table {
     width: 100%;
     border: 1px solid white;
     box-shadow: -1px 0px 60px 0px rgba(255, 255, 255, 0.75), 1px 0 60px 0px rgba(255, 255, 255, 0.75);
-    background-color: rgba(248, 248, 248, 0.85);
     margin: 30px 0;
 }
 
@@ -197,7 +187,6 @@ table {
 
 /****** PLAYERS PANE *******/
 .details-pane {
-    width: 700px;
     margin-bottom: 30px;
     font-size: 30px;
 }
