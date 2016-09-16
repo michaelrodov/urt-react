@@ -330,10 +330,7 @@ td.toggle {
 .player-name {
     font-weight: bold;
     font-size: 16px;
-    /*white-space: nowrap;*/
-    /*text-overflow: ellipsis;*/
     width: 350px;
-    /*overflow: hidden;*/
 }
 .player-name-games {
     font-size: 12px;
@@ -346,15 +343,10 @@ td.toggle {
 
 .weapons-col {
     width: 300px;
-    min-width: 300px;
-    max-width: 300px;
 }
 
 .game__player-name {
     width: 150px;
-    min-width: 150px;
-    max-width: 150px;
-    text-overflow: ellipsis;
 }
 
 
@@ -416,6 +408,7 @@ td.toggle {
     flex-flow: row;
 }
 
+/*
 .sorted-header-asc:after {
     content: no-close-quote;
     width: 0;
@@ -432,3 +425,4 @@ td.toggle {
     border-right: 15px solid transparent;
     border-top: 15px solid black;
 }
+*/

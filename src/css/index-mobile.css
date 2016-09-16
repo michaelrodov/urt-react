@@ -360,6 +360,7 @@ td, th {
     flex-flow: row;
 }
 
+/*
 .sorted-header-asc:after {
     content: no-close-quote;
     width: 0;
@@ -375,4 +376,4 @@ td, th {
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
     border-top: 15px solid black;
-}
+}*/
