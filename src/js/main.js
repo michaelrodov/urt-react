@@ -8,6 +8,10 @@ import {createStore} from 'redux';
 import {urtApp} from './reduxReducers';
 import {initState} from './reduxActions';
 import {xhttp} from 'xhttp';
+import AOS from 'aos';
+
+/*Animate On Scroll library init*/
+AOS.init();
 
 xhttp({
     url: "DATA/games.json",
@@ -18,6 +22,7 @@ xhttp({
     method: 'GET'},
     (data, xhr) => {
         console.log("Data loaded. Loaded " + Object.keys(data.games).length + " games.");
+
 
         let reduxStore = createStore(urtApp);
         reduxStore.dispatch(initState(data));
