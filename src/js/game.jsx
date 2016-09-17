@@ -55,6 +55,9 @@ class PlayersGrid extends React.Component {
                         {currentPlayer.kills}
                     </td>
                     <td>
+                        {functions.getRatio(currentPlayer)}
+                    </td>
+                    <td>
                         {currentPlayer.score}
                     </td>
                     <td className="weapons-col">
@@ -72,6 +75,7 @@ class PlayersGrid extends React.Component {
                     <th className="game__player-name"><span>Name</span></th>
                     <th className="th__clickable"><span onClick={()=>{this.__setSort("deaths", orderDesc)}}>Deaths</span></th>
                     <th className="th__clickable"><span onClick={()=>{this.__setSort("kills", orderDesc)}}>Kills</span></th>
+                    <th className="th__clickable"><span title="Kills / (Kills + Deaths)" onClick={()=>{this.__setSort("ratio", orderDesc)}}>Ratio</span></th>
                     <th className="th__clickable"><span onClick={()=>{this.__setSort("score", orderDesc)}}>Score</span></th>
                     <th className="weapons-col"><span>Weapons</span></th>
                 </tr>

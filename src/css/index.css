@@ -1,3 +1,6 @@
+@import 'https://fonts.googleapis.com/css?family=Righteous';
+@import 'https://fonts.googleapis.com/css?family=Stardos+Stencil';
+
 /*fade in animation*/
 @keyframes fadein {
     from {opacity: 0;}
@@ -72,46 +75,22 @@ table {
 
 #main {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     flex: 1;
     flex-flow: row;
     padding-top: 30px;
 }
 
-/**************************TOP BAR*/
-#topbar {
-    height: 100px;
-    width: 1024px;
-    display: flex;
-    flex-flow: row;
-    justify-content: flex-end;
+.title {
+    margin: 20px;
+    z-index: -1;
+    position: fixed;
+    left: 0;
+    font-size: 30px;
+    letter-spacing: normal;
+    font-family:  'Stardos Stencil', cursive;
 }
 
-.titlebar {
-    background-color: #e8e8e8; /*page background*/
-    color: #7a7a7a;
-    font-size: 2em;
-    font-weight: 300;
-    line-height: 100px;
-    height: 100px;
-    width: 1024px;
-
-    display: flex;
-    flex-flow: row;
-    justify-content: flex-start;
-}
-
-.md-headline {
-    line-height: 100px;
-}
-
-#logo > img {
-    height: 100px;
-    width: 130px;
-    position: relative;
-    top: 6px;
-    right: 2px;
-}
 
 /******* CENTRAL STRUCTURE *******/
 .center-container {
@@ -375,27 +354,6 @@ td.toggle {
     content: "\e900";
 }
 
-/****** FOOTER **************/
-#footer {
-    min-height: 30px;
-    min-width: 1024px;
-    background-color: #F1F1F1; /*page background*/
-    display: inline-block;
-    font-size: 2em;
-    font-weight: 300;
-    color: #7a7a7a;
-    line-height: 59px;
-}
-
-/*animations*/
-@keyframes fadein {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
 
 /* generals */
 .flex-columns {
@@ -426,3 +384,17 @@ td.toggle {
     border-top: 15px solid black;
 }
 */
+
+/*effects*/
+.inset-text-effect {
+    display: inline-block;
+    box-sizing: content-box;
+    border: none;
+    text-align: center;
+    text-transform: normal;
+    text-overflow: clip;
+    white-space: pre;
+    color: #888888;
+    text-shadow: 1px 1px 0 rgba(255,255,255,0.7) , -1px -1px 1px rgba(0,0,0,0.7) ;
+}
+.inset-text-effect::selection { background: #5af; color: #fff; text-shadow: none; }
