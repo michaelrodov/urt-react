@@ -45,7 +45,7 @@ class GamesSummary extends React.Component {
 
     __getSortHeaderStyle(headerName, currentSortHeaderName, isDesc) {
         if (headerName == currentSortHeaderName) {
-            return "sorted-header" + ((isDesc) ? "-desc" : "-asc");
+            return ((isDesc) ? "desc" : "asc");
         } else {
             return "";
         }
@@ -106,7 +106,6 @@ class GamesSummary extends React.Component {
                 </tr>
             );
         }
-        // playerGridLines.sort(functions.orderByNumber);
 
         return (
             <table className={this.props.className}>
@@ -121,16 +120,13 @@ class GamesSummary extends React.Component {
                         <span>Name</span>
                     </th>
                     <th className="th__clickable">
-                        <span onClick={()=> {
-                            this.__setSort("ratio", orderDesc)
-                        }}
+                        <span onClick={()=> {this.__setSort("ratio", orderDesc)}}
                               className={this.__getSortHeaderStyle("ratio", orderColumn, orderDesc)}>Ratio
                         </span>
+
                     </th>
                     <th className="th__clickable">
-                        <span onClick={()=> {
-                            this.__setSort("grade", orderDesc)
-                        }}
+                        <span onClick={()=> {this.__setSort("grade", orderDesc)}}
                               className={this.__getSortHeaderStyle("grade", orderColumn, orderDesc)}>Grade
                         </span>
                     </th>

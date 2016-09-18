@@ -213,6 +213,7 @@ td, th {
     border: hidden;
     text-align: left;
     cursor: default;
+    position: relative;
 }
 
 .excluded {
@@ -250,9 +251,7 @@ td, th {
 .game-grid .bit > span:first-child{
     font-weight: bold;
 }
-.th__clickable {
-    cursor: pointer !important;
-}
+
 .players-table th {
     color: #424242;
     padding: 5px 10px 0 10px;
@@ -366,24 +365,32 @@ td.toggle {
     flex-flow: row;
 }
 
-/*
-.sorted-header-asc:after {
+.th__clickable {
+    cursor: pointer !important;
+}
+.th__clickable.clicked {
+    background-color: #809e2f;
+    transition: background-color 2s ease-in-out;
+}
+.th__clickable > span.asc:after {
+    position: absolute;
     content: no-close-quote;
     width: 0;
     height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-bottom: 15px solid black;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid black;
 }
-.sorted-header-desc:after {
+.th__clickable > span.desc:after {
+    position: absolute;
     content: no-close-quote;
     width: 0;
     height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-top: 15px solid black;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid black;
 }
-*/
+
 
 /*effects*/
 .inset-text-effect {
