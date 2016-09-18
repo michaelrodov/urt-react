@@ -31,7 +31,14 @@ class PlayersGrid extends React.Component {
         return blocksStruct;
     }
 
-    __setSort(column, desc){
+    __getSortHeaderStyle(headerName, currentSortHeaderName, isDesc) {
+        if (headerName == currentSortHeaderName) {
+            return ((isDesc) ? "desc" : "asc");
+        } else {
+            return "";
+        }
+    }
+    __setSort(column, desc) {
         this.props.store.dispatch(actions.setOrderByGame(column, desc));
     }
 
@@ -44,7 +51,7 @@ class PlayersGrid extends React.Component {
         for (let key of Object.keys(this.props.players)) {
             let currentPlayer = this.props.players[key];
             playerGridLines.push(
-                <tr key={currentPlayer.name+":"+currentPlayer[orderColumn]+":"+orderDesc}>
+                <tr key={currentPlayer.name + ":" + currentPlayer[orderColumn] + ":" + orderDesc}>
                     <td className="game__player-name">
                         {currentPlayer.name}
                     </td>
@@ -65,7 +72,7 @@ class PlayersGrid extends React.Component {
                     </td>
                 </tr>
             );
-        playerGridLines.sort(functions.orderByNumber);
+            playerGridLines.sort(functions.orderByNumber);
         }
 
         return (
@@ -73,16 +80,33 @@ class PlayersGrid extends React.Component {
                 <thead>
                 <tr>
                     <th className="game__player-name"><span>Name</span></th>
-                    <th className="th__clickable"><span onClick={()=>{this.__setSort("deaths", orderDesc)}}>Deaths</span></th>
-                    <th className="th__clickable"><span onClick={()=>{this.__setSort("kills", orderDesc)}}>Kills</span></th>
-                    <th className="th__clickable"><span title="Kills / (Kills + Deaths)" onClick={()=>{this.__setSort("ratio", orderDesc)}}>Ratio</span></th>
-                    <th className="th__clickable"><span onClick={()=>{this.__setSort("score", orderDesc)}}>Score</span></th>
+                    <th className="th__clickable">
+                        <span onClick={()=> {this.__setSort("deaths", orderDesc)}}
+                              className={this.__getSortHeaderStyle("deaths", orderColumn, orderDesc)}
+                        >Deaths</span>
+                    </th>
+                    <th className="th__clickable">
+                        <span onClick={()=> {this.__setSort("kills", orderDesc)}}
+                              className={this.__getSortHeaderStyle("kills", orderColumn, orderDesc)}
+                        >Kills</span>
+                    </th>
+                    <th className="th__clickable">
+                        <span title="Kills / (Kills + Deaths)"
+                              onClick={()=> {this.__setSort("ratio", orderDesc)}}
+                              className={this.__getSortHeaderStyle("ratio", orderColumn, orderDesc)}
+                        >Ratio</span>
+                    </th>
+                    <th className="th__clickable">
+                        <span onClick={()=> {this.__setSort("score", orderDesc)}}
+                              className={this.__getSortHeaderStyle("score", orderColumn, orderDesc)}
+                        >Score</span>
+                    </th>
                     <th className="weapons-col"><span>Weapons</span></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td colSpan={5}>
+                    <td colSpan={6}>
                         <div className="mui-divider"></div>
                     </td>
                 </tr>
