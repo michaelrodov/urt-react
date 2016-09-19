@@ -62,7 +62,7 @@ class PlayersGrid extends React.Component {
                         {currentPlayer.kills}
                     </td>
                     <td>
-                        {functions.getRatio(currentPlayer)}
+                        {2*functions.getRatio(currentPlayer)}
                     </td>
                     <td>
                         {currentPlayer.score}
@@ -72,8 +72,8 @@ class PlayersGrid extends React.Component {
                     </td>
                 </tr>
             );
-            playerGridLines.sort(functions.orderByNumber);
         }
+        playerGridLines.sort(functions.orderByNumber);
 
         return (
             <table className="players-table">
@@ -90,11 +90,8 @@ class PlayersGrid extends React.Component {
                               className={this.__getSortHeaderStyle("kills", orderColumn, orderDesc)}
                         >Kills</span>
                     </th>
-                    <th className="th__clickable">
-                        <span title="Kills / (Kills + Deaths)"
-                              onClick={()=> {this.__setSort("ratio", orderDesc)}}
-                              className={this.__getSortHeaderStyle("ratio", orderColumn, orderDesc)}
-                        >Ratio</span>
+                    <th>
+                        <span title="Kills / (Kills + Deaths)">Ratio</span>
                     </th>
                     <th className="th__clickable">
                         <span onClick={()=> {this.__setSort("score", orderDesc)}}
