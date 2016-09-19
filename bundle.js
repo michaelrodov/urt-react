@@ -24480,7 +24480,7 @@
 	                        _react2.default.createElement(
 	                            'td',
 	                            null,
-	                            functions.getRatio(currentPlayer)
+	                            2 * functions.getRatio(currentPlayer)
 	                        ),
 	                        _react2.default.createElement(
 	                            'td',
@@ -24493,7 +24493,6 @@
 	                            this.__getBlocks(currentPlayer.weapons)
 	                        )
 	                    ));
-	                    playerGridLines.sort(functions.orderByNumber);
 	                }
 	            } catch (err) {
 	                _didIteratorError2 = true;
@@ -24509,6 +24508,8 @@
 	                    }
 	                }
 	            }
+
+	            playerGridLines.sort(functions.orderByNumber);
 
 	            return _react2.default.createElement(
 	                'table',
@@ -24556,15 +24557,10 @@
 	                        ),
 	                        _react2.default.createElement(
 	                            'th',
-	                            { className: 'th__clickable' },
+	                            null,
 	                            _react2.default.createElement(
 	                                'span',
-	                                { title: 'Kills / (Kills + Deaths)',
-	                                    onClick: function onClick() {
-	                                        _this2.__setSort("ratio", orderDesc);
-	                                    },
-	                                    className: this.__getSortHeaderStyle("ratio", orderColumn, orderDesc)
-	                                },
+	                                { title: 'Kills / (Kills + Deaths)' },
 	                                'Ratio'
 	                            )
 	                        ),
