@@ -149,6 +149,32 @@ export function generatePowerPie(columns) {
     });
 }
 
+export function generateBarChart(columns) {
+    return c3.generate({
+        bindto: '#power-pie-container',
+        pie: {
+            expand: true,
+            label: {
+                format: function (value, ratio, id) {
+                    return d3.round(value, 1);
+                }
+            }
+        },
+        size: {
+            width: 200,
+            height: 200
+        },
+        data: {
+            colors: {
+                red: '#424242',
+                blue: '#a5c04d'
+            },
+            columns: columns,
+            type: 'pie'
+        }
+    });
+}
+
 export function refreshPowerPie(columns) {
     if (Globals.powerPie) {
         Globals.powerPie.load({columns: columns});

@@ -113,10 +113,7 @@ class PlayersGrid extends React.Component {
     }
 }
 
-export
-default
-class Game extends React
-    .Component {
+export default class Game extends React.Component {
     constructor(props) {
         super(props);
     }

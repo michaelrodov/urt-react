@@ -191,7 +191,6 @@ class GameDetails extends React.Component {
     render() {
         let storeState = this.props.store.getState();
 
-        console.log("GameDetails render." + this);
         let summaryGrid = (storeState.activeGame == configs.SUMMARY_GAME) ?
             (<GamesSummary store={this.props.store}
                            className="players-table fadein"/>) :
