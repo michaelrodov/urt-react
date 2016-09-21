@@ -1,11 +1,14 @@
-@import 'https://fonts.googleapis.com/css?family=Stardos+Stencil';
-
 /*fade in animation*/
 @keyframes fadein {
     from {opacity: 0;}
     to {opacity: 1;}
 }
-
+.title{
+    visibility: hidden;
+}
+#leftmain, #rightmain {
+    visibility: hidden;
+}
 .fadein{
     opacity: 0;
     animation-name: fadein;
@@ -47,9 +50,7 @@
 /******/
 
 .background-cover {
-    background-size: cover;
-    background: #d4d2d2 url(../img/cod-1920x1200-1-min.jpg) no-repeat fixed top center;
-    background-blend-mode: darken;
+    background-color: #ffffff;
 }
 
 
@@ -71,24 +72,27 @@ table {
     margin-bottom: 10px;
 }
 
-#main {
+/**************************TOP BAR*/
+#topbar {
+    height: 100px;
+    width: 1024px;
     display: flex;
-    justify-content: center;
-    flex: 1;
     flex-flow: row;
-    padding-top: 30px;
+    justify-content: flex-end;
 }
 
-.title {
-    margin: 20px;
-    z-index: -1;
-    position: fixed;
-    left: 70px;
-    font-size: 30px;
-    letter-spacing: normal;
-    font-family:  'Stardos Stencil', cursive;
+
+.md-headline {
+    line-height: 100px;
 }
 
+#logo > img {
+    height: 100px;
+    width: 130px;
+    position: relative;
+    top: 6px;
+    right: 2px;
+}
 
 /******* CENTRAL STRUCTURE *******/
 .center-container {
@@ -113,7 +117,6 @@ table {
     width: 100%;
     border: 1px solid white;
     box-shadow: -1px 0px 60px 0px rgba(255, 255, 255, 0.75), 1px 0 60px 0px rgba(255, 255, 255, 0.75);
-    background-color: rgba(248, 248, 248, 0.85);
     margin: 30px 0;
 }
 
@@ -146,7 +149,6 @@ table {
     justify-content: center;
     display: flex;
     flex-flow: row;
-    padding: 10px;
 }
 
 .team {
@@ -188,8 +190,8 @@ table {
 
 /****** PLAYERS PANE *******/
 .details-pane {
-    width: 700px;
     margin-bottom: 30px;
+    font-size: 30px;
 }
 
 .details-pane-summary {
@@ -211,7 +213,6 @@ td, th {
     border: hidden;
     text-align: left;
     cursor: default;
-    position: relative;
 }
 
 .excluded {
@@ -243,7 +244,7 @@ td, th {
 
 .game-grid .bit > span {
     font-weight: lighter;
-    font-size: small;
+    font-size: 20px;
 }
 
 .game-grid .bit > span:first-child{
@@ -251,10 +252,11 @@ td, th {
 }
 
 .players-table th {
+    cursor: pointer !important;
     color: #424242;
     padding: 5px 10px 0 10px;
     font-weight: bold;
-    font-size: large;
+    font-size: 30px;
 }
 
 .players-table tr {
@@ -266,23 +268,6 @@ td, th {
     padding: 5px 10px;
 }
 
-td.name > div:first-child {
-    font-weight: bold;
-    font-size: large;
-}
-td.toggle {
-    width: 100px;
-}
-.md-subheader {
-    margin-top: 50px;
-    margin-right: 0 !important;
-    padding: 10px;
-    vertical-align: middle;
-    height: 40px;
-    line-height: 40px;
-    font-size: 25px;
-    background-color: #F3F3F3 !important;
-}
 
 /****** PLAYERS LIST **********/
 .left-side-buttons {
@@ -305,24 +290,29 @@ td.toggle {
 
 .player-name {
     font-weight: bold;
-    font-size: 16px;
-    width: 350px;
+    font-size: 30px;
 }
 .player-name-games {
-    font-size: 12px;
+    font-size: 20px;
     color:grey;
 }
 
 .playersColumn {
-    width: 350px;
+    width: 300px;
+    text-overflow: ellipsis;
 }
 
 .weapons-col {
     width: 300px;
+    min-width: 300px;
+    max-width: 300px;
 }
 
 .game__player-name {
     width: 150px;
+    min-width: 150px;
+    max-width: 150px;
+    text-overflow: ellipsis;
 }
 
 
@@ -351,7 +341,6 @@ td.toggle {
     content: "\e900";
 }
 
-
 /* generals */
 .flex-columns {
     display: flex;
@@ -363,43 +352,20 @@ td.toggle {
     flex-flow: row;
 }
 
-.th__clickable {
-    cursor: pointer !important;
-}
-.th__clickable.clicked {
-    background-color: #809e2f;
-    transition: background-color 2s ease-in-out;
-}
-.th__clickable > span.asc:after {
-    position: absolute;
+/*
+.sorted-header-asc:after {
     content: no-close-quote;
     width: 0;
     height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-bottom: 5px solid black;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid black;
 }
-.th__clickable > span.desc:after {
-    position: absolute;
+.sorted-header-desc:after {
     content: no-close-quote;
     width: 0;
     height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid black;
-}
-
-
-/*effects*/
-.inset-text-effect {
-    display: inline-block;
-    box-sizing: content-box;
-    border: none;
-    text-align: center;
-    text-transform: normal;
-    text-overflow: clip;
-    white-space: pre;
-    color: #888888;
-    text-shadow: 1px 1px 0 rgba(255,255,255,0.7) , -1px -1px 1px rgba(0,0,0,0.7) ;
-}
-.inset-text-effect::selection { background: #5af; color: #fff; text-shadow: none; }
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 15px solid black;
+}*/

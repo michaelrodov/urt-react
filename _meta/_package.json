@@ -2,11 +2,9 @@
   "name": "urt-react",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "bundle.js",
   "scripts": {
-    "start": "webpack-dev-server --hot --progress --colors",
-    "build": "webpack --progress --colors"
-  },
+    "start": "webpack-dev-server --hot --progress --colors"},
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/michaelrodov/urt-react.git"
@@ -39,6 +37,6 @@
     "react-router": "^2.7.0"
   },
   "script": {
-    "build": "webpack --debug"
+    "build": "webpack --debug --progress --colors"
   }
 }

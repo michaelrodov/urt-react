@@ -1,4 +1,5 @@
 import React from 'react';
+import MediaQuery from 'react-responsive';
 import * as actions from './reduxActions';
 import Button from 'muicss/lib/react/button';
 import * as configs from './constants';
@@ -42,10 +43,10 @@ class GamesSummary extends React.Component {
         this.props.store.dispatch(actions.setOrderBySummary(column, desc));
     }
 
-    __getSortHeaderStyle(headerName, currentSortHeaderName, isDesc){
-        if(headerName == currentSortHeaderName){
-            return "sorted-header" + ((isDesc) ? "-desc" : "-asc");
-        }else{
+    __getSortHeaderStyle(headerName, currentSortHeaderName, isDesc) {
+        if (headerName == currentSortHeaderName) {
+            return ((isDesc) ? "desc" : "asc");
+        } else {
             return "";
         }
     }
@@ -57,23 +58,42 @@ class GamesSummary extends React.Component {
     }
 
     render() {
+        let _players;
         let playerGridLines = [];
         let storeState = this.props.store.getState();
         let orderColumn = storeState.summaryOrderField;
         let orderDesc = storeState.summaryOrderDesc;
 
-        for (let playerKey in storeState.players) {
-            let currentPlayer = storeState.players[playerKey];
+        if (orderColumn == "grade") {
+            _players = storeState._players.sort(functions.orderByGrade);
+        } else if (orderColumn == "ratio") {
+            _players = storeState._players.sort(functions.orderByRatio);
+        }
 
+        if (orderDesc) {
+            _players.reverse();
+        }
+
+        let inx = 0;
+
+        // for (let playerKey in storeState.players) {
+        for (let currentPlayer of _players) {
+            //let currentPlayer = storeState.players[playerKey];
+
+            ++inx;
             playerGridLines.push(
                 <tr key={currentPlayer.name + ":" + currentPlayer[orderColumn] + ":" + orderDesc}
                     className={(!currentPlayer.active) ? "excluded" : ""}>
-                    <td>
-                        <AbdToggleSwitch active={currentPlayer.active} store={this.props.store} player={currentPlayer}/>
-                    </td>
+                    <MediaQuery minDeviceWidth={configs.MIN_PC_SCREEN_WIDTH}>
+                        <td className="toggle">
+                            <AbdToggleSwitch active={currentPlayer.active}
+                                             store={this.props.store}
+                                             player={currentPlayer}/>
+                        </td>
+                    </MediaQuery>
                     <td>
                         <div className="playersColumn">
-                            <div className="player-name">{currentPlayer.name}</div>
+                            <div className="player-name">{inx + ". " + currentPlayer.name}</div>
                             <div className="player-name-games">{currentPlayer.gamesPlayed} games played</div>
                         </div>
                     </td>
@@ -85,20 +105,27 @@ class GamesSummary extends React.Component {
                     </td>
                 </tr>
             );
-            playerGridLines.sort(functions.orderByNumber);
         }
+
         return (
             <table className={this.props.className}>
                 <thead>
                 <tr>
-                    <th><span>Team</span></th>
-                    <th className="playersColumn"><span>Name</span></th>
-                    <th>
+                    <MediaQuery minDeviceWidth={configs.MIN_PC_SCREEN_WIDTH}>
+                        <th>
+                            <span>Team</span>
+                        </th>
+                    </MediaQuery>
+                    <th className="playersColumn">
+                        <span>Name</span>
+                    </th>
+                    <th className="th__clickable">
                         <span onClick={()=> {this.__setSort("ratio", orderDesc)}}
                               className={this.__getSortHeaderStyle("ratio", orderColumn, orderDesc)}>Ratio
                         </span>
+
                     </th>
-                    <th>
+                    <th className="th__clickable">
                         <span onClick={()=> {this.__setSort("grade", orderDesc)}}
                               className={this.__getSortHeaderStyle("grade", orderColumn, orderDesc)}>Grade
                         </span>
@@ -164,7 +191,6 @@ class GameDetails extends React.Component {
     render() {
         let storeState = this.props.store.getState();
 
-        console.log("GameDetails render." + this);
         let summaryGrid = (storeState.activeGame == configs.SUMMARY_GAME) ?
             (<GamesSummary store={this.props.store}
                            className="players-table fadein"/>) :
@@ -271,25 +297,26 @@ class ContentPage extends React.Component {
 
     render() {
         let storeState = this.state.storeState;
-        return (//this.props.store.getState().teams[configs.RED][0]
+        return (
             <div className="center-container flex-columns">
-                <div className="pane flex-rows center-top-container">
-                    <div className="generator-pane">
-                        <div className="teams-container">
-                            <TeamTable className="redteam"
-                                       teamPlayerKeys={storeState.teams[configs.RED]}/>
-                            <TeamsPie columns={storeState.columns}/>
-                            <TeamTable className="blueteam"
-                                       teamPlayerKeys={storeState.teams[configs.BLUE]}/>
-                        </div>
-                        <div className="power-pie-controller">
-                            <GameButton name="Build" color="primary" action={actions.buildTeams}
-                                        store={this.props.store}/>
-                            {/*<GameButton name="Copy"/>*/}
+                <MediaQuery minDeviceWidth={configs.MIN_PC_SCREEN_WIDTH}>
+                    <div className="pane flex-rows center-top-container">
+                        <div className="generator-pane">
+                            <div className="teams-container">
+                                <TeamTable className="redteam"
+                                           teamPlayerKeys={storeState.teams[configs.RED]}/>
+                                <TeamsPie columns={storeState.columns}/>
+                                <TeamTable className="blueteam"
+                                           teamPlayerKeys={storeState.teams[configs.BLUE]}/>
+                            </div>
+                            <div className="power-pie-controller">
+                                <GameButton name="Build" color="primary" action={actions.buildTeams}
+                                            store={this.props.store}/>
+                                {/*<GameButton name="Copy"/>*/}
+                            </div>
                         </div>
                     </div>
-
-                </div>
+                </MediaQuery>
                 <div className="flex-rows center-bottom-container">
                     <GameList store={this.props.store}/>
                     <GameDetails store={this.props.store}/>

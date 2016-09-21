@@ -1,4 +1,4 @@
-    /**
+/**
  * Created by Carlos on 28/07/2016.
  */
 import * as Configs from './constants';
@@ -140,8 +140,34 @@ export function generatePowerPie(columns) {
         },
         data: {
             colors: {
-                red: '#F44336',
-                blue: '#3891A6'
+                red: '#424242',
+                blue: '#a5c04d'
+            },
+            columns: columns,
+            type: 'pie'
+        }
+    });
+}
+
+export function generateBarChart(columns) {
+    return c3.generate({
+        bindto: '#power-pie-container',
+        pie: {
+            expand: true,
+            label: {
+                format: function (value, ratio, id) {
+                    return d3.round(value, 1);
+                }
+            }
+        },
+        size: {
+            width: 200,
+            height: 200
+        },
+        data: {
+            colors: {
+                red: '#424242',
+                blue: '#a5c04d'
             },
             columns: columns,
             type: 'pie'
@@ -155,34 +181,42 @@ export function refreshPowerPie(columns) {
     }
 }
 
+export function orderByRatio(a, b) {
+    return a.ratio - b.ratio;
+}
+
+export function orderByGrade(a, b) {
+    return a.grade - b.grade;
+}
+
 export function orderByNumber(a, b) {
     let keyArrayA = a.key.split(":");
     let keyArrayB = b.key.split(":");
     //keyarray[2] = sort desc order
     //true desc - false asc
-    if (keyArrayA[2]==='true') {
+    if (keyArrayA[2] === 'true') {
         return keyArrayA[1] - keyArrayB[1];
     } else {
         return keyArrayB[1] - keyArrayA[1];
     }
 }
-    
+
 export function extractPlayersLineData(games) {
     var playersLineData = [];
-    var columnsArry =[];
+    var columnsArry = [];
     var gameKeys = Object.keys(games);
-    gameKeys.sort(function(a, b){
+    gameKeys.sort(function (a, b) {
         a = parseInt(a.substring(0, a.indexOf("_")));
         b = parseInt(b.substring(0, b.indexOf("_")));
-        if(a > b) return -1;
-        if(a < b) return 1;
+        if (a > b) return -1;
+        if (a < b) return 1;
         return 0;
     });
     for (var i = 0; i < gameKeys.length; i++) {
         var playerKeys = Object.keys(games[gameKeys[i]].players);
         for (var j = 0; j < playerKeys.length; j++) {
-            if(!playersLineData[playerKeys[j]]){
-                playersLineData[playerKeys[j]]=[playerKeys[j]];
+            if (!playersLineData[playerKeys[j]]) {
+                playersLineData[playerKeys[j]] = [playerKeys[j]];
             }
             playersLineData[playerKeys[j]].push(
                 getPlayersGradePerGame(
@@ -201,7 +235,7 @@ export function extractPlayersLineData(games) {
 
 export function calcPlayerGrade(data) {
     var dataV = data;
-    var playerGrades = {};    
+    var playerGrades = {};
     for (var i = 1; i < dataV.length; i++) {
         var playerData = dataV[i];
         var playerName = playerData[0];
@@ -222,31 +256,31 @@ export function calcPlayerGrade(data) {
         }
         if (weightSum > 0) {
             var tempGrade = gradeSum / weightSum;
-            playerGrade = Math.round(tempGrade*100)/100;
+            playerGrade = Math.round(tempGrade * 100) / 100;
         } else {
             playerGrade = 10;
-        }        
-        playerGrades[playerName]=playerGrade;
+        }
+        playerGrades[playerName] = playerGrade;
     }
     return playerGrades;
 }
-    
+
 export function extractPlayersLineDataRatio(games) {
     var playersLineData = [];
-    var columnsArry =[];
+    var columnsArry = [];
     var gameKeys = Object.keys(games);
-    gameKeys.sort(function(a, b){
+    gameKeys.sort(function (a, b) {
         a = parseInt(a.substring(0, a.indexOf("_")));
         b = parseInt(b.substring(0, b.indexOf("_")));
-        if(a > b) return -1;
-        if(a < b) return 1;
+        if (a > b) return -1;
+        if (a < b) return 1;
         return 0;
     });
     for (var i = 0; i < gameKeys.length; i++) {
         var playerKeys = Object.keys(games[gameKeys[i]].players);
         for (var j = 0; j < playerKeys.length; j++) {
-            if(!playersLineData[playerKeys[j]]){
-                playersLineData[playerKeys[j]]=[playerKeys[j]];
+            if (!playersLineData[playerKeys[j]]) {
+                playersLineData[playerKeys[j]] = [playerKeys[j]];
             }
             playersLineData[playerKeys[j]].push(
                 getRatio(
@@ -265,7 +299,7 @@ export function extractPlayersLineDataRatio(games) {
 
 export function calcPlayerRatio(data) {
     var dataV = data;
-    var playerRatios = {};    
+    var playerRatios = {};
     for (var i = 1; i < dataV.length; i++) {
         var playerData = dataV[i];
         var playerName = playerData[0];
@@ -286,11 +320,11 @@ export function calcPlayerRatio(data) {
         }
         if (weightSum > 0) {
             var tempRatio = ratioSum / weightSum;
-            playerRatio = Math.round(tempRatio*200)/100;
+            playerRatio = Math.round(tempRatio * 200) / 100;
         } else {
             playerRatio = 1;
-        }        
-        playerRatios[playerName]=playerRatio;
+        }
+        playerRatios[playerName] = playerRatio;
     }
     return playerRatios;
 }

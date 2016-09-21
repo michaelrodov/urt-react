@@ -45,7 +45,7 @@ export function urtApp(state = initialState, action) {
         state.summary.playersCount = Object.keys(summaryGame.players).length;
         state.activeGame = Configs.SUMMARY_GAME;
         state.summaryOrderField = "grade";
-        state.summaryOrderDesc = false;
+        state.summaryOrderDesc = true;
         state.gameOrderField = "score";
         state.gameOrderDesc = true;
         
@@ -57,7 +57,8 @@ export function urtApp(state = initialState, action) {
         var playersColumnsOverGames = functions.extractPlayersLineDataRatio(action.data.games);
         var playersTotalRatios = functions.calcPlayerRatio(playersColumnsOverGames);
 
-        
+        //TODO testing with array
+        state._players = [];
         //transform the crud players list to form stored in the redux store
         for (let playerName of Object.keys(summaryGame.players)) {
             let player = summaryGame.players[playerName];
@@ -65,7 +66,9 @@ export function urtApp(state = initialState, action) {
             state.players[player.name].ratio = playersTotalRatios[player.name];
             state.players[player.name].grade = playersTotalGrades[player.name];
             //Set players that are excluded from calculations
-            state.players[player.name]["active"] = (!Configs.EXCLUDED_PLAYERS.includes(player.name));
+            state.players[player.name].active = (!Configs.EXCLUDED_PLAYERS.includes(player.name));
+            //TODO move everything to the array below and remove the object above
+            state._players.push(state.players[player.name]);
         }
 
         //build teams initial balance
