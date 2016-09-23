@@ -47,8 +47,9 @@
 /******/
 
 .background-cover {
+    background: url(../img/cod-1920x1200-1.jpg) no-repeat top center fixed;
     background-size: cover;
-    background: #d4d2d2 url(../img/cod-1920x1200-1-min.jpg) no-repeat fixed top center;
+    background-color: #d4d2d2;
     background-blend-mode: darken;
 }
 
@@ -234,7 +235,7 @@ td, th {
 
 .game-grid .bit {
     padding: 5px;
-    margin: 0 2px;
+    margin: 2px;
     border-radius: 5px;
     background-color: #4C5B5C;
     color: white;
@@ -318,7 +319,12 @@ td.toggle {
 }
 
 .weapons-col {
-    width: 300px;
+    max-width: 300px;
+    display: inline-flex;
+    flex-dirEction: row;
+    flex-wrap: wrap;
+    max-height: 35px;
+    overflow: hidden;
 }
 
 .game__player-name {
@@ -396,7 +402,6 @@ td.toggle {
     box-sizing: content-box;
     border: none;
     text-align: center;
-    text-transform: normal;
     text-overflow: clip;
     white-space: pre;
     color: #888888;
