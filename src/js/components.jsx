@@ -178,16 +178,29 @@ class GameList extends React.Component {
         return (
             <div className="games-pane">
                 {gamesButtonsList}
-                <GameButton key="more-games" name="..." store={this.props.store}/>
+                {/*<GameButton key="more-games" name="..." store={this.props.store} color="grey"/>*/}
             </div>)
     }
 }
 
 class GameDetails extends React.Component {
+
     constructor(props) {
         super(props);
+        this.state = {
+            fadeinClass: "fadein"
+        };
     }
 
+    componentWillUpdate(){
+        console.warn("GameDetails > componentWillUpdate");
+
+    }
+    /*Invoked when a component is receiving new props. This method is not called for the initial render*/
+    componentWillReceiveProps(){
+        console.warn("GameDetails < componentWillReceiveProps");
+        this.setState({fadeinClass: "fadein"})
+    }
     render() {
         let storeState = this.props.store.getState();
 
@@ -199,7 +212,7 @@ class GameDetails extends React.Component {
                    className="game-grid fadein"/>);
 
         return (
-            <div className="details-pane">
+            <div className={"details-pane " + this.state.fadeinClass}>
                 {summaryGrid}
             </div>)
     }
@@ -298,7 +311,7 @@ class ContentPage extends React.Component {
     render() {
         let storeState = this.state.storeState;
         return (
-            <div className="center-container flex-columns">
+            <center-container className="center-container flex-columns">
                 <MediaQuery minDeviceWidth={configs.MIN_PC_SCREEN_WIDTH}>
                     <div className="pane flex-rows center-top-container">
                         <div className="generator-pane">
@@ -321,7 +334,7 @@ class ContentPage extends React.Component {
                     <GameList store={this.props.store}/>
                     <GameDetails store={this.props.store}/>
                 </div>
-            </div>);
+            </center-container>);
     }
 }
 

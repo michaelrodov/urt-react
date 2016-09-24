@@ -14,6 +14,13 @@
     animation-fill-mode: forwards;
 }
 
+.icon--flag-white:after{
+    content: "\2690";
+}
+.icon--flag-black:after{
+    content: "\2691";
+}
+
 .start-invisible {
     opacity: 0;
 }
@@ -99,8 +106,6 @@ table {
     justify-content: center;
     align-content: center;
     align-items: flex-start;
-    /*min-width: 800px;*/
-    /*max-width: 1024px;*/
 }
 
 .center-top-container {
@@ -239,12 +244,34 @@ td, th {
     border-radius: 5px;
     background-color: #4C5B5C;
     color: white;
+    height: 25px;
+    line-height: 13px;
+    text-align: center;
 
+}
+
+.game-grid .bit.thin-wrap{
+    font-size: 7px;
+    font-weight: lighter;
+    background-color: transparent;
+    border-color: #4C5B5C;
+    color: #4C5B5C;
+
+}
+
+.game-grid .bit.thin-wrap .icon{
+   font-size: 14px;
+    color: #809e2f;
+}
+
+.game-grid .bit.thin-wrap > span:not(.icon) {
+    font-size: 8px;
 }
 
 .game-grid .bit > span {
     font-weight: lighter;
     font-size: small;
+    margin: 0 1px;
 }
 
 .game-grid .bit > span:first-child{
@@ -256,11 +283,6 @@ td, th {
     padding: 5px 10px 0 10px;
     font-weight: bold;
     font-size: large;
-}
-
-.players-table tr {
-    border-bottom: 1px solid #494c50;
-
 }
 
 .players-table td {
@@ -321,7 +343,7 @@ td.toggle {
 .weapons-col {
     max-width: 300px;
     display: inline-flex;
-    flex-dirEction: row;
+    flex-direction: row;
     flex-wrap: wrap;
     max-height: 35px;
     overflow: hidden;
@@ -395,6 +417,10 @@ td.toggle {
     border-top: 5px solid black;
 }
 
+.symbol {
+    font-family: Significante;
+
+}
 
 /*effects*/
 .inset-text-effect {

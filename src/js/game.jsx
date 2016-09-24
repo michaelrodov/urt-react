@@ -17,6 +17,14 @@ class PlayersGrid extends React.Component {
         });
     }
 
+    __getSymbolBlock(symbol, count) {
+        return (<span className="bit thin-wrap">
+                    <span className={symbol + " icon"}/>
+                    <span>x</span>
+                    <span>{count}</span>
+                </span>);
+    }
+
     __getBlocks(blocks) {
         let blocksStruct = [];
         for (let key of Object.keys(blocks)) {
@@ -38,6 +46,7 @@ class PlayersGrid extends React.Component {
             return "";
         }
     }
+
     __setSort(column, desc) {
         this.props.store.dispatch(actions.setOrderByGame(column, desc));
     }
@@ -53,7 +62,8 @@ class PlayersGrid extends React.Component {
             playerGridLines.push(
                 <tr key={currentPlayer.name + ":" + currentPlayer[orderColumn] + ":" + orderDesc}>
                     <td className="game__player-name">
-                        {currentPlayer.name}
+                        <span>{currentPlayer.name}</span>
+                        <span>{(currentPlayer.flagCaptures > 0) ? this.__getSymbolBlock("icon--flag-black", currentPlayer.flagCaptures) : ""}</span>
                     </td>
                     <td>
                         {currentPlayer.deaths}
@@ -62,7 +72,7 @@ class PlayersGrid extends React.Component {
                         {currentPlayer.kills}
                     </td>
                     <td>
-                        {2*functions.getRatio(currentPlayer)}
+                        {2 * functions.getRatio(currentPlayer)}
                     </td>
                     <td>
                         {currentPlayer.score}
@@ -81,12 +91,16 @@ class PlayersGrid extends React.Component {
                 <tr>
                     <th className="game__player-name"><span>Name</span></th>
                     <th className="th__clickable">
-                        <span onClick={()=> {this.__setSort("deaths", orderDesc)}}
+                        <span onClick={()=> {
+                            this.__setSort("deaths", orderDesc)
+                        }}
                               className={this.__getSortHeaderStyle("deaths", orderColumn, orderDesc)}
                         >Deaths</span>
                     </th>
                     <th className="th__clickable">
-                        <span onClick={()=> {this.__setSort("kills", orderDesc)}}
+                        <span onClick={()=> {
+                            this.__setSort("kills", orderDesc)
+                        }}
                               className={this.__getSortHeaderStyle("kills", orderColumn, orderDesc)}
                         >Kills</span>
                     </th>
@@ -94,7 +108,9 @@ class PlayersGrid extends React.Component {
                         <span title="Kills / (Kills + Deaths)">Ratio</span>
                     </th>
                     <th className="th__clickable">
-                        <span onClick={()=> {this.__setSort("score", orderDesc)}}
+                        <span onClick={()=> {
+                            this.__setSort("score", orderDesc)
+                        }}
                               className={this.__getSortHeaderStyle("score", orderColumn, orderDesc)}
                         >Score</span>
                     </th>
