@@ -91,7 +91,7 @@ table {
     margin: 20px;
     z-index: -1;
     position: fixed;
-    left: 70px;
+    right: 70px;
     font-size: 30px;
     letter-spacing: normal;
     font-family:  'Stardos Stencil', cursive;
