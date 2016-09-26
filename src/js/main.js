@@ -5,8 +5,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ContentPage from './components.jsx';
 import {createStore} from 'redux';
-import {urtApp} from './reduxReducers';
-import {initState} from './reduxActions';
+import {urtApp} from './ReduxReducers';
+import {initState} from './ReduxActions';
 import {xhttp} from 'xhttp';
 import AOS from 'aos';
 

@@ -1,5 +1,5 @@
 import {createStore} from 'redux';
-import urtApp from './reduxReducers';
+import urtApp from './ReduxReducers';
 import * as Configs from './constants';
 import * as functions from './functions';
  

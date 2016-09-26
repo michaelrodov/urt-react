@@ -297,7 +297,7 @@ td, th {
     color:grey;
 }
 
-.playersColumn {
+.summary__column-player {
     width: 300px;
     text-overflow: ellipsis;
 }
@@ -308,7 +308,7 @@ td, th {
     max-width: 300px;
 }
 
-.game__player-name {
+.game__column-player {
     width: 150px;
     min-width: 150px;
     max-width: 150px;

@@ -1,7 +1,7 @@
 /**
  * Created by Carlos on 12/08/2016.
  */
-import * as actionTypes from './reduxActionTypes';
+import * as actionTypes from './ReduxActionTypes';
 
 export function initState(summary) {
     return {

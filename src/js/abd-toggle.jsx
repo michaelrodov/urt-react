@@ -9,7 +9,7 @@
  */
 //TODO add CSS inline so the module would be exportable
 import React from 'react';
-import * as actions from './reduxActions';
+import * as actions from './ReduxActions';
 
 export default class AbdToggleSwitch extends React.Component {
     constructor(props) {

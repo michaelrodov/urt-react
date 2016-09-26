@@ -1,4 +1,4 @@
-import * as actionTypes from './reduxActionTypes';
+import * as actionTypes from './ReduxActionTypes';
 import * as Configs from './constants';
 import * as functions from './functions';
 

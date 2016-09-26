@@ -2,7 +2,7 @@
  * Created by Carlos on 03/09/2016.
  */
 import React from 'react';
-import * as actions from './reduxActions';
+import * as actions from './ReduxActions';
 import * as functions from './functions';
 
 
@@ -61,9 +61,10 @@ class PlayersGrid extends React.Component {
             let currentPlayer = this.props.players[key];
             playerGridLines.push(
                 <tr key={currentPlayer.name + ":" + currentPlayer[orderColumn] + ":" + orderDesc}>
-                    <td className="game__player-name">
-                        <span>{currentPlayer.name}</span>
+                    <td className="game__column-player">
+                        <span className="player-name">{currentPlayer.name}</span>
                         <span>{(currentPlayer.flagCaptures > 0) ? this.__getSymbolBlock("icon--flag-black", currentPlayer.flagCaptures) : ""}</span>
+                        <span>{(currentPlayer.flagReturns > 0) ? this.__getSymbolBlock("icon--shield-cross", currentPlayer.flagReturns) : ""}</span>
                     </td>
                     <td>
                         {currentPlayer.deaths}
@@ -89,7 +90,7 @@ class PlayersGrid extends React.Component {
             <table className="players-table">
                 <thead>
                 <tr>
-                    <th className="game__player-name"><span>Name</span></th>
+                    <th className="game__column-player"><span>Name</span></th>
                     <th className="th__clickable">
                         <span onClick={()=> {
                             this.__setSort("deaths", orderDesc)
