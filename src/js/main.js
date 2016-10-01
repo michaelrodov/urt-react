@@ -10,10 +10,12 @@ import {urtApp} from './ReduxReducers';
 import {initState} from './ReduxActions';
 import {xhttp} from 'xhttp';
 import AOS from 'aos';
+import * as Constants from './constants';
 
 /*Allow access only for Chrome/Opera/FireFox*/
-if (Browser.name.search("ie|safari") > -1) {
-    location.href = "../../not-allowed.html?browser=" + Browser.name;
+if (Browser.name.search(Constants.NOT_SUPPORTED_BROWSERS) > -1) {
+    console.info("browser: "+Browser.name);
+    location.href = "../../not-supported.html?browser=" + ((Browser.name == 'ie') ? "InternetExplorer" : Browser.name);
 }
 
 /*Animate On Scroll library init*/
