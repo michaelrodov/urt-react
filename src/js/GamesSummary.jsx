@@ -3,7 +3,7 @@ import MediaQuery from 'react-responsive';
 import * as actions from './ReduxActions';
 import * as configs from './constants';
 import * as functions from './functions';
-import AbdToggleSwitch from './abd-toggle.jsx';
+import AbdToggleSwitch from './AbdToggleSwitch.jsx';
 
 export default class GamesSummary extends React.Component {
     constructor(props) {

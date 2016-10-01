@@ -11,3 +11,4 @@ export const SUMMARY_GAME = "SUMMARY";
 export const GAME_LIST_MIN = 13;
 export const GAME_LIST_EXPANDED = false;
 export const MIN_PC_SCREEN_WIDTH = 1024;
+export const NOT_SUPPORTED_BROWSERS = "ie|safari";

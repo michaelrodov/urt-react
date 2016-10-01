@@ -6,43 +6,9 @@ import GameButton from './GameButton.jsx';
 import GameList from './GameList.jsx';
 import GameDetails from './GameDetails.jsx';
 import TeamsPie from './TeamsPie.jsx';
+import TeamsTable from './TeamsTable.jsx';
 
-
-//todo continue moving elements to separate JSXs
-class TeamTable extends React.Component {
-    constructor(props) {
-        super(props);
-
-    }
-
-    render() {
-        let playersList = this.props.teamPlayerKeys;
-
-        let teams_list = [];
-
-        for (let i = 0; i < playersList.length; i++) {
-            let redPlayer = (<td>{playersList[i]}</td>);
-
-            teams_list.push(
-                <tr key={i}>
-                    {redPlayer}
-                </tr>
-            );
-        }
-
-        return (
-            <div className={this.props.className}>
-                <table>
-                    <tbody>
-                    {teams_list}
-                    </tbody>
-                </table>
-            </div>
-        )
-    }
-}
-
-class ContentPage extends React.Component {
+export default class ContentPage extends React.Component {
     constructor(props) {
         super(props);
         this.props.store.subscribe(this._reduxStoreChanged.bind(this));
@@ -78,15 +44,15 @@ class ContentPage extends React.Component {
     render() {
         let storeState = this.state.storeState;
         return (
-            <center-container className="center-container flex-columns">
+            <content-page className="center-container flex-columns">
                 <MediaQuery minDeviceWidth={configs.MIN_PC_SCREEN_WIDTH}>
                     <div className="pane flex-rows center-top-container">
                         <div className="generator-pane">
                             <div className="teams-container">
-                                <TeamTable className="redteam"
+                                <TeamsTable className="redteam"
                                            teamPlayerKeys={storeState.teams[configs.RED]}/>
                                 <TeamsPie columns={storeState.columns}/>
-                                <TeamTable className="blueteam"
+                                <TeamsTable className="blueteam"
                                            teamPlayerKeys={storeState.teams[configs.BLUE]}/>
                             </div>
                             <div className="power-pie-controller">
@@ -101,11 +67,9 @@ class ContentPage extends React.Component {
                     <GameList store={this.props.store}/>
                     <GameDetails store={this.props.store}/>
                 </div>
-            </center-container>);
+            </content-page>);
     }
 }
-
-export default ContentPage;
 
 
 
