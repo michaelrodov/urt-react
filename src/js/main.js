@@ -1,14 +1,22 @@
 /**
  * Created by Carlos on 12/08/2016.
  */
+import Browser from 'detect-browser';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ContentPage from './components.jsx';
+import ContentPage from './ContentPage.jsx';
 import {createStore} from 'redux';
 import {urtApp} from './ReduxReducers';
 import {initState} from './ReduxActions';
 import {xhttp} from 'xhttp';
 import AOS from 'aos';
+import * as Constants from './constants';
+
+/*Allow access only for Chrome/Opera/FireFox*/
+if (Browser.name.search(Constants.NOT_SUPPORTED_BROWSERS) > -1) {
+    console.info("browser: "+Browser.name);
+    location.href = "../../not-supported.html?browser=" + ((Browser.name == 'ie') ? "InternetExplorer" : Browser.name);
+}
 
 /*Animate On Scroll library init*/
 AOS.init();

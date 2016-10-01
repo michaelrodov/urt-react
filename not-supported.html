@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your browser is not supported</title>
+    <link rel="stylesheet" href="src/css/not-supported.css" type="text/css" media="screen">
+</head>
+<body class="background-cover">
+    <main class="main container--semi-transparent safari">
+    <div>OOPS!</div>
+    <specific-browser class="upper-case">Looks like you are using
+        <span class="browser-name" id="browser"></span>
+    </specific-browser>
+    <div class="lower-case notification--secondary">for a good web experience I recommend using one of the browsers below</div>
+    <div class="container--browsers">
+        <a class="link--browser" href="https://www.google.com/chrome">
+            <img class="icons-browser" src="src/img/chrome_128x128.png">
+        </a>
+        <a class="link--browser" href="https://www.mozilla.org/en-US/firefox/new">
+            <img class="icons-browser" src="src/img/firefox_128x128.png">
+        </a>
+        <a class="link--browser" href="https://www.microsoft.com/en-us/download/details.aspx?id=48126">
+            <img class="icons-browser" src="src/img/edge_128x128.png">
+        </a>
+        <a class="link--browser" href="http://www.opera.com/download">
+            <img class="icons-browser" src="src/img/opera_128x128.png">
+        </a>
+
+    </div>
+</main>
+    <script type="application/javascript">
+    var browser = location.href.match("browser=([^&]*)")[1];
+    if (!browser) {
+        browser = "unsupported browser";
+    }
+
+    document.getElementById("browser").innerText = browser;
+</script>
+</body>
+</html>

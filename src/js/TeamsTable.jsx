@@ -1,15 +1,7 @@
 import React from 'react';
-import MediaQuery from 'react-responsive';
-import * as actions from './reduxActions';
-import * as configs from './constants';
-import GameButton from './GameButton.jsx';
-import GameList from './GameList.jsx';
-import GameDetails from './GameDetails.jsx';
-import TeamsPie from './TeamsPie.jsx';
 
 
-
-class TeamTable extends React.Component {
+export default class TeamsTable extends React.Component {
     constructor(props) {
         super(props);
 
