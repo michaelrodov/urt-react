@@ -42,6 +42,7 @@ xhttp({
 
         //slowly fadein the actual body of the screen
         document.getElementById("main").className += ' fadein';
+        document.getElementById("loader").className += ' fadeout';
     },
     (err, xhr) => {
         console.error(xhr.responseURL, xhr.status, xhr.statusText);

@@ -3,6 +3,10 @@
     from {opacity: 0;}
     to {opacity: 1;}
 }
+@keyframes fadeout {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
 .title{
     visibility: hidden;
 }
@@ -16,13 +20,39 @@
     animation-timing-function: ease-out;
     animation-fill-mode: forwards;
 }
-
+.fadeout{
+    opacity: 1;
+    animation-name: fadeout;
+    animation-duration: 300ms;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+}
 .start-invisible {
     opacity: 0;
 }
 
+@media (orientation: portrait){
+    .container {
+        top: 20%;
+    }
+    #loader{
+        zoom: 4;
+    }
+}
+
+@media (orientation: landscape){
+    .container {
+        top: 30%;
+    }
+    #loader{
+        zoom: 1;
+    }
+}
+
 #loader {
     position: fixed;
+    top:0;
+    left:0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -35,11 +65,13 @@
     border-radius: 40px;
     width: 80px;
     height: 80px;
-    top: 51%;
     position: absolute;
     background-color: white;
     box-shadow: 0 0 5px 5px white;
 }
+/*pendulum override*/
+
+
 
 /*overrid muicss*/
 .mui-btn--primary, .mui-btn--danger {
