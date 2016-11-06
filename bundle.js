@@ -23818,7 +23818,7 @@
 	var RED = exports.RED = 1;
 	var BALANCE_ITERATIONS = exports.BALANCE_ITERATIONS = 1000;
 	var TEAM_COLORS = exports.TEAM_COLORS = ['blue', 'red'];
-	var EXCLUDED_PLAYERS = exports.EXCLUDED_PLAYERS = "OHAD,Shalom,ameer,Bonev,mesh,danNa,[ACE],MaorTheDestroyer";
+	var EXCLUDED_PLAYERS = exports.EXCLUDED_PLAYERS = "OHAD,Shalom,ameer,Bonev,mesh,danNa,[ACE],MaorTheDestroyer,Dvir";
 	var SUMMARY_GAME = exports.SUMMARY_GAME = "SUMMARY";
 	var GAME_LIST_MIN = exports.GAME_LIST_MIN = 13;
 	var GAME_LIST_EXPANDED = exports.GAME_LIST_EXPANDED = false;
