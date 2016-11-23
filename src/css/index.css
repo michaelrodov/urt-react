@@ -10,6 +10,12 @@
     from {opacity: 1;}
     to {opacity: 0;}
 }
+html, body, #main   {
+    height:100%;
+}
+html, body {
+    overflow-y: hidden;
+}
 .fadein{
     opacity: 0;
     animation-name: fadein;
@@ -99,6 +105,7 @@ table {
     flex: 1;
     flex-flow: row;
     padding-top: 30px;
+    overflow-y: scroll;
 }
 
 .title {
