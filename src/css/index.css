@@ -260,15 +260,23 @@ td, th {
 }
 
 .game-grid .bit {
-    padding: 5px;
+    /*padding: 5px;*/
+    /*margin: 2px;*/
+    /*border-radius: 5px;*/
+    /*background-color: #4C5B5C;*/
+    /*color: white;*/
+    /*height: 25px;*/
+    /*line-height: 13px;*/
+    /*text-align: center;*/
+
+    padding: 3px;
     margin: 2px;
-    border-radius: 5px;
+    border-radius: 3px;
     background-color: #4C5B5C;
     color: white;
-    height: 25px;
-    line-height: 13px;
+    height: 17px;
+    line-height: 6px;
     text-align: center;
-
 }
 
 .game-grid .bit.thin-wrap{
@@ -291,13 +299,15 @@ td, th {
 
 .game-grid .bit > span {
     font-weight: lighter;
-    font-size: small;
+    font-size: 8px;
     margin: 0 1px;
 }
 
+/*
 .game-grid .bit > span:first-child{
     font-weight: bold;
 }
+*/
 
 .players-table th {
     color: #424242;
@@ -381,7 +391,7 @@ td.toggle {
     display: inline-flex;
     flex-direction: row;
     flex-wrap: wrap;
-    max-height: 35px;
+    /*max-height: 35px;*/
     overflow: hidden;
 }
 
