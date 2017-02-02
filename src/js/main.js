@@ -1,5 +1,5 @@
 /**
- * Created by Carlos on 12/08/2016.
+ * Created by Rodov on 12/08/2016.
  */
 import Browser from 'detect-browser';
 import React from 'react';
@@ -10,6 +10,8 @@ import {urtApp} from './ReduxReducers';
 import {initState} from './ReduxActions';
 import AOS from 'aos';
 import * as Constants from './constants';
+import * as functions from './functions';
+
 
 /*Allow access only for Chrome/Opera/FireFox*/
 if (Browser.name.search(Constants.NOT_SUPPORTED_BROWSERS) > -1) {
@@ -31,8 +33,8 @@ let init = {
     mode: 'cors',
     cache: 'default'
 };
-
-let requestGames = new Request("DATA/games.json", init);
+let json = functions.getQueryString("json", window.location.href);
+let requestGames = new Request("DATA/" + json, init);
 
 fetch(requestGames)
     .then((response) => {
