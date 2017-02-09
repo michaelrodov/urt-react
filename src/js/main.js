@@ -36,6 +36,10 @@ let init = {
 let json = functions.getQueryString("json", window.location.href);
 let requestGames = new Request("DATA/" + json, init);
 
+if (json == "innovid_games.log") {
+    window.Document.getElementById("clan-title").innerHTML = "Urban Terror<br>Innovid Clan";
+}
+
 fetch(requestGames)
     .then((response) => {
         if (response.status != 200) {
