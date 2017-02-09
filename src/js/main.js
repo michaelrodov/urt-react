@@ -33,11 +33,12 @@ let init = {
     mode: 'cors',
     cache: 'default'
 };
+
 let json = functions.getQueryString("json", window.location.href);
 let requestGames = new Request("DATA/" + json, init);
 
-if (json == "innovid_games.log") {
-    window.Document.getElementById("clan-title").innerHTML = "Urban Terror<br>Innovid Clan";
+if (json == "innovid_games.json") {
+    document.getElementById("clan-title").innerHTML = "Urban Terror<br>Innovid Clan";
 }
 
 fetch(requestGames)
