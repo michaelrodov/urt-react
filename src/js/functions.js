@@ -269,9 +269,9 @@ export function extractPlayersLineDataRatio(games) {
     var playersLineData = [];
     var columnsArry = [];
     var gameKeys = Object.keys(games);
-    gameKeys.sort(function (a, b) {
-        a = parseInt(a.substring(0, a.indexOf("_")));
-        b = parseInt(b.substring(0, b.indexOf("_")));
+    gameKeys.sort(function (s1, s2) {
+        let a = parseInt(s1.substring(0, s1.indexOf("_")));
+        let b = parseInt(s2.substring(0, s2.indexOf("_")));
         if (a > b) return -1;
         if (a < b) return 1;
         return 0;

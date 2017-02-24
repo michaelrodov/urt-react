@@ -181,7 +181,7 @@ table {
 }
 
 .redteam {
-    color: #832927;
+    /*color: #832927;*/
 }
 
 .redteam td {
@@ -190,7 +190,7 @@ table {
 }
 
 .blueteam {
-    color: #205662;
+    /*color: #205662;*/
 }
 .blueteam td{
     width: 150px;
