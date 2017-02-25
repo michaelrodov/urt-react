@@ -39,6 +39,9 @@ html, body {
 .icon--shield-cross:after{
     content: "\26E8";
 }
+.text-color-gold {
+    color: #876e00 !important;
+}
 .start-invisible {
     opacity: 0;
 }
