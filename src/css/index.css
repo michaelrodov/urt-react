@@ -42,6 +42,12 @@ html, body {
 .text-color-gold {
     color: #876e00 !important;
 }
+.text-color-highlighted {
+    color: #809e2f !important;
+}
+.text-color-highlighted.excluded {
+    color: #899e74 !important;
+}
 .start-invisible {
     opacity: 0;
 }
@@ -245,7 +251,7 @@ td, th {
 }
 
 .excluded {
-    color: #b1b1b1 !important;
+    color: #b1b1b1;
 }
 
 /** summary and game grids **/

@@ -4,6 +4,9 @@
 import React from 'react';
 import * as actions from './ReduxActions';
 import * as functions from './functions';
+import * as configs from './constants';
+import MediaQuery from 'react-responsive';
+
 
 
 class PlayersGrid extends React.Component {
@@ -11,17 +14,18 @@ class PlayersGrid extends React.Component {
         super(props);
     }
 
-    componentWillMount(){
+    componentWillMount() {
         let maxFlagCapturesCount = this.__getMaxValue(this.props.players, "flagCaptures");
         let maxFlagReturnsCount = this.__getMaxValue(this.props.players, "flagReturns");
         this.setState({
             maxFlagCapturesCount: maxFlagCapturesCount,
-            maxFlagReturnsCount: maxFlagReturnsCount
+            maxFlagReturnsCount: maxFlagReturnsCount,
+            hovered: ""
         });
     }
 
-    componentWillReceiveProps(nextProps){
-        if(this.props.activeGame != nextProps.activeGame) {
+    componentWillReceiveProps(nextProps) {
+        if (this.props.activeGame != nextProps.activeGame) {
             let maxFlagCapturesCount = this.__getMaxValue(nextProps.players, "flagCaptures");
             let maxFlagReturnsCount = this.__getMaxValue(nextProps.players, "flagReturns");
             this.setState({
@@ -82,6 +86,12 @@ class PlayersGrid extends React.Component {
         this.props.store.dispatch(actions.setOrderByGame(column, desc));
     }
 
+    __onHover(name) {
+        this.setState({
+            hovered: name
+        });
+    }
+
     render() {
         let playerGridLines = [];
         let store = this.props.store.getState();
@@ -93,17 +103,26 @@ class PlayersGrid extends React.Component {
             let isMaxFlagCaptures = (currentPlayer.flagCaptures === this.state.maxFlagCapturesCount);
             let isMaxFlagReturns = (currentPlayer.flagReturns === this.state.maxFlagReturnsCount);
             playerGridLines.push(
-                <tr key={currentPlayer.name + ":" + currentPlayer[orderColumn] + ":" + orderDesc}>
+                <tr key={currentPlayer.name + ":" + currentPlayer[orderColumn] + ":" + orderDesc}
+                    onMouseEnter={() => {
+                        this.__onHover(currentPlayer.name)
+                    }}
+                    onMouseLeave={() => {
+                        this.__onHover("")
+                    }}
+                    className={(currentPlayer.name == this.state.hovered) ? " text-color-highlighted " : ""}>
                     <td className="game__column-player">
                         <span className="player-name">
                             {currentPlayer.name}
                         </span>
-                        <span>
-                            {(currentPlayer.flagCaptures > 0) ? this.__getSymbolBlock("icon--flag-black", currentPlayer.flagCaptures, isMaxFlagCaptures) : ""}
-                        </span>
-                        <span>
-                            {(currentPlayer.flagReturns > 0) ? this.__getSymbolBlock("icon--shield-cross", currentPlayer.flagReturns, isMaxFlagReturns) : ""}
-                        </span>
+                        <MediaQuery minWidth={configs.MIN_PC_SCREEN_WIDTH}>
+                             <span>
+                                {(currentPlayer.flagCaptures > 0) ? this.__getSymbolBlock("icon--flag-black", currentPlayer.flagCaptures, isMaxFlagCaptures) : ""}
+                            </span>
+                            <span>
+                                {(currentPlayer.flagReturns > 0) ? this.__getSymbolBlock("icon--shield-cross", currentPlayer.flagReturns, isMaxFlagReturns) : ""}
+                            </span>
+                        </MediaQuery>
                     </td>
                     <td>
                         {currentPlayer.deaths}
@@ -190,7 +209,8 @@ export default class Game extends React.Component {
                     <span>{this.props.game.gameLength + " (" + this.props.game.gameEndReason + ")"}</span>
                 </div>
                 <div> {/*table*/}
-                    <PlayersGrid players={this.props.game.players} store={this.props.store} activeGame={this.props.store.getState().activeGame}/>
+                    <PlayersGrid players={this.props.game.players} store={this.props.store}
+                                 activeGame={this.props.store.getState().activeGame}/>
                 </div>
             </div>)
     }
