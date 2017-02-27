@@ -9,6 +9,13 @@ export default class GamesSummary extends React.Component {
     constructor(props) {
         super(props);
 
+
+    }
+
+    __onHover(name) {
+        this.setState({
+            hovered: name
+        });
     }
 
     __setSort(column, desc) {
@@ -23,9 +30,10 @@ export default class GamesSummary extends React.Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.setState({
-            orderBy: this.props.orderBy
+            orderBy: this.props.orderBy,
+            hovered: ""
         });
     }
 
@@ -55,8 +63,11 @@ export default class GamesSummary extends React.Component {
             ++inx;
             playerGridLines.push(
                 <tr key={currentPlayer.name + ":" + currentPlayer[orderColumn] + ":" + orderDesc}
-                    className={(!currentPlayer.active) ? "excluded" : ""}>
-                    <MediaQuery minDeviceWidth={configs.MIN_PC_SCREEN_WIDTH}>
+                    onMouseEnter={() => {this.__onHover(currentPlayer.name)}}
+                    onMouseLeave={() => {this.__onHover("")}}
+                    className={((!currentPlayer.active) ? " excluded " : "")
+                        + ((currentPlayer.name == this.state.hovered) ? " text-color-highlighted " : "")}>
+                    <MediaQuery minWidth={configs.MIN_PC_SCREEN_WIDTH}>
                         <td className="toggle">
                             <AbdToggleSwitch active={currentPlayer.active}
                                              store={this.props.store}
@@ -83,7 +94,7 @@ export default class GamesSummary extends React.Component {
             <table className={this.props.className}>
                 <thead>
                 <tr>
-                    <MediaQuery minDeviceWidth={configs.MIN_PC_SCREEN_WIDTH}>
+                    <MediaQuery minWidth={configs.MIN_PC_SCREEN_WIDTH}>
                         <th>
                             <span>Team</span>
                         </th>
@@ -92,13 +103,17 @@ export default class GamesSummary extends React.Component {
                         <span>Name</span>
                     </th>
                     <th className="th__clickable">
-                        <span onClick={()=> {this.__setSort("ratio", orderDesc)}}
+                        <span onClick={() => {
+                            this.__setSort("ratio", orderDesc)
+                        }}
                               className={this.__getSortHeaderStyle("ratio", orderColumn, orderDesc)}>Ratio
                         </span>
 
                     </th>
                     <th className="th__clickable">
-                        <span onClick={()=> {this.__setSort("grade", orderDesc)}}
+                        <span onClick={() => {
+                            this.__setSort("grade", orderDesc)
+                        }}
                               className={this.__getSortHeaderStyle("grade", orderColumn, orderDesc)}>Grade
                         </span>
                     </th>
