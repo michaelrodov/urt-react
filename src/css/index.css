@@ -39,6 +39,15 @@ html, body {
 .icon--shield-cross:after{
     content: "\26E8";
 }
+.text-color-gold {
+    color: #876e00 !important;
+}
+.text-color-highlighted {
+    color: #809e2f !important;
+}
+.text-color-highlighted.excluded {
+    color: #899e74 !important;
+}
 .start-invisible {
     opacity: 0;
 }
@@ -181,7 +190,7 @@ table {
 }
 
 .redteam {
-    color: #832927;
+    /*color: #832927;*/
 }
 
 .redteam td {
@@ -190,7 +199,7 @@ table {
 }
 
 .blueteam {
-    color: #205662;
+    /*color: #205662;*/
 }
 .blueteam td{
     width: 150px;
@@ -242,7 +251,7 @@ td, th {
 }
 
 .excluded {
-    color: #b1b1b1 !important;
+    color: #b1b1b1;
 }
 
 /** summary and game grids **/

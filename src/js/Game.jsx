@@ -4,11 +4,35 @@
 import React from 'react';
 import * as actions from './ReduxActions';
 import * as functions from './functions';
+import * as configs from './constants';
+import MediaQuery from 'react-responsive';
+
 
 
 class PlayersGrid extends React.Component {
     constructor(props) {
         super(props);
+    }
+
+    componentWillMount() {
+        let maxFlagCapturesCount = this.__getMaxValue(this.props.players, "flagCaptures");
+        let maxFlagReturnsCount = this.__getMaxValue(this.props.players, "flagReturns");
+        this.setState({
+            maxFlagCapturesCount: maxFlagCapturesCount,
+            maxFlagReturnsCount: maxFlagReturnsCount,
+            hovered: ""
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.activeGame != nextProps.activeGame) {
+            let maxFlagCapturesCount = this.__getMaxValue(nextProps.players, "flagCaptures");
+            let maxFlagReturnsCount = this.__getMaxValue(nextProps.players, "flagReturns");
+            this.setState({
+                maxFlagCapturesCount: maxFlagCapturesCount,
+                maxFlagReturnsCount: maxFlagReturnsCount
+            });
+        }
     }
 
     componentDidMount() {
@@ -17,9 +41,10 @@ class PlayersGrid extends React.Component {
         });
     }
 
-    __getSymbolBlock(symbol, count) {
+
+    __getSymbolBlock(symbol, count, isGold) {
         return (<span className="bit thin-wrap">
-                    <span className={symbol + " icon"}/>
+                    <span className={symbol + " icon " + ((isGold) ? "text-color-gold" : "")}/>
                     <span>x</span>
                     <span>{count}</span>
                 </span>);
@@ -39,6 +64,16 @@ class PlayersGrid extends React.Component {
         return blocksStruct;
     }
 
+    __getMaxValue(players, fieldName) {
+        let maxValue = 0;
+        for (let player of Object.entries(players)) {
+            if (maxValue < player[1][fieldName]) {
+                maxValue = player[1][fieldName];
+            }
+        }
+        return maxValue;
+    }
+
     __getSortHeaderStyle(headerName, currentSortHeaderName, isDesc) {
         if (headerName == currentSortHeaderName) {
             return ((isDesc) ? "desc" : "asc");
@@ -51,6 +86,12 @@ class PlayersGrid extends React.Component {
         this.props.store.dispatch(actions.setOrderByGame(column, desc));
     }
 
+    __onHover(name) {
+        this.setState({
+            hovered: name
+        });
+    }
+
     render() {
         let playerGridLines = [];
         let store = this.props.store.getState();
@@ -59,12 +100,29 @@ class PlayersGrid extends React.Component {
 
         for (let key of Object.keys(this.props.players)) {
             let currentPlayer = this.props.players[key];
+            let isMaxFlagCaptures = (currentPlayer.flagCaptures === this.state.maxFlagCapturesCount);
+            let isMaxFlagReturns = (currentPlayer.flagReturns === this.state.maxFlagReturnsCount);
             playerGridLines.push(
-                <tr key={currentPlayer.name + ":" + currentPlayer[orderColumn] + ":" + orderDesc}>
+                <tr key={currentPlayer.name + ":" + currentPlayer[orderColumn] + ":" + orderDesc}
+                    onMouseEnter={() => {
+                        this.__onHover(currentPlayer.name)
+                    }}
+                    onMouseLeave={() => {
+                        this.__onHover("")
+                    }}
+                    className={(currentPlayer.name == this.state.hovered) ? " text-color-highlighted " : ""}>
                     <td className="game__column-player">
-                        <span className="player-name">{currentPlayer.name}</span>
-                        <span>{(currentPlayer.flagCaptures > 0) ? this.__getSymbolBlock("icon--flag-black", currentPlayer.flagCaptures) : ""}</span>
-                        <span>{(currentPlayer.flagReturns > 0) ? this.__getSymbolBlock("icon--shield-cross", currentPlayer.flagReturns) : ""}</span>
+                        <span className="player-name">
+                            {currentPlayer.name}
+                        </span>
+                        <MediaQuery minWidth={configs.MIN_PC_SCREEN_WIDTH}>
+                             <span>
+                                {(currentPlayer.flagCaptures > 0) ? this.__getSymbolBlock("icon--flag-black", currentPlayer.flagCaptures, isMaxFlagCaptures) : ""}
+                            </span>
+                            <span>
+                                {(currentPlayer.flagReturns > 0) ? this.__getSymbolBlock("icon--shield-cross", currentPlayer.flagReturns, isMaxFlagReturns) : ""}
+                            </span>
+                        </MediaQuery>
                     </td>
                     <td>
                         {currentPlayer.deaths}
@@ -92,14 +150,14 @@ class PlayersGrid extends React.Component {
                 <tr>
                     <th className="game__column-player"><span>Name</span></th>
                     <th className="th__clickable">
-                        <span onClick={()=> {
+                        <span onClick={() => {
                             this.__setSort("deaths", orderDesc)
                         }}
                               className={this.__getSortHeaderStyle("deaths", orderColumn, orderDesc)}
                         >Deaths</span>
                     </th>
                     <th className="th__clickable">
-                        <span onClick={()=> {
+                        <span onClick={() => {
                             this.__setSort("kills", orderDesc)
                         }}
                               className={this.__getSortHeaderStyle("kills", orderColumn, orderDesc)}
@@ -109,7 +167,7 @@ class PlayersGrid extends React.Component {
                         <span title="Kills / (Kills + Deaths)">Ratio</span>
                     </th>
                     <th className="th__clickable">
-                        <span onClick={()=> {
+                        <span onClick={() => {
                             this.__setSort("score", orderDesc)
                         }}
                               className={this.__getSortHeaderStyle("score", orderColumn, orderDesc)}
@@ -151,7 +209,8 @@ export default class Game extends React.Component {
                     <span>{this.props.game.gameLength + " (" + this.props.game.gameEndReason + ")"}</span>
                 </div>
                 <div> {/*table*/}
-                    <PlayersGrid players={this.props.game.players} store={this.props.store}/>
+                    <PlayersGrid players={this.props.game.players} store={this.props.store}
+                                 activeGame={this.props.store.getState().activeGame}/>
                 </div>
             </div>)
     }

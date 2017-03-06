@@ -50,10 +50,14 @@ export default class ContentPage extends React.Component {
                         <div className="generator-pane">
                             <div className="teams-container">
                                 <TeamsTable className="redteam"
-                                           teamPlayerKeys={storeState.teams[configs.RED]}/>
+                                            hslaColor={configs.RED_HSLA}
+                                            summaryPlayers={storeState.players}
+                                            teamPlayerKeys={storeState.teams[configs.RED]}/>
                                 <TeamsPie columns={storeState.columns}/>
                                 <TeamsTable className="blueteam"
-                                           teamPlayerKeys={storeState.teams[configs.BLUE]}/>
+                                            hslaColor={configs.BLUE_HSLA}
+                                            summaryPlayers={storeState.players}
+                                            teamPlayerKeys={storeState.teams[configs.BLUE]}/>
                             </div>
                             <div className="power-pie-controller">
                                 <GameButton name="Build" color="primary" action={actions.buildTeams}
