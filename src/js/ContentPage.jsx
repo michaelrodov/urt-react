@@ -19,16 +19,16 @@ export default class ContentPage extends React.Component {
     }
 
     _reduxStoreChanged() {
-        console.log("Store changed");
+        // console.log("Store changed");
         this.setState({storeState: this.props.store.getState()});
     }
 
     componentWillMount() {
-        console.log("ContentPage componentWillMount  ." + this);
+        // console.log("ContentPage componentWillMount  ." + this);
     }
 
     componentDidMount() {
-        console.log("ContentPage componentDidMount  ..." + this);
+        // console.log("ContentPage componentDidMount  ..." + this);
 
     }
 

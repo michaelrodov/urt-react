@@ -11,6 +11,7 @@ import {initState} from './ReduxActions';
 import AOS from 'aos';
 import * as Constants from './constants';
 import * as functions from './functions';
+import ga from "./GoogleAnalytics";
 
 
 /*Allow access only for Chrome/Opera/FireFox*/
@@ -21,6 +22,7 @@ if (Browser.name.search(Constants.NOT_SUPPORTED_BROWSERS) > -1) {
 
 /*Animate On Scroll library init*/
 AOS.init();
+ga.init();
 
 //fetch the games data
 let headers = new Headers();
@@ -36,8 +38,10 @@ let init = {
 
 let json = functions.getQueryString("json", window.location.href);
 let requestGames = new Request("DATA/" + json, init);
+ga.tenant = "hpe";
 
 if (json == "innovid_games.json") {
+    ga.tenant = "innovid";
     document.getElementById("clan-title").innerHTML = "Urban Terror<br>Innovid Clan";
 }
 
