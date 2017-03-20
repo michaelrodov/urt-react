@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from 'muicss/lib/react/button';
+import ga from "./GoogleAnalytics";
 
 export default class GameButton extends React.Component {
     constructor(props) {
@@ -8,6 +9,7 @@ export default class GameButton extends React.Component {
 
     __onClick() {
         if (this.props.action) {
+            ga.report.event(ga.tenant, this.props.action.name, this.props.name, 0, false);
             this.props.store.dispatch(this.props.action(this.props.name));
         }
     }
