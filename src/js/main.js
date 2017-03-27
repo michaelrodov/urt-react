@@ -39,6 +39,7 @@ let init = {
 let json = functions.getQueryString("json", window.location.href);
 let requestGames = new Request("DATA/" + json, init);
 ga.tenant = "hpe";
+document.getElementById("clan-link").onclick = navigateToAnotherClan;
 
 if (json == "innovid_games.json") {
     ga.tenant = "innovid";
@@ -76,6 +77,14 @@ fetch(requestGames)
     .catch(err => {
         console.error("Failed to fetch games.json. " + err.status + ":" + err.statusText);
     });
+
+function navigateToAnotherClan(){
+    if(ga.tenant == "hpe"){
+        window.location = "http://urt.rodov.me";
+    }else if(ga.tenant == "innovid"){
+        window.location = "http://ut.rodov.me";
+    }
+}
 
 
 

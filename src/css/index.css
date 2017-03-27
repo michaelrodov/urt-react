@@ -125,6 +125,9 @@ table {
     font-size: 30px;
     letter-spacing: normal;
     font-family:  'Stardos Stencil', cursive;
+    display: flex;
+    flex-flow: column;
+    justify-items: flex-start;
 }
 
 
