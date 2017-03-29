@@ -4,6 +4,7 @@ import * as actions from './ReduxActions';
 import * as configs from './constants';
 import * as functions from './functions';
 import AbdToggleSwitch from './AbdToggleSwitch.jsx';
+import NewExternalPlayer from './NewExternalPlayer.jsx';
 
 export default class GamesSummary extends React.Component {
     constructor(props) {
@@ -63,10 +64,14 @@ export default class GamesSummary extends React.Component {
             ++inx;
             playerGridLines.push(
                 <tr key={currentPlayer.name + ":" + currentPlayer[orderColumn] + ":" + orderDesc}
-                    onMouseEnter={() => {this.__onHover(currentPlayer.name)}}
-                    onMouseLeave={() => {this.__onHover("")}}
+                    onMouseEnter={() => {
+                        this.__onHover(currentPlayer.name)
+                    }}
+                    onMouseLeave={() => {
+                        this.__onHover("")
+                    }}
                     className={((!currentPlayer.active) ? " excluded " : "")
-                        + ((currentPlayer.name == this.state.hovered) ? " text-color-highlighted " : "")}>
+                    + ((currentPlayer.name == this.state.hovered) ? " text-color-highlighted " : "")}>
                     <MediaQuery minWidth={configs.MIN_PC_SCREEN_WIDTH}>
                         <td className="toggle">
                             <AbdToggleSwitch active={currentPlayer.active}
@@ -91,42 +96,46 @@ export default class GamesSummary extends React.Component {
         }
 
         return (
-            <table className={this.props.className}>
-                <thead>
-                <tr>
-                    <MediaQuery minWidth={configs.MIN_PC_SCREEN_WIDTH}>
-                        <th>
-                            <span>Team</span>
+            <div>
+                <table className={this.props.className}>
+                    <thead>
+                    <tr>
+                        <MediaQuery minWidth={configs.MIN_PC_SCREEN_WIDTH}>
+                            <th>
+                                <span>Team</span>
+                            </th>
+                        </MediaQuery>
+                        <th className="summary__column-player">
+                            <span>Name</span>
                         </th>
-                    </MediaQuery>
-                    <th className="summary__column-player">
-                        <span>Name</span>
-                    </th>
-                    <th className="th__clickable">
+                        <th className="th__clickable">
                         <span onClick={() => {
                             this.__setSort("ratio", orderDesc)
                         }}
                               className={this.__getSortHeaderStyle("ratio", orderColumn, orderDesc)}>Ratio
                         </span>
 
-                    </th>
-                    <th className="th__clickable">
+                        </th>
+                        <th className="th__clickable">
                         <span onClick={() => {
                             this.__setSort("grade", orderDesc)
                         }}
                               className={this.__getSortHeaderStyle("grade", orderColumn, orderDesc)}>Grade
                         </span>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td colSpan={4}>
-                        <div className="mui-divider"></div>
-                    </td>
-                </tr>
-                {playerGridLines}
-                </tbody>
-            </table>)
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td colSpan={4}>
+                            <div className="mui-divider"></div>
+                        </td>
+                    </tr>
+                    {playerGridLines}
+                    </tbody>
+                </table>
+                {/*<NewExternalPlayer store={this.props.store}/>*/}
+            </div>
+        )
     }
 }
