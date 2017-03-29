@@ -48,7 +48,7 @@ export function urtApp(state = initialState, action) {
         state.summaryOrderDesc = true;
         state.gameOrderField = "score";
         state.gameOrderDesc = true;
-        
+
         //calcuation summary grade and ratio per player by other games grade.
         //grade
         var playersColumnsOverGames = functions.extractPlayersLineData(action.data.games);
@@ -156,6 +156,19 @@ export function urtApp(state = initialState, action) {
         return newState;
 
 
+    } else if (action.type === actionTypes.ADD_EXTERNAL_PLAYER) {
+        var newState = Object.assign({}, state);
+        let player = {};
+        player.name = action.name;
+        player.grade = action.score;
+        player.active = true;
+        newState._players.push(player);
+        return newState;
+    } else if (action.type === actionTypes.REMOVE_EXTERNAL_PLAYER) {
+        var newState = Object.assign({}, state);
+        let player = {};
+        newState._players = state._players.filter((el, inx, arr) => el.name !== this.action.name);
+        return newState;
     } else {
         return state;
     }

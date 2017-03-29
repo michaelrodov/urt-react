@@ -10,6 +10,14 @@
     from {opacity: 1;}
     to {opacity: 0;}
 }
+@keyframes grow {
+    from {width: 0;}
+    to {width: 100%;}
+}
+@keyframes shrink {
+    from {width: 100%;}
+    to {width: 0;}
+}
 html, body, #main   {
     height:100%;
 }
@@ -26,6 +34,18 @@ html, body {
 .fadeout{
     opacity: 1;
     animation-name: fadeout;
+    animation-duration: 300ms;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+}
+.form--new-player-grow{
+    animation-name: grow;
+    animation-duration: 1200ms;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+.form--new-player-shrink{
+    animation-name: shrink;
     animation-duration: 300ms;
     animation-timing-function: ease-in;
     animation-fill-mode: forwards;
@@ -429,7 +449,6 @@ td.toggle {
     content: "\e900";
 }
 
-
 /* generals */
 .flex-columns {
     display: flex;
@@ -484,3 +503,59 @@ td.toggle {
     text-shadow: 1px 1px 0 rgba(255,255,255,0.7) , -1px -1px 1px rgba(0,0,0,0.7) ;
 }
 .inset-text-effect::selection { background: #5af; color: #fff; text-shadow: none; }
+
+/*add new player external player*/
+.container--external-player {
+    position: relative;
+    width: 300px;
+    margin: 15px 0 0 15px;
+}
+/*plus button*/
+.container--external-player .button {
+    display: block;
+    position: absolute;
+    z-index: 4;
+    top: -4px;
+    left: -2px;
+    width: 50px;
+    height: 52px;
+    background: linear-gradient(rgba(253,253,253,1) 0%,rgba(255,255,255,1) 3%,rgba(252,252,252,1) 13%,rgba(228,228,228,1) 50%,rgba(221,221,221,1) 55%,rgba(208,208,208,1) 85%,rgba(205,205,205,1) 100%);
+    border: 2px solid #e8e8e8;
+    border-radius: 26px;
+    box-shadow: 0 5px 5px rgba(50, 50, 50, 0.2);
+    transition: left 0.25s ease;
+}
+
+.container--external-player .button:after {
+    content: "";
+    position: absolute;
+    width: 41px;
+    height: 40px;
+    top: 4px;
+    left: 2px;
+    box-shadow: inset 0 2px 5px 0 rgba(0, 0, 0, 0.08);
+    background: #e3e3e3;
+    border-radius: 20px;
+}
+
+.container--external-player .inputs{
+    position: absolute;
+    display: inline-flex;
+    justify-content: flex-start;
+    flex-flow: row;
+    height: 40px;
+    left: 0;
+    top: 0;
+    background-color: #4C5B5C;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+.container--external-player .input>input{
+    width: 100%;
+}
+.container--external-player .external-name{
+    width: 100px;
+}
+.container--external-player .external-score{
+    width: 20px;
+}

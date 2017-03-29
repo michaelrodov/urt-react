@@ -38,13 +38,18 @@ let init = {
 
 let json = functions.getQueryString("json", window.location.href);
 let requestGames = new Request("DATA/" + json, init);
+let nextSiteName = "Innovid";
 ga.tenant = "hpe";
-document.getElementById("clan-link").onclick = navigateToAnotherClan;
 
 if (json == "innovid_games.json") {
     ga.tenant = "innovid";
+    nextSiteName = "SaaS";
     document.getElementById("clan-title").innerHTML = "Urban Terror<br>Innovid Clan";
 }
+
+document.getElementById("clan-link").onclick = navigateToAnotherClan;
+document.getElementById("clan-link").innerHTML = "to " + nextSiteName + " clan";
+
 
 fetch(requestGames)
     .then((response) => {
