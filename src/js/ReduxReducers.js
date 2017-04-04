@@ -158,12 +158,10 @@ export function urtApp(state = initialState, action) {
 
     } else if (action.type === actionTypes.ADD_EXTERNAL_PLAYER) {
         var newState = Object.assign({}, state);
-        let player = {};
-        player.name = action.name;
-        player.grade = action.score;
-        player.active = true;
-        newState._players.push(player);
+        newState._players.push(action.player);
+        newState.players.push(action.player);
         return newState;
+
     } else if (action.type === actionTypes.REMOVE_EXTERNAL_PLAYER) {
         var newState = Object.assign({}, state);
         let player = {};

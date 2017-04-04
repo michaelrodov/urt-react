@@ -1,81 +1,117 @@
 @import 'https://fonts.googleapis.com/css?family=Stardos+Stencil';
 @import "abd-toggle.css";
 
+*:focus {
+    outline: none;
+}
+
 /*fade in animation*/
 @keyframes fadein {
-    from {opacity: 0;}
-    to {opacity: 1;}
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
+
 @keyframes fadeout {
-    from {opacity: 1;}
-    to {opacity: 0;}
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
 }
+
 @keyframes grow {
-    from {width: 0;}
-    to {width: 100%;}
+    from {
+        left: 0;
+    }
+    to {
+        left: 215px;
+    }
 }
+
 @keyframes shrink {
-    from {width: 100%;}
-    to {width: 0;}
+    from {
+        left: 215px;
+    }
+    to {
+        left: 0;
+    }
 }
-html, body, #main   {
-    height:100%;
+
+html, body, #main {
+    height: 100%;
 }
+
 html, body {
     overflow-y: hidden;
 }
-.fadein{
+
+.fadein {
     opacity: 0;
     animation-name: fadein;
     animation-duration: 1200ms;
     animation-timing-function: ease-out;
     animation-fill-mode: forwards;
 }
-.fadeout{
+
+.fadeout {
     opacity: 1;
     animation-name: fadeout;
     animation-duration: 300ms;
     animation-timing-function: ease-in;
     animation-fill-mode: forwards;
 }
-.form--new-player-grow{
+
+.form--new-player-grow {
     animation-name: grow;
-    animation-duration: 1200ms;
-    animation-timing-function: ease-out;
+    animation-duration: 300ms;
+    animation-timing-function: ease-in-out;
     animation-fill-mode: forwards;
 }
-.form--new-player-shrink{
+
+.form--new-player-shrink {
     animation-name: shrink;
     animation-duration: 300ms;
-    animation-timing-function: ease-in;
+    animation-timing-function: ease-in-out;
     animation-fill-mode: forwards;
 }
-.icon--flag-white:after{
+
+.icon--flag-white:after {
     content: "\2690";
 }
-.icon--flag-black:after{
+
+.icon--flag-black:after {
     content: "\2691";
 }
-.icon--shield-cross:after{
+
+.icon--shield-cross:after {
     content: "\26E8";
 }
+
 .text-color-gold {
     color: #876e00 !important;
 }
+
 .text-color-highlighted {
     color: #809e2f !important;
 }
+
 .text-color-highlighted.excluded {
     color: #899e74 !important;
 }
+
 .start-invisible {
     opacity: 0;
 }
 
 #loader {
     position: fixed;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -83,7 +119,7 @@ html, body {
     height: 100%;
 }
 
-#loader-border{
+#loader-border {
     border: 5px solid #809e2f;
     border-radius: 40px;
     width: 80px;
@@ -108,7 +144,6 @@ html, body {
     background-color: #d4d2d2;
     background-blend-mode: darken;
 }
-
 
 p {
     border-style: none;
@@ -144,12 +179,11 @@ table {
     right: 70px;
     font-size: 30px;
     letter-spacing: normal;
-    font-family:  'Stardos Stencil', cursive;
+    font-family: 'Stardos Stencil', cursive;
     display: flex;
     flex-flow: column;
     justify-items: flex-start;
 }
-
 
 /******* CENTRAL STRUCTURE *******/
 .center-container {
@@ -224,7 +258,8 @@ table {
 .blueteam {
     /*color: #205662;*/
 }
-.blueteam td{
+
+.blueteam td {
     width: 150px;
     text-align: start;
 }
@@ -292,15 +327,6 @@ td, th {
 }
 
 .game-grid .bit {
-    /*padding: 5px;*/
-    /*margin: 2px;*/
-    /*border-radius: 5px;*/
-    /*background-color: #4C5B5C;*/
-    /*color: white;*/
-    /*height: 25px;*/
-    /*line-height: 13px;*/
-    /*text-align: center;*/
-
     padding: 3px;
     margin: 2px;
     border-radius: 3px;
@@ -311,7 +337,7 @@ td, th {
     text-align: center;
 }
 
-.game-grid .bit.thin-wrap{
+.game-grid .bit.thin-wrap {
     font-size: 7px;
     font-weight: lighter;
     background-color: transparent;
@@ -320,8 +346,8 @@ td, th {
 
 }
 
-.game-grid .bit.thin-wrap .icon{
-   font-size: 14px;
+.game-grid .bit.thin-wrap .icon {
+    font-size: 14px;
     color: #809e2f;
 }
 
@@ -334,12 +360,6 @@ td, th {
     font-size: 8px;
     margin: 0 1px;
 }
-
-/*
-.game-grid .bit > span:first-child{
-    font-weight: bold;
-}
-*/
 
 .players-table th {
     color: #424242;
@@ -356,9 +376,11 @@ td.name > div:first-child {
     font-weight: bold;
     font-size: large;
 }
+
 td.toggle {
     width: 100px;
 }
+
 .md-subheader {
     margin-top: 50px;
     margin-right: 0 !important;
@@ -398,11 +420,11 @@ td.toggle {
     font-size: 16px;
     width: 350px;
 }
+
 .summary__column-player .player-name-games {
     font-size: 12px;
-    color:grey;
+    color: grey;
 }
-
 
 .game__column-player {
     width: 230px;
@@ -410,13 +432,13 @@ td.toggle {
     justify-content: flex-start;
     flex-flow: row;
 }
-.game__column-player .player-name{
+
+.game__column-player .player-name {
     max-width: 150px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
 }
-
 
 .weapons-col {
     max-width: 300px;
@@ -426,7 +448,6 @@ td.toggle {
     /*max-height: 35px;*/
     overflow: hidden;
 }
-
 
 .button {
     cursor: pointer;
@@ -463,10 +484,12 @@ td.toggle {
 .th__clickable {
     cursor: pointer !important;
 }
+
 .th__clickable.clicked {
     background-color: #809e2f;
     transition: background-color 2s ease-in-out;
 }
+
 .th__clickable > span.asc:after {
     position: absolute;
     content: no-close-quote;
@@ -476,6 +499,7 @@ td.toggle {
     border-right: 5px solid transparent;
     border-bottom: 5px solid black;
 }
+
 .th__clickable > span.desc:after {
     position: absolute;
     content: no-close-quote;
@@ -500,62 +524,85 @@ td.toggle {
     text-overflow: clip;
     white-space: pre;
     color: #888888;
-    text-shadow: 1px 1px 0 rgba(255,255,255,0.7) , -1px -1px 1px rgba(0,0,0,0.7) ;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.7), -1px -1px 1px rgba(0, 0, 0, 0.7);
 }
-.inset-text-effect::selection { background: #5af; color: #fff; text-shadow: none; }
+
+.inset-text-effect::selection {
+    background: #5af;
+    color: #fff;
+    text-shadow: none;
+}
 
 /*add new player external player*/
 .container--external-player {
     position: relative;
-    width: 300px;
-    margin: 15px 0 0 15px;
+    width: 250px;
+    margin: 15px 0 0 10px;
+    border-radius: 20px;
+    border: 2px solid #989898;
 }
+
+.container--external-player .background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 20px;
+    background: linear-gradient(#909090, #f0f1f1 20%);
+}
+
 /*plus button*/
 .container--external-player .button {
     display: block;
     position: absolute;
     z-index: 4;
-    top: -4px;
-    left: -2px;
-    width: 50px;
-    height: 52px;
-    background: linear-gradient(rgba(253,253,253,1) 0%,rgba(255,255,255,1) 3%,rgba(252,252,252,1) 13%,rgba(228,228,228,1) 50%,rgba(221,221,221,1) 55%,rgba(208,208,208,1) 85%,rgba(205,205,205,1) 100%);
+    top: 0px;
+    /*left: 1px;*/
+    width: 30px;
+    height: 30px;
+    background: linear-gradient(rgba(253, 253, 253, 1) 0%, rgba(255, 255, 255, 1) 3%, rgba(252, 252, 252, 1) 13%, rgba(228, 228, 228, 1) 50%, rgba(221, 221, 221, 1) 55%, rgba(208, 208, 208, 1) 85%, rgba(205, 205, 205, 1) 100%);
     border: 2px solid #e8e8e8;
-    border-radius: 26px;
+    border-radius: 15px;
     box-shadow: 0 5px 5px rgba(50, 50, 50, 0.2);
     transition: left 0.25s ease;
 }
 
-.container--external-player .button:after {
-    content: "";
-    position: absolute;
-    width: 41px;
-    height: 40px;
-    top: 4px;
-    left: 2px;
-    box-shadow: inset 0 2px 5px 0 rgba(0, 0, 0, 0.08);
-    background: #e3e3e3;
-    border-radius: 20px;
-}
-
-.container--external-player .inputs{
-    position: absolute;
+.container--external-player .inputs {
+    position: relative;
     display: inline-flex;
     justify-content: flex-start;
     flex-flow: row;
-    height: 40px;
-    left: 0;
-    top: 0;
-    background-color: #4C5B5C;
+    height: 30px;
+    bottom: -1px;
+    background-color: transparent;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
+    margin: 0 10px;
+    align-items: center;
 }
-.container--external-player .input>input{
+
+.container--external-player .inputs * {
+    background-color: transparent;
+}
+
+.container--external-player .input > input {
     width: 100%;
+    height: 80%;
+    background-color: rgba(255, 0, 0, 0);
+    outline: none;
+    border: none;
+    line-height: 30px;
+    align-items: initial;
 }
-.container--external-player .external-name{
-    width: 100px;
+
+.container--external-player .external-name {
+    width: 150px;
+    border-right: 1px solid #aaaaaa;
 }
-.container--external-player .external-score{
-    width: 20px;
+
+.container--external-player .external-score {
+    width: 60px;
+    padding-left: 10px;
+    border-left: 1px solid #e3e3e3;
 }

@@ -23,7 +23,7 @@
 }
 
 .abd-toggle input:checked ~ .bg {
-    background: linear-gradient(#809e2f, #a5c04d);
+    background: linear-gradient(#4d5f1c, #a5c04d 5%);
 }
 
 .abd-toggle .btn {

@@ -10,7 +10,8 @@ export default class NewExternalPlayer extends React.Component {
     componentWillMount() {
         this.setState({
             name: "",
-            score: -1,
+            grade: -1,
+            active: true,
             openInputs: false
         });
     }
@@ -19,43 +20,47 @@ export default class NewExternalPlayer extends React.Component {
         this.setState({name: this.refs.nameInput.value});
     }
 
-    __updateScore() {
-        this.setState({score: this.refs.scoreInput.value});
+    __updateGrade() {
+        this.setState({grade: this.refs.gradeInput.value});
     }
 
     __buttonClicked() {
-        if (this.state.openInputs) {
-            if (this.state.name.length > 0 && this.state.score > -1) {
-                this.setState({
-                    openInputs: false
-                });
-                this.props.store.dispatch(actions.setOrderBySummary(this.state.player));
-            }
-        } else {
-            this.setState({
-                openInputs: true
-            });
+        if (this.state.openInputs && this.state.name.length > 0 && this.state.grade > -1) {
+            let player = {
+                name: this.state.name,
+                grade: this.state.grade,
+                active: true,
+                ratio: 0
+            };
+            this.props.store.dispatch(actions.addExternalPlayer(player));
         }
+
+        this.setState({
+            openInputs: !this.state.openInputs
+        });
     }
 
 
     render() {
         //if the form is closed, then it fades in otherwise fades out
         //let formClass = (false) ? "fadeout form--new-player-shrink" : "fadein form--new-player-grow";
-        let formClass = (!this.state.openInputs) ? "fadeout form--new-player-shrink" : "fadein form--new-player-grow";
+        let buttonAnimation = (this.state.openInputs) ? "form--new-player-grow" : "form--new-player-shrink";
+        let backgroundAnimation = (this.state.openInputs) ? "fadein" : "fadeout";
         return (
             <div className="container--external-player">
-                <button className="button" onClick={this.__buttonClicked.bind(this)}/>
-                <div className={formClass + " inputs"} >
+                <button className={buttonAnimation + " button"}
+                        onClick={this.__buttonClicked.bind(this)}/>
+                <div className={backgroundAnimation + " background"}></div>
+                <div className={backgroundAnimation + " inputs"}>
                     <div className="external-name input">
                         <input placeholder="players name"
                                ref="nameInput"
                                onChange={this.__updateName.bind(this)}/>
                     </div>
                     <div className="external-score input">
-                        <input placeholder="players score"
-                               ref="scoreInput"
-                               onChange={this.__updateScore.bind(this)}/>
+                        <input placeholder="grade"
+                               ref="gradeInput"
+                               onChange={this.__updateGrade.bind(this)}/>
                     </div>
                 </div>
             </div>)

@@ -134,7 +134,7 @@ export default class GamesSummary extends React.Component {
                     {playerGridLines}
                     </tbody>
                 </table>
-                {/*<NewExternalPlayer store={this.props.store}/>*/}
+                <NewExternalPlayer store={this.props.store}/>
             </div>
         )
     }
