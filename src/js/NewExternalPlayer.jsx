@@ -44,13 +44,19 @@ export default class NewExternalPlayer extends React.Component {
     render() {
         //if the form is closed, then it fades in otherwise fades out
         //let formClass = (false) ? "fadeout form--new-player-shrink" : "fadein form--new-player-grow";
-        let buttonAnimation = (this.state.openInputs) ? "form--new-player-grow" : "form--new-player-shrink";
+        let buttonAnimation = (this.state.openInputs) ? "button--slide-right" : "button--slide-left";
         let backgroundAnimation = (this.state.openInputs) ? "fadein" : "fadeout";
+        let foregrounddAnimation = (!this.state.openInputs) ? "fadein" : "fadeout";
+        let inputValid = "";
+        if (this.state.openInputs && this.state.name.length > 0 && this.state.grade > -1){
+            inputValid = "inputValid";
+        }
         return (
             <div className="container--external-player">
-                <button className={buttonAnimation + " button"}
+                <button className={buttonAnimation + " button font-shadowed " + inputValid}
                         onClick={this.__buttonClicked.bind(this)}/>
                 <div className={backgroundAnimation + " background"}></div>
+                <div className={foregrounddAnimation + " foreground font-shadowed"}>Add new player</div>
                 <div className={backgroundAnimation + " inputs"}>
                     <div className="external-name input">
                         <input placeholder="players name"

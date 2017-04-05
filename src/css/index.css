@@ -27,20 +27,30 @@
 @keyframes grow {
     from {
         left: 0;
+        content: '+';
     }
     to {
         left: 215px;
+        content: '\2713';
     }
 }
 
 @keyframes shrink {
     from {
         left: 215px;
+        content: '\2713';
     }
     to {
         left: 0;
+        content: '+';
     }
 }
+@keyframes content--plus-to-ok {
+    0% {  content: '+';  opacity: 1; }
+    50%{ opacity: 0}
+    100% {  content: '\2713'; opacity: 1; }
+}
+
 
 html, body, #main {
     height: 100%;
@@ -49,6 +59,20 @@ html, body, #main {
 html, body {
     overflow-y: hidden;
 }
+
+/*.content-to-plus {*/
+    /*animation-name: content-to-plus;*/
+    /*animation-duration: 300ms;*/
+    /*animation-timing-function: ease-out;*/
+    /*animation-fill-mode: forwards;*/
+/*}*/
+
+/*.content-to-ok {*/
+    /*animation-name: content-to-ok;*/
+    /*animation-duration: 300ms;*/
+    /*animation-timing-function: ease-in;*/
+    /*animation-fill-mode: forwards;*/
+/*}*/
 
 .fadein {
     opacity: 0;
@@ -66,14 +90,14 @@ html, body {
     animation-fill-mode: forwards;
 }
 
-.form--new-player-grow {
+.button--slide-right {
     animation-name: grow;
     animation-duration: 300ms;
     animation-timing-function: ease-in-out;
     animation-fill-mode: forwards;
 }
 
-.form--new-player-shrink {
+.button--slide-left {
     animation-name: shrink;
     animation-duration: 300ms;
     animation-timing-function: ease-in-out;
@@ -454,9 +478,6 @@ td.toggle {
     padding: 5px 0;
 }
 
-.button:hover {
-    color: #EFEFEF;
-}
 
 .blue {
     color: #0000FF;
@@ -539,7 +560,7 @@ td.toggle {
     width: 250px;
     margin: 15px 0 0 10px;
     border-radius: 20px;
-    border: 2px solid #989898;
+    border: 2px solid #c7c7c7;
 }
 
 .container--external-player .background {
@@ -551,7 +572,19 @@ td.toggle {
     border-radius: 20px;
     background: linear-gradient(#909090, #f0f1f1 20%);
 }
-
+.container--external-player .foreground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    font-size: 13px;
+    line-height: 30px;
+    text-align: center;
+    color: #aaaaaa;
+    text-transform: uppercase;
+    text-shadow: none !important;
+}
 /*plus button*/
 .container--external-player .button {
     display: block;
@@ -568,6 +601,21 @@ td.toggle {
     transition: left 0.25s ease;
 }
 
+.container--external-player .button::after{
+    content: '+';
+    font-size: 20px;
+    line-height: 20px;
+    color: #9e9a96 !important;
+}
+.container--external-player .button.inputValid::after{
+    color: #809e2f !important;
+}
+.container--external-player .button.button--slide-right::after{
+    animation: content--plus-to-ok 300ms ease-in forwards;
+}
+.container--external-player .button.button--slide-left::after{
+    animation: content--plus-to-ok 300ms ease-in backwards;
+}
 .container--external-player .inputs {
     position: relative;
     display: inline-flex;
@@ -605,4 +653,12 @@ td.toggle {
     width: 60px;
     padding-left: 10px;
     border-left: 1px solid #e3e3e3;
+}
+
+.font-shadowed{
+    font-family: Helvetica, sans-serif;
+    font-weight: bold;
+    color: #809e2f;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
 }
