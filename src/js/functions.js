@@ -108,18 +108,6 @@ export function getTeamBalance(players) {
     teamBalance.blueTeamKeys = getKeys(teamBlue);
     teamBalance.redTeamKeys = getKeys(teamRed);
 
-    /*    var copyText = "";
-     copyText += "Blue team Achziv:\n";
-     for (var j = 0; j < teamBlue.length; j++) {
-     copyText += "* " + teamBlue[j].name + "\n";
-     }
-     copyText += "\n";
-     copyText += "Red team Yechiam:\n";
-     for (var j = 0; j < teamRed.length; j++) {
-     copyText += "* " + teamRed[j].name + "\n";
-     }
-     $scope.copyText = copyText;*/
-
     return teamBalance;
 }
 
@@ -341,3 +329,12 @@ export function getQueryString( field, url ) {
     var string = reg.exec(href);
     return string ? string[1] : null;
 };
+
+export function buildTeams(columns, teams, players) {
+    //build teams initial balance
+    let teamBalanceObject = getTeamBalance(players);
+    columns[Configs.RED] = [Configs.TEAM_COLORS[Configs.RED], teamBalanceObject.totals[Configs.RED]];
+    columns[Configs.BLUE] = [Configs.TEAM_COLORS[Configs.BLUE], teamBalanceObject.totals[Configs.BLUE]];
+    teams[Configs.RED] = teamBalanceObject.redTeamKeys;
+    teams[Configs.BLUE] = teamBalanceObject.blueTeamKeys;
+}

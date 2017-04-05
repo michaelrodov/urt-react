@@ -28,7 +28,7 @@ export default class NewExternalPlayer extends React.Component {
         if (this.state.openInputs && this.state.name.length > 0 && this.state.grade > -1) {
             let player = {
                 name: this.state.name,
-                grade: this.state.grade,
+                grade: parseInt(this.state.grade),
                 active: true,
                 ratio: 0
             };
@@ -55,11 +55,15 @@ export default class NewExternalPlayer extends React.Component {
                     <div className="external-name input">
                         <input placeholder="players name"
                                ref="nameInput"
+                               type="text"
+                               pattern="\S*"
                                onChange={this.__updateName.bind(this)}/>
                     </div>
                     <div className="external-score input">
                         <input placeholder="grade"
                                ref="gradeInput"
+                               type="number"
+                               pattern="\d*"
                                onChange={this.__updateGrade.bind(this)}/>
                     </div>
                 </div>
