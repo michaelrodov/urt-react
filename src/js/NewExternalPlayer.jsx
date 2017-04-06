@@ -9,8 +9,8 @@ export default class NewExternalPlayer extends React.Component {
 
     componentWillMount() {
         this.setState({
-            name: "",
-            grade: -1,
+            name: null,
+            grade: null,
             active: true,
             openInputs: false
         });
@@ -24,8 +24,13 @@ export default class NewExternalPlayer extends React.Component {
         this.setState({grade: this.refs.gradeInput.value});
     }
 
+    __isInputValid(name, grade){
+            return this.state.name && this.state.grade && this.state.name.length > 0 && parseInt(this.state.grade) > -1;
+    }
+
     __buttonClicked() {
-        if (this.state.openInputs && this.state.name.length > 0 && this.state.grade > -1) {
+
+        if (this.state.openInputs &&  this.__isInputValid(this.state.name, this.state.grade)) {
             let player = {
                 name: this.state.name,
                 grade: parseInt(this.state.grade),
@@ -33,7 +38,7 @@ export default class NewExternalPlayer extends React.Component {
                 ratio: 0
             };
             this.props.store.dispatch(actions.addExternalPlayer(player));
-            ga.report.event(ga.tenant, "Added Player", player.name, 0, false);
+            ga.report.event(ga.tenant, "Added Player", player.name, player.grade, false);
         }
 
         this.setState({
@@ -51,9 +56,11 @@ export default class NewExternalPlayer extends React.Component {
         let backgroundAnimation = (this.state.openInputs) ? "fadein" : "fadeout";
         let foregrounddAnimation = (!this.state.openInputs) ? "fadein" : "fadeout";
         let inputValid = "";
-        if (this.state.openInputs && this.state.name.length > 0 && this.state.grade > -1){
+
+        if (this.state.openInputs && this.__isInputValid(this.state.name, this.state.grade)){
             inputValid = "inputValid";
         }
+
         return (
             <div className="add-external-player">
                 <button className={buttonAnimation + " button font-shadowed " + inputValid}
