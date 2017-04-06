@@ -1,6 +1,6 @@
 import React from 'react';
 import * as actions from './ReduxActions';
-import Button from 'muicss/lib/react/button';
+import ga from "./GoogleAnalytics";
 
 export default class NewExternalPlayer extends React.Component {
     constructor(props) {
@@ -33,11 +33,14 @@ export default class NewExternalPlayer extends React.Component {
                 ratio: 0
             };
             this.props.store.dispatch(actions.addExternalPlayer(player));
+            ga.report.event(ga.tenant, "Added Player", player.name, 0, false);
         }
 
         this.setState({
             openInputs: !this.state.openInputs
         });
+
+        ga.report.event(ga.tenant, "Clicked New Player", 0, 0, false);
     }
 
 
@@ -52,7 +55,7 @@ export default class NewExternalPlayer extends React.Component {
             inputValid = "inputValid";
         }
         return (
-            <div className="container--external-player">
+            <div className="add-external-player">
                 <button className={buttonAnimation + " button font-shadowed " + inputValid}
                         onClick={this.__buttonClicked.bind(this)}/>
                 <div className={backgroundAnimation + " background"}></div>

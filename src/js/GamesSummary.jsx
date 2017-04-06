@@ -97,6 +97,9 @@ export default class GamesSummary extends React.Component {
 
         return (
             <div>
+                <div className="container--new-player">
+                    <NewExternalPlayer store={this.props.store}/>
+                </div>
                 <table className={this.props.className}>
                     <thead>
                     <tr>
@@ -134,7 +137,6 @@ export default class GamesSummary extends React.Component {
                     {playerGridLines}
                     </tbody>
                 </table>
-                <NewExternalPlayer store={this.props.store}/>
             </div>
         )
     }
