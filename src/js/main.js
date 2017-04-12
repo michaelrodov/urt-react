@@ -8,7 +8,6 @@ import ContentPage from './ContentPage.jsx';
 import {createStore} from 'redux';
 import {urtApp} from './ReduxReducers';
 import {initState} from './ReduxActions';
-import AOS from 'aos';
 import * as Constants from './constants';
 import * as functions from './functions';
 import ga from "./GoogleAnalytics";
@@ -20,8 +19,6 @@ if (Browser.name.search(Constants.NOT_SUPPORTED_BROWSERS) > -1) {
     location.href = "../../not-supported.html?browser=" + ((Browser.name == 'ie') ? "InternetExplorer" : Browser.name);
 }
 
-/*Animate On Scroll library init*/
-AOS.init();
 ga.init();
 
 //fetch the games data
