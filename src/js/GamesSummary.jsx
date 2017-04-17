@@ -5,6 +5,7 @@ import * as configs from './constants';
 import * as functions from './functions';
 import AbdToggleSwitch from './AbdToggleSwitch.jsx';
 import NewExternalPlayer from './NewExternalPlayer.jsx';
+import C3LineChart from "./C3LineChart.jsx";
 
 export default class GamesSummary extends React.Component {
     constructor(props) {
@@ -72,6 +73,7 @@ export default class GamesSummary extends React.Component {
                     }}
                     className={((!currentPlayer.active) ? " excluded " : "")
                     + ((currentPlayer.name == this.state.hovered) ? " text-color-highlighted " : "")}>
+
                     <MediaQuery minWidth={configs.MIN_PC_SCREEN_WIDTH}>
                         <td className="toggle">
                             <AbdToggleSwitch active={currentPlayer.active}
@@ -81,8 +83,15 @@ export default class GamesSummary extends React.Component {
                     </MediaQuery>
                     <td>
                         <div className="summary__column-player">
-                            <div className="player-name">{inx + ". " + currentPlayer.name}</div>
-                            <div className="player-name-games">{currentPlayer.gamesPlayed} games played</div>
+                            <div className="column-player-flex">
+                                <div className="container--player-summary-chart">
+                                    <C3LineChart cid={"ps-line-chart_" + inx}/>
+                                </div>
+                                <div>
+                                    <div className="player-name">{inx + ". " + currentPlayer.name}</div>
+                                    <div className="player-name-games">{currentPlayer.gamesPlayed} games played</div>
+                                </div>
+                            </div>
                         </div>
                     </td>
                     <td>
