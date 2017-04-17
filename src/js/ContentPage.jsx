@@ -7,6 +7,7 @@ import GameList from './GameList.jsx';
 import GameDetails from './GameDetails.jsx';
 import TeamsPie from './TeamsPie.jsx';
 import TeamsTable from './TeamsTable.jsx';
+import C3LineChart from "./C3LineChart.jsx";
 
 export default class ContentPage extends React.Component {
     constructor(props) {
