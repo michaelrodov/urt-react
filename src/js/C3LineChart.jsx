@@ -58,7 +58,7 @@ export default class C3LineChart extends React.Component {
             },
             data: {
                 columns: [
-                    ['score', 133, 200, 100, 400, 150, 250]
+                    ['score', 5, 5, 5, 5, 5, 5]
                 ],
                 type: 'area-spline',
                 colors: {
