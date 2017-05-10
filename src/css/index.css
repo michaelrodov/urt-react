@@ -171,7 +171,7 @@ html, body {
 /******/
 
 .background-cover {
-    background: url(https://staticcontent.azurewebsites.net/img/cod-1920x1200-1-min.jpg) top center fixed;
+    background: url(http://staticcontent.azurewebsites.net/img/cod-1920x1200-1-min.jpg) top center fixed;
     /*background: url(http://staticcontent.azurewebsites.net/img/cod-1920x1200-1-min.jpg) top center fixed;*/
     background-size: cover;
     background-color: #d4d2d2;
