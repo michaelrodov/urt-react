@@ -51,7 +51,7 @@ export default class C3LineChart extends React.Component {
                 hide: 'score'
             },
             tooltip: {
-              hide: true
+              show: false
             },
             point: {
                 r: 0
