@@ -5,10 +5,9 @@ var config = {
         path: './',
         filename: 'bundle.js',
     },
-
     devServer: {
         inline: true,
-        port: 8080
+        port: 4000
     },
 
     module: {

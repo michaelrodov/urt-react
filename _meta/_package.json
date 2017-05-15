@@ -4,7 +4,9 @@
   "description": "",
   "main": "bundle.js",
   "scripts": {
-    "start": "webpack-dev-server --hot --progress --colors"},
+    "start": "webpack-dev-server --hot --progress --colors",
+    "build": "webpack --optimize-minimize -p --progress"
+  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/michaelrodov/urt-react.git"
@@ -21,13 +23,17 @@
   },
   "homepage": "https://github.com/michaelrodov/urt-react#readme",
   "dependencies": {
+    "aos": "^2.1.1",
+    "detect-browser": "^1.6.2",
     "immutable": "^3.8.1",
-    "react": "^15.3.0",
-    "react-dom": "^15.3.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-ga": "^2.1.2",
     "react-redux": "^4.4.5",
+    "react-responsive": "~1.2.6",
     "redux": "^3.5.2",
-    "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.14.1"
+    "webpack": "^1.14.0",
+    "webpack-dev-server": "^1.16.2"
   },
   "devDependencies": {
     "babel-loader": "^6.2.4",
