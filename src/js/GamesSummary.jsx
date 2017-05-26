@@ -85,11 +85,16 @@ export default class GamesSummary extends React.Component {
                         <div className="summary__column-player">
                             <div className="column-player-flex">
                                 <div className="container--player-summary-chart">
-                                    <C3LineChart cid={"ps-line-chart_" + inx}/>
+                                    <C3LineChart cid={"ps-line-chart_" + inx}
+                                                 column={currentPlayer.history["ratio"]}
+                                                 max={currentPlayer.history["ratio"+"-desc"][1]}
+                                                 min={currentPlayer.history["ratio"+"-desc"][0]}
+                                                 type="area-step"
+                                                 x={currentPlayer.history.x} />
                                 </div>
-                                <div>
-                                    <div className="player-name">{inx + ". " + currentPlayer.name}</div>
-                                    <div className="player-name-games">{currentPlayer.gamesPlayed} games played</div>
+                                <div className="wrapper--player-details">
+                                    <div className="player-name linear-gradient-white-transparent">{inx + ". " + currentPlayer.name}</div>
+                                    <div className="player-name-games linear-gradient-white-transparent">{currentPlayer.gamesPlayed} games played</div>
                                 </div>
                             </div>
                         </div>

@@ -65,6 +65,7 @@ export function urtApp(state = initialState, action) {
             state.players[player.name] = Object.assign({}, player);
             state.players[player.name].ratio = playersTotalRatios[player.name];
             state.players[player.name].grade = playersTotalGrades[player.name];
+            state.players[player.name].history = functions.buildHistoryArrays(player.history);
             //Set players that are excluded from calculations
             state.players[player.name].active = (!Configs.EXCLUDED_PLAYERS.includes(player.name));
             //TODO move everything to the array below and remove the object above
