@@ -340,16 +340,19 @@ export function buildTeams(columns, teams, players) {
 }
 
 export function buildHistoryArrays(historyObjectsArray) {
-    if(!historyObjectsArray){
-        return [];
-    }
+    let scoreArray = (["score"]);
+    let ratioArray = (["ratio"]);
+    let gameNamesArray;
 
-    let scoreArray = (["score"]).concat(historyObjectsArray.map(r => r.score));
-    let ratioArray = (["ratio"]).concat(historyObjectsArray.map(r => r.ratio));
-    let gameNamesArray = historyObjectsArray.map(r => r.name);
+    if(historyObjectsArray){
+        scoreArray = scoreArray.concat(historyObjectsArray.map(r => r.score));
+        ratioArray = ratioArray.concat(historyObjectsArray.map(r => r.ratio));
+        gameNamesArray = historyObjectsArray.map(r => r.name);
+    }
 
     let result = [];
     result["x"] = gameNamesArray;
+
     if(scoreArray.length > 10) {
         scoreArray.splice(1, scoreArray.length-11);
     }

@@ -1,5 +1,6 @@
 import React from 'react';
 import * as actions from './ReduxActions';
+import * as functions from './functions';
 import ga from "./GoogleAnalytics";
 
 export default class NewExternalPlayer extends React.Component {
@@ -35,6 +36,7 @@ export default class NewExternalPlayer extends React.Component {
                 name: this.state.name,
                 grade: parseInt(this.state.grade),
                 active: true,
+                history: functions.buildHistoryArrays(null),
                 ratio: 0
             };
             this.props.store.dispatch(actions.addExternalPlayer(player));
