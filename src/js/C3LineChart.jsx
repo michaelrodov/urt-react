@@ -5,33 +5,27 @@ import * as Globals from './globals';
 export default class C3LineChart extends React.Component {
     constructor(props) {
         super(props);
-
-        // this.setState({
-        //     data: {
-        //         line: [1, 2, 3, 1, 2, 3, 1, 2, 3]
-        //     }
-        // });
     }
 
     /**
      * Invoked once, both on the client and server, immediately before the initial rendering occurs.
      */
     componentDidMount() {
-        // Globals.powerPie = functions.generatePowerPie(this.props.columns);
         if (this.props.cid) {
             this.setState({
-                chartObject: this.__generateChart()
+                chartObject: this.__generateChart(((this.props.column) ? this.props.column : []))
             })
-
         }
+
     }
 
     /***
      * Invoked when a component is receiving new props. This method is not called for the initial render.
      */
     componentWillReceiveProps(nextProps) {
-        // functions.refreshPowerPie(this.props.columns);
-        // this.state.chartObject.load();
+        if (this.props.column !== nextProps.column) {
+            this.state.chartObject.unload().load(((nextProps.column) ? nextProps.column : []));
+        }
     }
 
     render() {
@@ -40,29 +34,43 @@ export default class C3LineChart extends React.Component {
         )
     }
 
-    __generateChart() {
+    __generateChart(column) {
         return c3.generate({
             bindto: '#' + this.props.cid,
+            size: {
+                height: 100
+            },
             axis: {
-                x: {show: false},
-                y: {show: false}
+                x: {
+                    type: 'category',
+                    categories: this.props.x,
+                    show: false
+                },
+                y: {
+                    max: 5,
+                    min: 0,
+                    // max: Math.max(...column.slice(1))*2,
+                    // min: 30,
+                    // min: Math.min(...column.slice(1))*2,
+                    show: false
+                }
             },
             legend: {
                 hide: 'score'
             },
             tooltip: {
-              show: false
+                show: false
             },
             point: {
-                r: 0
+                r: 1
             },
             data: {
-                columns: [
-                    ['score', 5, 5, 5, 5, 5, 5]
-                ],
-                type: 'area-spline',
+                columns: [column],
+                type: this.props.type,
+                labels: true,
                 colors: {
-                    score: '#99949d'
+                    score: '#99949d',
+                    ratio: '#9d8692'
                 }
             }
         });

@@ -323,9 +323,9 @@ export function calcPlayerRatio(data) {
  * @param  {String} url   The URL to get the value from (optional)
  * @return {String}       The field value
  */
-export function getQueryString( field, url ) {
+export function getQueryString(field, url) {
     var href = url ? url : window.location.href;
-    var reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
+    var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
     var string = reg.exec(href);
     return string ? string[1] : null;
 };
@@ -337,4 +337,35 @@ export function buildTeams(columns, teams, players) {
     columns[Configs.BLUE] = [Configs.TEAM_COLORS[Configs.BLUE], teamBalanceObject.totals[Configs.BLUE]];
     teams[Configs.RED] = teamBalanceObject.redTeamKeys;
     teams[Configs.BLUE] = teamBalanceObject.blueTeamKeys;
+}
+
+export function buildHistoryArrays(historyObjectsArray) {
+    let scoreArray = (["score"]);
+    let ratioArray = (["ratio"]);
+    let gameNamesArray;
+
+    if(historyObjectsArray){
+        scoreArray = scoreArray.concat(historyObjectsArray.map(r => r.score));
+        ratioArray = ratioArray.concat(historyObjectsArray.map(r => r.ratio));
+        gameNamesArray = historyObjectsArray.map(r => r.name);
+    }
+
+    let result = [];
+    result["x"] = gameNamesArray;
+
+    if(scoreArray.length > 10) {
+        scoreArray.splice(1, scoreArray.length-11);
+    }
+
+    result["grade"] = scoreArray;
+    result["grade-desc"] = [Math.min(...scoreArray), Math.max(...scoreArray), scoreArray.length];
+
+    if(ratioArray.length > 10){
+        ratioArray.splice(1, ratioArray.length-11);
+    }
+    result["ratio"] = ratioArray;
+    result["ratio-desc"] = [Math.min(...ratioArray), Math.max(...ratioArray), ratioArray.length];
+
+    return result;
+
 }
