@@ -7,7 +7,7 @@ import * as Globals from './globals';
 export function getRatio(player) {
     if ((player.deaths + player.kills) == 0) return 0;
     return Math.round((player.kills / (player.deaths + player.kills)) * 100) / 100;
-}
+}``
 
 /***
  * Final function
@@ -170,12 +170,15 @@ export function refreshPowerPie(columns) {
 }
 
 export function orderByRatio(a, b) {
-    return a.ratio - b.ratio;
+    return (a.ratio - b.ratio);
+    // === 0) ? (a.name - b.name) : a.ratio - b.ratio;
 }
 
 export function orderByGrade(a, b) {
-    return a.grade - b.grade;
+    // return (a.grade - b.grade === 0) ? (a.name - b.name) : a.grade - b.grade;
+    return (a.grade - b.grade);
 }
+
 
 export function orderByNumber(a, b) {
     let keyArrayA = a.key.split(":");

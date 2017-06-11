@@ -7,7 +7,7 @@ import GameList from './GameList.jsx';
 import GameDetails from './GameDetails.jsx';
 import TeamsPie from './TeamsPie.jsx';
 import TeamsTable from './TeamsTable.jsx';
-import C3LineChart from "./C3LineChart.jsx";
+import Perf from 'react-addons-perf'; // ES6
 
 export default class ContentPage extends React.Component {
     constructor(props) {
@@ -25,12 +25,13 @@ export default class ContentPage extends React.Component {
     }
 
     componentWillMount() {
+        // Perf.start()
         // console.log("ContentPage componentWillMount  ." + this);
     }
 
     componentDidMount() {
-        // console.log("ContentPage componentDidMount  ..." + this);
-
+// /        let measurements = Perf.getLastMeasurements();
+//         Perf.printWasted(measurements);
     }
 
     _buildTeams() {

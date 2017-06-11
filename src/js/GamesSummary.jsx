@@ -10,8 +10,6 @@ import C3LineChart from "./C3LineChart.jsx";
 export default class GamesSummary extends React.Component {
     constructor(props) {
         super(props);
-
-
     }
 
     __onHover(name) {
@@ -33,28 +31,46 @@ export default class GamesSummary extends React.Component {
     }
 
     componentWillMount() {
+        let storeState = this.props.store.getState();
+
         this.setState({
-            orderBy: this.props.orderBy,
-            hovered: ""
+            summaryOrderField: storeState.summaryOrderField,
+            summaryOrderDesc: storeState.summaryOrderDesc,
+            hovered: "",
+            _players: storeState._players.sort(functions.orderByGrade).reverse()
+        });
+    }
+
+    // is invoked before a mounted component receives new props.
+    // If you need to update the state in response to prop changes (for example, to reset it),
+    // you may compare this.props and nextProps and perform state transitions using this.setState() in this method.
+    componentWillReceiveProps(nextProps) {
+        let storeState = this.props.store.getState();
+        let _players;
+        if (this.state.summaryOrderField !== nextProps.store.getState().summaryOrderField) {
+            if (nextProps.store.getState().summaryOrderField === "grade") {
+                _players = storeState._players.sort(functions.orderByGrade);
+            } else if (nextProps.store.getState().summaryOrderField === "ratio") {
+                _players = storeState._players.sort(functions.orderByRatio);
+            }
+        } else {
+            _players = storeState._players;
+        }
+
+        if (this.state.summaryOrderDesc !== nextProps.store.getState().summaryOrderDesc) {
+            _players.reverse();
+        }
+
+        this.setState({
+            summaryOrderField: nextProps.store.getState().summaryOrderField,
+            summaryOrderDesc: nextProps.store.getState().summaryOrderDesc,
+            _players: _players
         });
     }
 
     render() {
-        let _players;
+        let _players = this.state._players;
         let playerGridLines = [];
-        let storeState = this.props.store.getState();
-        let orderColumn = storeState.summaryOrderField;
-        let orderDesc = storeState.summaryOrderDesc;
-
-        if (orderColumn == "grade") {
-            _players = storeState._players.sort(functions.orderByGrade);
-        } else if (orderColumn == "ratio") {
-            _players = storeState._players.sort(functions.orderByRatio);
-        }
-
-        if (orderDesc) {
-            _players.reverse();
-        }
 
         let inx = 0;
 
@@ -64,15 +80,14 @@ export default class GamesSummary extends React.Component {
 
             ++inx;
             playerGridLines.push(
-                <tr key={currentPlayer.name + ":" + currentPlayer[orderColumn] + ":" + orderDesc}
+                <tr key={currentPlayer.name + ":" + currentPlayer[this.state.summaryOrderField] + ":" + this.state.summaryOrderField}
                     onMouseEnter={() => {
                         this.__onHover(currentPlayer.name)
                     }}
                     onMouseLeave={() => {
                         this.__onHover("")
                     }}
-                    className={((!currentPlayer.active) ? " excluded " : "")
-                    + ((currentPlayer.name == this.state.hovered) ? " text-color-highlighted " : "")}>
+                    className={((!currentPlayer.active) ? " excluded " : "") + ((currentPlayer.name == this.state.hovered) ? " text-color-highlighted " : "")}>
 
                     <MediaQuery minWidth={configs.MIN_PC_SCREEN_WIDTH}>
                         <td className="toggle">
@@ -86,15 +101,19 @@ export default class GamesSummary extends React.Component {
                             <div className="column-player-flex">
                                 <div className="container--player-summary-chart">
                                     <C3LineChart cid={"ps-line-chart_" + inx}
-                                                 column={currentPlayer.history["ratio"]}
-                                                 max={currentPlayer.history["ratio"+"-desc"][1]}
-                                                 min={currentPlayer.history["ratio"+"-desc"][0]}
-                                                 type="area-step"
-                                                 x={currentPlayer.history.x} />
+                                    column={currentPlayer.history["ratio"]}
+                                    max={currentPlayer.history["ratio" + "-desc"][1]}
+                                    min={currentPlayer.history["ratio" + "-desc"][0]}
+                                    type="area-spline"
+                                    x={currentPlayer.history.x}/>
                                 </div>
                                 <div className="wrapper--player-details">
-                                    <div className="player-name linear-gradient-white-transparent">{inx + ". " + currentPlayer.name}</div>
-                                    <div className="player-name-games linear-gradient-white-transparent">{currentPlayer.gamesPlayed} games played</div>
+                                    <div
+                                        className="player-name linear-gradient-white-transparent">{inx + ". " + currentPlayer.name}</div>
+                                    <div
+                                        className="player-name-games linear-gradient-white-transparent">
+                                        {currentPlayer.gamesPlayed} games played
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -127,17 +146,17 @@ export default class GamesSummary extends React.Component {
                         </th>
                         <th className="th__clickable">
                         <span onClick={() => {
-                            this.__setSort("ratio", orderDesc)
+                            this.__setSort("ratio", this.state.summaryOrderDesc)
                         }}
-                              className={this.__getSortHeaderStyle("ratio", orderColumn, orderDesc)}>Ratio
+                              className={this.__getSortHeaderStyle("ratio", this.state.summaryOrderField, this.state.summaryOrderDesc)}>Ratio
                         </span>
 
                         </th>
                         <th className="th__clickable">
                         <span onClick={() => {
-                            this.__setSort("grade", orderDesc)
+                            this.__setSort("grade", this.state.summaryOrderDesc)
                         }}
-                              className={this.__getSortHeaderStyle("grade", orderColumn, orderDesc)}>Grade
+                              className={this.__getSortHeaderStyle("grade", this.state.summaryOrderField, this.state.summaryOrderDesc)}>Grade
                         </span>
                         </th>
                     </tr>
