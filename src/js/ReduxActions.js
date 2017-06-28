@@ -61,3 +61,9 @@ export function setActiveGame(gameName) {
         key: gameName
     }
 }
+export function addExternalPlayer(player) {
+    return {
+        type: actionTypes.ADD_EXTERNAL_PLAYER,
+        player: player
+    }
+}

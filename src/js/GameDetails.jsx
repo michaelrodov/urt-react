@@ -13,12 +13,12 @@ export default class GameDetails extends React.Component {
     }
 
     componentWillUpdate(){
-        console.warn("GameDetails > componentWillUpdate");
+        // console.warn("GameDetails > componentWillUpdate");
 
     }
     /*Invoked when a component is receiving new props. This method is not called for the initial render*/
     componentWillReceiveProps(){
-        console.warn("GameDetails < componentWillReceiveProps");
+        // console.warn("GameDetails < componentWillReceiveProps");
         this.setState({fadeinClass: "fadein"})
     }
     render() {

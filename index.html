@@ -2,17 +2,21 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="icon" type="image/x-icon" href="src/img/favicon.ico">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="icon" type="image/x-icon" href="http://staticcontent.azurewebsites.net/img/favicon.ico">
     <title>UrT Stats - ReactJS</title>
     <link rel="stylesheet" href="src/css/loader.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="src/css/index.css" type="text/css" media="screen and (min-width: 1024px">
-    <link rel="stylesheet" href="src/css/index-mobile.css" type="text/css" media="screen and (max-width: 1023px">
-    <link rel="stylesheet" href="src/css/c3.0.14.min.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="src/css/index.css" type="text/css" media="(min-width: 1024px)">
+    <link rel="stylesheet" href="src/css/index-mobile.css" type="text/css" media="(max-width: 1023px)">
+    <link rel="stylesheet" href="http://staticcontent.azurewebsites.net/css/c3.0.14.min.css" type="text/css" media="screen">
     <link rel="stylesheet" href="src/css/abd-toggle.css" type="text/css" media="screen">
-    <link href="src/css/mui.min.css" rel="stylesheet" type="text/css"/>
-    <script src="src/js/d3.3.5.14.min.js"></script>
-    <script src="src/js/c3.0.14.min.js"></script>
+    <link href="http://staticcontent.azurewebsites.net/css/mui.min.css" rel="stylesheet" type="text/css"/>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.8.0/d3.min.js"></script>-->
+    <!--<script src="src/js/d3.3.5.14.min.js"></script>-->
+    <script src="http://staticcontent.azurewebsites.net/js/d3.3.5.14.min.js"></script>
+    <!--<script src="src/js/c3.0.14.min.js"></script>-->
+    <script src="http://staticcontent.azurewebsites.net/js/c3.0.14.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>-->
 
 
 </head>
@@ -41,7 +45,10 @@
     </div>
 </div>
 <div id="main" class="background-cover start-invisible">
-    <div id="clan-title" class="title inset-text-effect">Urban Terror<br>HPE SaaS Clan</div>
+    <div class="title">
+        <div id="clan-title" class=" inset-text-effect">Urban Terror<br>HPE SaaS Clan</div>
+        <button id="clan-link" class="mui-btn mui-btn--dark mui-btn--raised left-side-buttons"></button>
+    </div>
     <div id="centermain">
         <div id="react-container"></div>
     </div>

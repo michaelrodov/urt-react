@@ -7,7 +7,7 @@ import * as Globals from './globals';
 export function getRatio(player) {
     if ((player.deaths + player.kills) == 0) return 0;
     return Math.round((player.kills / (player.deaths + player.kills)) * 100) / 100;
-}
+}``
 
 /***
  * Final function
@@ -108,18 +108,6 @@ export function getTeamBalance(players) {
     teamBalance.blueTeamKeys = getKeys(teamBlue);
     teamBalance.redTeamKeys = getKeys(teamRed);
 
-    /*    var copyText = "";
-     copyText += "Blue team Achziv:\n";
-     for (var j = 0; j < teamBlue.length; j++) {
-     copyText += "* " + teamBlue[j].name + "\n";
-     }
-     copyText += "\n";
-     copyText += "Red team Yechiam:\n";
-     for (var j = 0; j < teamRed.length; j++) {
-     copyText += "* " + teamRed[j].name + "\n";
-     }
-     $scope.copyText = copyText;*/
-
     return teamBalance;
 }
 
@@ -182,12 +170,15 @@ export function refreshPowerPie(columns) {
 }
 
 export function orderByRatio(a, b) {
-    return a.ratio - b.ratio;
+    return (a.ratio - b.ratio);
+    // === 0) ? (a.name - b.name) : a.ratio - b.ratio;
 }
 
 export function orderByGrade(a, b) {
-    return a.grade - b.grade;
+    // return (a.grade - b.grade === 0) ? (a.name - b.name) : a.grade - b.grade;
+    return (a.grade - b.grade);
 }
+
 
 export function orderByNumber(a, b) {
     let keyArrayA = a.key.split(":");
@@ -335,9 +326,49 @@ export function calcPlayerRatio(data) {
  * @param  {String} url   The URL to get the value from (optional)
  * @return {String}       The field value
  */
-export function getQueryString( field, url ) {
+export function getQueryString(field, url) {
     var href = url ? url : window.location.href;
-    var reg = new RegExp( '[?&]' + field + '=([^&#]*)', 'i' );
+    var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
     var string = reg.exec(href);
     return string ? string[1] : null;
 };
+
+export function buildTeams(columns, teams, players) {
+    //build teams initial balance
+    let teamBalanceObject = getTeamBalance(players);
+    columns[Configs.RED] = [Configs.TEAM_COLORS[Configs.RED], teamBalanceObject.totals[Configs.RED]];
+    columns[Configs.BLUE] = [Configs.TEAM_COLORS[Configs.BLUE], teamBalanceObject.totals[Configs.BLUE]];
+    teams[Configs.RED] = teamBalanceObject.redTeamKeys;
+    teams[Configs.BLUE] = teamBalanceObject.blueTeamKeys;
+}
+
+export function buildHistoryArrays(historyObjectsArray) {
+    let scoreArray = (["score"]);
+    let ratioArray = (["ratio"]);
+    let gameNamesArray;
+
+    if(historyObjectsArray){
+        scoreArray = scoreArray.concat(historyObjectsArray.map(r => r.score));
+        ratioArray = ratioArray.concat(historyObjectsArray.map(r => r.ratio));
+        gameNamesArray = historyObjectsArray.map(r => r.name);
+    }
+
+    let result = [];
+    result["x"] = gameNamesArray;
+
+    if(scoreArray.length > 10) {
+        scoreArray.splice(1, scoreArray.length-11);
+    }
+
+    result["grade"] = scoreArray;
+    result["grade-desc"] = [Math.min(...scoreArray), Math.max(...scoreArray), scoreArray.length];
+
+    if(ratioArray.length > 10){
+        ratioArray.splice(1, ratioArray.length-11);
+    }
+    result["ratio"] = ratioArray;
+    result["ratio-desc"] = [Math.min(...ratioArray), Math.max(...ratioArray), ratioArray.length];
+
+    return result;
+
+}

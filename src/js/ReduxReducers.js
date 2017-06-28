@@ -48,7 +48,7 @@ export function urtApp(state = initialState, action) {
         state.summaryOrderDesc = true;
         state.gameOrderField = "score";
         state.gameOrderDesc = true;
-        
+
         //calcuation summary grade and ratio per player by other games grade.
         //grade
         var playersColumnsOverGames = functions.extractPlayersLineData(action.data.games);
@@ -65,18 +65,15 @@ export function urtApp(state = initialState, action) {
             state.players[player.name] = Object.assign({}, player);
             state.players[player.name].ratio = playersTotalRatios[player.name];
             state.players[player.name].grade = playersTotalGrades[player.name];
+            state.players[player.name].history = functions.buildHistoryArrays(player.history);
             //Set players that are excluded from calculations
             state.players[player.name].active = (!Configs.EXCLUDED_PLAYERS.includes(player.name));
             //TODO move everything to the array below and remove the object above
             state._players.push(state.players[player.name]);
         }
 
-        //build teams initial balance
-        let teamBalanceObject = functions.getTeamBalance(state.players);
-        state.columns[Configs.RED] = [Configs.TEAM_COLORS[Configs.RED], teamBalanceObject.totals[Configs.RED]];
-        state.columns[Configs.BLUE] = [Configs.TEAM_COLORS[Configs.BLUE], teamBalanceObject.totals[Configs.BLUE]];
-        state.teams[Configs.RED] = teamBalanceObject.redTeamKeys;
-        state.teams[Configs.BLUE] = teamBalanceObject.blueTeamKeys;
+        // //build teams initial balance
+       functions.buildTeams(state.columns, state.teams, state.players);
 
         //build a list of games from games array nad fix their names
         state.gameKeys = Object.keys(action.data.games)
@@ -129,16 +126,8 @@ export function urtApp(state = initialState, action) {
         return newState;
 
     } else if (action.type === actionTypes.BUILD_TEAMS) {
-        let teamBalanceObject = functions.getTeamBalance(state.players);
-
         var newState = Object.assign({}, state);
-
-        newState.columns[Configs.RED] = [Configs.TEAM_COLORS[Configs.RED], teamBalanceObject.totals[Configs.RED]];
-        newState.columns[Configs.BLUE] = [Configs.TEAM_COLORS[Configs.BLUE], teamBalanceObject.totals[Configs.BLUE]];
-        newState.teams[Configs.RED] = teamBalanceObject.redTeamKeys;
-        newState.teams[Configs.BLUE] = teamBalanceObject.blueTeamKeys;
-
-
+        functions.buildTeams(newState.columns, newState.teams, state.players);
         return newState;
 
 
@@ -156,6 +145,19 @@ export function urtApp(state = initialState, action) {
         return newState;
 
 
+    } else if (action.type === actionTypes.ADD_EXTERNAL_PLAYER) {
+        var newState = Object.assign({}, state);
+        newState._players.push(action.player);
+        newState.players[action.player.name] = action.player;
+        functions.buildTeams(newState.columns, newState.teams, newState.players);
+        newState.summary.totalGrade += action.player.grade;
+        return newState;
+
+    } else if (action.type === actionTypes.REMOVE_EXTERNAL_PLAYER) {
+        var newState = Object.assign({}, state);
+        let player = {};
+        newState._players = state._players.filter((el, inx, arr) => el.name !== this.action.name);
+        return newState;
     } else {
         return state;
     }

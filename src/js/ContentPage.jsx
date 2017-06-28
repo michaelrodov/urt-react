@@ -7,6 +7,7 @@ import GameList from './GameList.jsx';
 import GameDetails from './GameDetails.jsx';
 import TeamsPie from './TeamsPie.jsx';
 import TeamsTable from './TeamsTable.jsx';
+import Perf from 'react-addons-perf'; // ES6
 
 export default class ContentPage extends React.Component {
     constructor(props) {
@@ -19,17 +20,18 @@ export default class ContentPage extends React.Component {
     }
 
     _reduxStoreChanged() {
-        console.log("Store changed");
+        // console.log("Store changed");
         this.setState({storeState: this.props.store.getState()});
     }
 
     componentWillMount() {
-        console.log("ContentPage componentWillMount  ." + this);
+        // Perf.start()
+        // console.log("ContentPage componentWillMount  ." + this);
     }
 
     componentDidMount() {
-        console.log("ContentPage componentDidMount  ..." + this);
-
+// /        let measurements = Perf.getLastMeasurements();
+//         Perf.printWasted(measurements);
     }
 
     _buildTeams() {

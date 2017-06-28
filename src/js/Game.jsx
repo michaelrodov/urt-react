@@ -6,7 +6,7 @@ import * as actions from './ReduxActions';
 import * as functions from './functions';
 import * as configs from './constants';
 import MediaQuery from 'react-responsive';
-
+import ga from "./GoogleAnalytics";
 
 
 class PlayersGrid extends React.Component {
@@ -26,6 +26,7 @@ class PlayersGrid extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (this.props.activeGame != nextProps.activeGame) {
+            ga.report.pageview(ga.tenant, nextProps.activeGame);
             let maxFlagCapturesCount = this.__getMaxValue(nextProps.players, "flagCaptures");
             let maxFlagReturnsCount = this.__getMaxValue(nextProps.players, "flagReturns");
             this.setState({
