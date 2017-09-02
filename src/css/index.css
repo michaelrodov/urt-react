@@ -231,7 +231,7 @@ table {
 .center-top-container {
     justify-content: center;
     width: 100%;
-    height: 280px;
+    /*height: 280px;*/
 }
 
 .center-bottom-container {
