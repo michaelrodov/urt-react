@@ -224,6 +224,7 @@ table {
 .details-pane {
     margin-bottom: 30px;
     font-size: 30px;
+    flex-grow: 1;
 }
 
 .details-pane-summary {
