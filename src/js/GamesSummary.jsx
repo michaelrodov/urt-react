@@ -1,10 +1,10 @@
-import React from 'react';
-import MediaQuery from 'react-responsive';
-import * as actions from './ReduxActions';
-import * as configs from './constants';
-import * as functions from './functions';
-import AbdToggleSwitch from './AbdToggleSwitch.jsx';
-import NewExternalPlayer from './NewExternalPlayer.jsx';
+import React from "react";
+import MediaQuery from "react-responsive";
+import * as actions from "./ReduxActions";
+import * as configs from "./constants";
+import * as functions from "./functions";
+import AbdToggleSwitch from "./AbdToggleSwitch.jsx";
+import NewExternalPlayer from "./NewExternalPlayer.jsx";
 import C3LineChart from "./C3LineChart.jsx";
 
 export default class GamesSummary extends React.Component {
@@ -99,14 +99,16 @@ export default class GamesSummary extends React.Component {
                     <td>
                         <div className="summary__column-player">
                             <div className="column-player-flex">
-                                <div className="container--player-summary-chart">
-                                    <C3LineChart cid={"ps-line-chart_" + inx}
-                                    column={currentPlayer.history["ratio"]}
-                                    max={currentPlayer.history["ratio" + "-desc"][1]}
-                                    min={currentPlayer.history["ratio" + "-desc"][0]}
-                                    type="area-spline"
-                                    x={currentPlayer.history.x}/>
-                                </div>
+                                <MediaQuery minWidth={configs.MIN_PC_SCREEN_WIDTH}>
+                                    <div className="container--player-summary-chart">
+                                        <C3LineChart cid={"ps-line-chart_" + inx}
+                                                     column={currentPlayer.history["ratio"]}
+                                                     max={currentPlayer.history["ratio" + "-desc"][1]}
+                                                     min={currentPlayer.history["ratio" + "-desc"][0]}
+                                                     type="area-spline"
+                                                     x={currentPlayer.history.x}/>
+                                    </div>
+                                </MediaQuery>
                                 <div className="wrapper--player-details">
                                     <div
                                         className="player-name linear-gradient-white-transparent">{inx + ". " + currentPlayer.name}</div>
