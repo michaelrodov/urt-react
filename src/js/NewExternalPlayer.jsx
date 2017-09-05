@@ -3,6 +3,7 @@ import * as actions from "./ReduxActions";
 import * as functions from "./functions";
 import ga from "./GoogleAnalytics";
 import MediaQuery from 'react-responsive';
+import * as configs from './constants';
 
 export default class NewExternalPlayer extends React.Component {
     constructor(props) {
